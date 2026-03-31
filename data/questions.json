@@ -1,1 +1,126 @@
-[]
+[
+  {
+    "question": "Are you hungry?",
+    "answers": [
+      "Yes, I'm hungry",
+      "No, I'm not hungry"
+    ],
+    "id": "f52c97e2-673b-419a-9f23-94f0d3feccc8",
+    "category": "singular",
+    "parent": "verbToBe"
+  },
+  {
+    "question": "Is she your sister?",
+    "answers": [
+      "Yes, she is",
+      "No, she isn't"
+    ],
+    "id": "5c63d235-9d5e-4755-9604-db7ef228fd3a",
+    "category": "singular",
+    "parent": "verbToBe"
+  },
+  {
+    "question": "Am I late?",
+    "answers": [
+      "Yes, you are",
+      "No, you aren't"
+    ],
+    "id": "55938315-1123-483b-b474-795cec514c31",
+    "category": "singular",
+    "parent": "verbToBe"
+  },
+  {
+    "question": "Are they students?",
+    "answers": [
+      "Yes, they are",
+      "No, they aren't"
+    ],
+    "id": "b62672c0-2c5f-4f5d-9819-cfe29612aa85",
+    "category": "plural",
+    "parent": "verbToBe"
+  },
+  {
+    "question": "Are we ready?",
+    "answers": [
+      "Yes, we are",
+      "No, we aren't"
+    ],
+    "id": "028ac742-0774-4b28-b0cd-48e6f451a85e",
+    "category": "plural",
+    "parent": "verbToBe"
+  },
+  {
+    "question": "What is your name?",
+    "answers": [
+      "My name is John"
+    ],
+    "id": "a2302a46-7384-42e2-bc45-39ab43df8868",
+    "category": "what",
+    "parent": "questions"
+  },
+  {
+    "question": "What is your favorite color?",
+    "answers": [
+      "My favorite color is blue"
+    ],
+    "id": "0d64c21b-636c-4cbd-8800-3c8a79cd3601",
+    "category": "what",
+    "parent": "questions"
+  },
+  {
+    "question": "Where do you live?",
+    "answers": [
+      "I live in Brazil"
+    ],
+    "id": "1e3f25dd-13dc-4272-b704-e6ddca615709",
+    "category": "where",
+    "parent": "questions"
+  },
+  {
+    "question": "Where do you work?",
+    "answers": [
+      "I work in an office"
+    ],
+    "id": "a871b250-2cb0-4084-b5a6-6f46c03617b8",
+    "category": "where",
+    "parent": "questions"
+  },
+  {
+    "question": "Which color do you prefer?",
+    "answers": [
+      "I prefer blue"
+    ],
+    "id": "5cf998d5-0614-45c5-93cc-c9826efd2955",
+    "category": "which",
+    "parent": "questions"
+  },
+  {
+    "question": "Which book do you like?",
+    "answers": [
+      "I like this book"
+    ],
+    "id": "8eba0802-e12d-4d8b-b22d-c7d254d69a0e",
+    "category": "which",
+    "parent": "questions"
+  },
+  {
+    "question": "Will you travel tomorrow?",
+    "answers": [
+      "Yes, I will",
+      "No, I won't"
+    ],
+    "id": "13bd509a-08dd-433b-8014-2987a1512530",
+    "category": "will",
+    "parent": "questions"
+  },
+  {
+    "question": "Will they come to the party?",
+    "answers": [
+      "Yes, they will",
+      "No, they won't"
+    ],
+    "id": "10479a66-9d99-4d81-8fc5-5ef346580900",
+    "category": "will",
+    "parent": "questions"
+  }
+]
