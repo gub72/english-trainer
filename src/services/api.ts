@@ -117,5 +117,47 @@ export const api = {
     
     return res.json();
   },
+
+  async uploadImage(file: File) {
+    const reader = new FileReader();
+    const base64Promise = new Promise<string>((resolve, reject) => {
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+
+    const base64 = await base64Promise;
+
+    const res = await fetch('/api/upload', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        file: base64,
+        fileName: file.name,
+        fileType: file.type,
+      }),
+    });
+
+    if (!res.ok) {
+      let errorMessage = `Server error: ${res.status}`;
+      try {
+        const errorData = await res.json();
+        const message = errorData.error || errorMessage;
+        const details = errorData.details ? ` (${errorData.details})` : '';
+        errorMessage = `${message}${details}`;
+      } catch (e) {
+        // Handle non-JSON responses (like Vercel 404 HTML)
+        if (res.status === 404) {
+          errorMessage = "A rota /api/upload não foi encontrada no servidor. Você já fez o 'git push' das mudanças?";
+        } else {
+          errorMessage = `Erro ${res.status}: O servidor não retornou uma resposta válida.`;
+        }
+      }
+      throw new Error(errorMessage);
+    }
+
+    return res.json() as Promise<{ path: string }>;
+  },
 };
+
 

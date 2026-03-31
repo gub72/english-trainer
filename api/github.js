@@ -23,7 +23,14 @@ export default class GitHubService {
 
     async salvar(arquivo, dados) {
         const content = Buffer.from(JSON.stringify(dados, null, 2)).toString('base64');
+        return this.writeToGitHub(arquivo, content, `Update ${arquivo}`);
+    }
 
+    async salvarBinario(arquivo, contentBase64, originalName) {
+        return this.writeToGitHub(arquivo, contentBase64, `Upload image ${originalName} to ${arquivo}`);
+    }
+
+    async writeToGitHub(arquivo, content, message) {
         let sha = null;
         try {
             const url = `${GITHUB_API}/repos/${USER}/${REPO}/contents/${arquivo}`;
@@ -36,7 +43,7 @@ export default class GitHubService {
         }
 
         const payload = {
-            message: `Update ${arquivo}`,
+            message,
             content,
             branch: BRANCH,
             ...(sha && { sha })
@@ -49,4 +56,4 @@ export default class GitHubService {
 
         return true;
     }
-}
+}
