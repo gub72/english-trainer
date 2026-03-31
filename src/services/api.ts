@@ -1,126 +1,113 @@
-const API_BASE = (import.meta.env.VITE_API_URL as string) || '/api';
-
-const handleResponse = async (res: Response, defaultError: string) => {
-  if (!res.ok) {
-    let errorMessage = defaultError;
-    try {
-      const errorData = await res.json();
-      errorMessage = errorData.error || errorMessage;
-    } catch (e) {
-      // use default error message
-    }
-    throw new Error(errorMessage);
-  }
-  return res.json();
-};
-
 export const api = {
   async getQuestions() {
-    const res = await fetch(`${API_BASE}/questions`);
-    return handleResponse(res, 'Failed to fetch questions');
+    const res = await fetch('/api/questions');
+    if (!res.ok) throw new Error('Failed to fetch questions');
+    return res.json();
   },
 
   async addQuestion(question: any) {
-    const res = await fetch(`${API_BASE}/questions`, {
+    const res = await fetch('/api/questions', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(question),
     });
-    return handleResponse(res, 'Failed to add question');
+    if (!res.ok) throw new Error('Failed to add question');
+    return res.json();
   },
 
   async updateQuestion(id: string, question: any) {
-    const res = await fetch(`${API_BASE}/questions?id=${id}`, {
+    const res = await fetch(`/api/questions?id=${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(question),
     });
-    return handleResponse(res, 'Failed to update question');
+    if (!res.ok) throw new Error('Failed to update question');
+    return res.json();
   },
 
   async deleteQuestion(id: string) {
-    const res = await fetch(`${API_BASE}/questions?id=${id}`, {
+    const res = await fetch(`/api/questions?id=${id}`, {
       method: 'DELETE',
     });
-    if (!res.ok) {
-      await handleResponse(res, 'Failed to delete question');
-    }
+    if (!res.ok) throw new Error('Failed to delete question');
     return true;
   },
 
   async getVocabulary() {
-    const res = await fetch(`${API_BASE}/vocabulary`);
-    return handleResponse(res, 'Failed to fetch vocabulary');
+    const res = await fetch('/api/vocabulary');
+    if (!res.ok) throw new Error('Failed to fetch vocabulary');
+    return res.json();
   },
 
   async addVocabulary(item: any) {
-    const res = await fetch(`${API_BASE}/vocabulary`, {
+    const res = await fetch('/api/vocabulary', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(item),
     });
-    return handleResponse(res, 'Failed to add vocabulary');
+    if (!res.ok) throw new Error('Failed to add vocabulary');
+    return res.json();
   },
 
   async updateVocabulary(id: string, item: any) {
-    const res = await fetch(`${API_BASE}/vocabulary?id=${id}`, {
+    const res = await fetch(`/api/vocabulary?id=${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(item),
     });
-    return handleResponse(res, 'Failed to update vocabulary');
+    if (!res.ok) throw new Error('Failed to update vocabulary');
+    return res.json();
   },
 
   async deleteVocabulary(id: string) {
-    const res = await fetch(`${API_BASE}/vocabulary?id=${id}`, {
+    const res = await fetch(`/api/vocabulary?id=${id}`, {
       method: 'DELETE',
     });
-    if (!res.ok) {
-      await handleResponse(res, 'Failed to delete vocabulary');
-    }
+    if (!res.ok) throw new Error('Failed to delete vocabulary');
     return true;
   },
 
   async getSentences() {
-    const res = await fetch(`${API_BASE}/sentences`);
-    return handleResponse(res, 'Failed to fetch sentences');
+    const res = await fetch('/api/sentences');
+    if (!res.ok) throw new Error('Failed to fetch sentences');
+    return res.json();
   },
 
   async addSentence(item: any) {
-    const res = await fetch(`${API_BASE}/sentences`, {
+    const res = await fetch('/api/sentences', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(item),
     });
-    return handleResponse(res, 'Failed to add sentence');
+    if (!res.ok) throw new Error('Failed to add sentence');
+    return res.json();
   },
 
   async updateSentence(id: string, item: any) {
-    const res = await fetch(`${API_BASE}/sentences?id=${id}`, {
+    const res = await fetch(`/api/sentences?id=${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(item),
     });
-    return handleResponse(res, 'Failed to update sentence');
+    if (!res.ok) throw new Error('Failed to update sentence');
+    return res.json();
   },
 
   async deleteSentence(id: string) {
-    const res = await fetch(`${API_BASE}/sentences?id=${id}`, {
+    const res = await fetch(`/api/sentences?id=${id}`, {
       method: 'DELETE',
     });
-    if (!res.ok) {
-      await handleResponse(res, 'Failed to delete sentence');
-    }
+    if (!res.ok) throw new Error('Failed to delete sentence');
     return true;
   },
 
   async saveAll(payload: { questions: any[]; vocabulary: any[]; sentences: any[] }) {
-    const res = await fetch(`${API_BASE}/save-all`, {
+    const res = await fetch('/api/save-all', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
     });
-    return handleResponse(res, 'Failed to save all data');
+    if (!res.ok) throw new Error('Failed to save all data');
+    return res.json();
   },
 };
-

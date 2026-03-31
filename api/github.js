@@ -1,4 +1,4 @@
-const axios = require('axios');
+import axios from 'axios';
 
 const GITHUB_API = 'https://api.github.com';
 const TOKEN = process.env.GITHUB_TOKEN;
@@ -6,13 +6,8 @@ const USER = process.env.GITHUB_USER;
 const REPO = process.env.GITHUB_REPO;
 const BRANCH = process.env.GITHUB_BRANCH || 'main';
 
-class GitHubService {
+export default class GitHubService {
     async ler(arquivo) {
-        // Verificar se as variáveis de ambiente estão configuradas
-        if (!TOKEN || !USER || !REPO) {
-            throw new Error('GitHub credentials not configured. Please check environment variables.');
-        }
-
         try {
             const url = `${GITHUB_API}/repos/${USER}/${REPO}/contents/${arquivo}`;
             const response = await axios.get(url, {
@@ -27,11 +22,6 @@ class GitHubService {
     }
 
     async salvar(arquivo, dados) {
-        // Verificar se as variáveis de ambiente estão configuradas
-        if (!TOKEN || !USER || !REPO) {
-            throw new Error('GitHub credentials not configured. Please check environment variables.');
-        }
-
         const content = Buffer.from(JSON.stringify(dados, null, 2)).toString('base64');
 
         let sha = null;
@@ -60,5 +50,3 @@ class GitHubService {
         return true;
     }
 }
-
-module.exports = GitHubService;
