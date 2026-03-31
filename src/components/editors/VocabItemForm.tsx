@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import type { VocabItem } from '../../types/schema';
 import { validateVocabItem, hasErrors } from '../../utils/validation';
 import { api } from '../../services/api';
@@ -15,7 +15,17 @@ export const VocabItemForm: React.FC<VocabItemFormProps> = ({ item, onSave, onCa
   const [image, setImage] = useState(item.image);
   const [errors, setErrors] = useState<Record<string, string | null>>({});
   const [uploading, setUploading] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Clean up object URL when component unmounts or preview changes
+  useEffect(() => {
+    return () => {
+      if (previewUrl && previewUrl.startsWith('blob:')) {
+        URL.revokeObjectURL(previewUrl);
+      }
+    };
+  }, [previewUrl]);
 
   const handleSave = () => {
     const validationErrors = validateVocabItem(image, word, plural);
@@ -30,17 +40,25 @@ export const VocabItemForm: React.FC<VocabItemFormProps> = ({ item, onSave, onCa
     const file = e.target.files?.[0];
     if (!file) return;
 
+    // IMEDIATE LOCAL PREVIEW
+    const localUrl = URL.createObjectURL(file);
+    setPreviewUrl(localUrl);
+
     setUploading(true);
     try {
       const response = await api.uploadImage(file);
       setImage(response.path);
+      // We keep the local preview for a bit to avoid the Vercel 404 while building
     } catch (err) {
       alert('Error uploading image: ' + (err instanceof Error ? err.message : 'Unknown error'));
+      setPreviewUrl(null); // Clear preview on error
     } finally {
       setUploading(false);
       if (fileInputRef.current) fileInputRef.current.value = '';
     }
   };
+
+  const displayImage = previewUrl || image;
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -71,7 +89,10 @@ export const VocabItemForm: React.FC<VocabItemFormProps> = ({ item, onSave, onCa
           <input 
             type="text" 
             value={image} 
-            onChange={(e) => setImage(e.target.value)}
+            onChange={(e) => {
+              setImage(e.target.value);
+              setPreviewUrl(null); // Clear local preview if manually typing
+            }}
             placeholder="e.g. /assets/vocab/table.png"
             style={{ flex: 1, padding: '0.5rem', borderColor: errors.image ? 'var(--error)' : 'var(--border)' }}
           />
@@ -97,7 +118,7 @@ export const VocabItemForm: React.FC<VocabItemFormProps> = ({ item, onSave, onCa
             style={{ display: 'none' }} 
           />
         </div>
-        {image && (
+        {displayImage && (
           <div style={{ 
             marginTop: '0.5rem',
             padding: '1rem',
@@ -106,20 +127,27 @@ export const VocabItemForm: React.FC<VocabItemFormProps> = ({ item, onSave, onCa
             borderRadius: 'var(--radius)', 
             width: '100%',
             display: 'flex',
+            flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
-            minHeight: '120px'
+            minHeight: '120px',
+            position: 'relative'
           }}>
             <img 
-              src={image} 
+              src={displayImage} 
               alt="Preview" 
-              style={{ maxHeight: '180px', maxWidth: '100%', borderRadius: '4px', objectFit: 'contain' }} 
+              style={{ maxHeight: '180px', maxWidth: '100%', borderRadius: '4px', objectFit: 'contain', opacity: uploading ? 0.5 : 1 }} 
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
-                target.onerror = null; // Prevent infinite loop
-                target.src = 'https://placehold.co/150x150?text=Preview+Error';
+                target.onerror = null; 
+                target.src = 'https://placehold.co/150x150?text=Wait+Deploy...';
               }} 
             />
+            {previewUrl && !uploading && (
+                <div style={{ marginTop: '0.5rem', fontSize: '0.65rem', color: '#f59e0b' }}>
+                    * Local preview (Vercel is deploying the actual image...)
+                </div>
+            )}
           </div>
         )}
       </div>
@@ -131,4 +159,5 @@ export const VocabItemForm: React.FC<VocabItemFormProps> = ({ item, onSave, onCa
     </div>
   );
 };
+
 
