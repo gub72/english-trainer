@@ -24,7 +24,7 @@ function AppContent() {
       <div>
         <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#ef4444', marginBottom: '1rem' }}>Error</div>
         <p>{error}</p>
-        <button 
+        <button
           onClick={() => window.location.reload()}
           style={{ marginTop: '2rem', padding: '0.75rem 1.5rem', background: 'var(--accent)', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer' }}
         >
@@ -39,7 +39,7 @@ function AppContent() {
       {/* View switcher (always visible) */}
       <div style={{
         position: 'fixed',
-        top: '1rem',
+        bottom: '1rem',
         right: '1rem',
         zIndex: 9999,
         display: 'flex',
