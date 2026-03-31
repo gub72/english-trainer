@@ -50,15 +50,6 @@
     "parent": "verbToBe"
   },
   {
-    "question": "What is your favorite color?",
-    "answers": [
-      "My favorite color is blue"
-    ],
-    "id": "0d64c21b-636c-4cbd-8800-3c8a79cd3601",
-    "category": "what",
-    "parent": "questions"
-  },
-  {
     "question": "Where do you live?",
     "answers": [
       "I live in Brazil"
