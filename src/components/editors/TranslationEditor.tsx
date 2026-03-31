@@ -43,6 +43,7 @@ export const TranslationEditor: React.FC = () => {
             title={categoryName}
             count={items.length}
             onAdd={() => setAddingCategory(categoryName)}
+            onDelete={!isAll ? (() => { if(confirm(`Delete entire category "${categoryName}"?`)) deleteCategory('translations', categoryName); }) : undefined}
         >
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
             {addingCategory === categoryName && (
@@ -110,23 +111,6 @@ export const TranslationEditor: React.FC = () => {
             )}
             </div>
         </CollapsibleSection>
-        {!isAll && (
-            <button 
-                onClick={() => { if(confirm(`Delete entire category "${categoryName}"?`)) deleteCategory('translations', categoryName); }}
-                style={{ 
-                    position: 'absolute', 
-                    top: '12px', 
-                    right: '120px', 
-                    background: 'rgba(239, 68, 68, 0.1)', 
-                    color: 'var(--error)', 
-                    fontSize: '0.7rem', 
-                    padding: '2px 8px',
-                    zIndex: 10
-                }}
-            >
-                Delete Category
-            </button>
-        )}
       </div>
     );
   };

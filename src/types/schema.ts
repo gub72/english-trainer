@@ -42,8 +42,8 @@ export function createDefaultData(): AppData {
   };
 }
 
-function stripIds<T extends { id: string }>(items: T[]): Omit<T, 'id'>[] {
-  return items.map(({ id: _id, ...rest }) => rest as Omit<T, 'id'>);
+function stripMetadata<T extends { id?: string; parent?: string; group?: string }>(items: T[]): any[] {
+  return items.map(({ id: _id, parent: _p, group: _g, ...rest }) => rest);
 }
 
 export function exportClean(data: AppData) {
@@ -54,13 +54,13 @@ export function exportClean(data: AppData) {
   };
 
   for (const [cat, items] of Object.entries(data.qa)) {
-    cleanData.qa[cat] = stripIds(items);
+    cleanData.qa[cat] = stripMetadata(items);
   }
   for (const [cat, items] of Object.entries(data.imageVocabulary)) {
-    cleanData.imageVocabulary[cat] = stripIds(items);
+    cleanData.imageVocabulary[cat] = stripMetadata(items);
   }
   for (const [cat, items] of Object.entries(data.translations)) {
-    cleanData.translations[cat] = stripIds(items);
+    cleanData.translations[cat] = stripMetadata(items);
   }
 
   return cleanData;
@@ -80,19 +80,30 @@ export function hydrateWithIds(raw: any): AppData {
       
       // Migration logic for old QA parent/category structure
       if (type === 'qa' && item.parent && item.category) {
-        const p = item.parent;
-        const c = item.category;
+        const p = item.parent as string;
+        const c = item.category as string;
+        
         const formattedParent = p.replace(/([A-Z])/g, ' $1').replace(/^./, (str: string) => str.toUpperCase());
         const formattedCat = c.charAt(0).toUpperCase() + c.slice(1);
-        cat = `${formattedParent} - ${formattedCat}`;
+        
+        // Prevent double prefixing if the category already contains the parent name
+        if (formattedCat.startsWith(formattedParent + ' - ')) {
+          cat = formattedCat;
+        } else {
+          cat = `${formattedParent} - ${formattedCat}`;
+        }
       } else {
         // Just capitalize category if it's a simple string
         cat = cat.charAt(0).toUpperCase() + cat.slice(1);
       }
 
       if (!grouped[cat]) grouped[cat] = [];
+      
+      // Clean up item to remove obsolete properties after migration
+      const { parent: _p, group: _g, ...cleanItem } = item;
+      
       grouped[cat].push({
-        ...item,
+        ...cleanItem,
         id: item.id ?? generateId(),
         category: cat // Normalize category name in item too
       });

@@ -11,6 +11,7 @@ type View = 'game' | 'admin';
 
 function AppContent() {
   const [view, setView] = useState<View>('game');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { data, loading, error } = useData();
 
   if (loading) return (
@@ -91,9 +92,9 @@ function AppContent() {
       {/* Admin view */}
       {view === 'admin' && (
         <div className="app-container">
-          <Sidebar />
+          <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
           <div style={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: '100vh', background: 'var(--bg-main)' }}>
-            <Header />
+            <Header onToggleSidebar={() => setIsSidebarOpen(prev => !prev)} />
             <main className="main-content">
               <div style={{ display: 'flex', flexDirection: 'column', gap: '3rem', paddingBottom: '5rem' }}>
                 <section id="qa-root">
@@ -119,6 +120,7 @@ function AppContent() {
     </>
   );
 }
+
 
 function App() {
   return (
