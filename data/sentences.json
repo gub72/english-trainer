@@ -1,1 +1,44 @@
-[]
+[
+  {
+    "text": "Good morning",
+    "translation": "Bom dia",
+    "id": "9f8f3109-829c-478c-887b-b238c81b5733",
+    "category": "easy"
+  },
+  {
+    "text": "How are you?",
+    "translation": "Como você está?",
+    "id": "84c0f2d5-4093-43fe-a404-05dbf02bcd6b",
+    "category": "easy"
+  },
+  {
+    "text": "See you tomorrow",
+    "translation": "Até amanhã",
+    "id": "d1b5eb43-e894-43e9-a3c5-d4e4b9899394",
+    "category": "easy"
+  },
+  {
+    "text": "I am learning English every day",
+    "translation": "Eu estou aprendendo inglês todos os dias",
+    "id": "8cc0e139-d9b3-45b3-8d80-8ab9b94bc868",
+    "category": "medium"
+  },
+  {
+    "text": "She works in a big company",
+    "translation": "Ela trabalha em uma grande empresa",
+    "id": "5a66929a-51bf-4555-b06a-16b3b73dd56f",
+    "category": "medium"
+  },
+  {
+    "text": "If I had more time, I would travel the world",
+    "translation": "Se eu tivesse mais tempo, eu viajaria o mundo",
+    "id": "6c482d70-a1b8-4907-94f0-fb94d9fb8d63",
+    "category": "hard"
+  },
+  {
+    "text": "Learning a new language requires patience and practice",
+    "translation": "Aprender um novo idioma requer paciência e prática",
+    "id": "0770a306-fa06-4546-8f6a-ae8fc0fe209e",
+    "category": "hard"
+  }
+]
