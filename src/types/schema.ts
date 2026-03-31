@@ -2,6 +2,7 @@ export interface QAItem {
   id: string;
   question: string;
   answers: string[];
+  category?: string;
 }
 
 export interface VocabItem {
@@ -9,31 +10,19 @@ export interface VocabItem {
   image: string;
   word: string;
   plural: string;
+  category?: string;
 }
 
 export interface TranslationItem {
   id: string;
   text: string;
   translation: string;
+  category?: string;
 }
 
-export interface QAData {
-  verbToBe: { singular: QAItem[]; plural: QAItem[] };
-  questions: { what: QAItem[]; where: QAItem[]; which: QAItem[]; will: QAItem[] };
-}
-
-export interface VocabData {
-  transport: VocabItem[];
-  kitchen: VocabItem[];
-  office: VocabItem[];
-  misc: VocabItem[];
-}
-
-export interface TranslationData {
-  easy: TranslationItem[];
-  medium: TranslationItem[];
-  hard: TranslationItem[];
-}
+export type QAData = Record<string, QAItem[]>;
+export type VocabData = Record<string, VocabItem[]>;
+export type TranslationData = Record<string, TranslationItem[]>;
 
 export interface AppData {
   qa: QAData;
@@ -47,12 +36,9 @@ export function generateId(): string {
 
 export function createDefaultData(): AppData {
   return {
-    qa: {
-      verbToBe: { singular: [], plural: [] },
-      questions: { what: [], where: [], which: [], will: [] },
-    },
-    imageVocabulary: { transport: [], kitchen: [], office: [], misc: [] },
-    translations: { easy: [], medium: [], hard: [] },
+    qa: { 'Verb To Be - Singular': [] },
+    imageVocabulary: { 'Transport': [] },
+    translations: { 'Easy': [] },
   };
 }
 
@@ -61,123 +47,84 @@ function stripIds<T extends { id: string }>(items: T[]): Omit<T, 'id'>[] {
 }
 
 export function exportClean(data: AppData) {
-  return {
-    qa: {
-      verbToBe: {
-        singular: stripIds(data.qa.verbToBe.singular),
-        plural: stripIds(data.qa.verbToBe.plural),
-      },
-      questions: {
-        what: stripIds(data.qa.questions.what),
-        where: stripIds(data.qa.questions.where),
-        which: stripIds(data.qa.questions.which),
-        will: stripIds(data.qa.questions.will),
-      },
-    },
-    imageVocabulary: {
-      transport: stripIds(data.imageVocabulary.transport),
-      kitchen: stripIds(data.imageVocabulary.kitchen),
-      office: stripIds(data.imageVocabulary.office),
-      misc: stripIds(data.imageVocabulary.misc),
-    },
-    translations: {
-      easy: stripIds(data.translations.easy),
-      medium: stripIds(data.translations.medium),
-      hard: stripIds(data.translations.hard),
-    },
+  const cleanData: any = {
+    qa: {},
+    imageVocabulary: {},
+    translations: {},
   };
+
+  for (const [cat, items] of Object.entries(data.qa)) {
+    cleanData.qa[cat] = stripIds(items);
+  }
+  for (const [cat, items] of Object.entries(data.imageVocabulary)) {
+    cleanData.imageVocabulary[cat] = stripIds(items);
+  }
+  for (const [cat, items] of Object.entries(data.translations)) {
+    cleanData.translations[cat] = stripIds(items);
+  }
+
+  return cleanData;
 }
 
-function injectIds<T>(items: unknown[]): (T & { id: string })[] {
-  return items.map((item) => ({
-    ...(item as T),
-    id: ((item as Record<string, unknown>).id as string) ?? generateId(),
-  }));
-}
 
-export function hydrateWithIds(raw: Record<string, any>): AppData {
+export function hydrateWithIds(raw: any): AppData {
   const r = raw || {};
-  const qa = r.qa || {};
-  const vToBe = qa.verbToBe || {};
-  const qst = qa.questions || {};
-  const vocab = r.imageVocabulary || {};
-  const trans = r.translations || {};
+  const data: AppData = createDefaultData();
 
-  return {
-    qa: {
-      verbToBe: {
-        singular: injectIds<QAItem>(vToBe.singular || []),
-        plural: injectIds<QAItem>(vToBe.plural || []),
-      },
-      questions: {
-        what: injectIds<QAItem>(qst.what || []),
-        where: injectIds<QAItem>(qst.where || []),
-        which: injectIds<QAItem>(qst.which || []),
-        will: injectIds<QAItem>(qst.will || []),
-      },
-    },
-    imageVocabulary: {
-      transport: injectIds<VocabItem>(vocab.transport || []),
-      kitchen: injectIds<VocabItem>(vocab.kitchen || []),
-      office: injectIds<VocabItem>(vocab.office || []),
-      misc: injectIds<VocabItem>(vocab.misc || []),
-    },
-    translations: {
-      easy: injectIds<TranslationItem>(trans.easy || []),
-      medium: injectIds<TranslationItem>(trans.medium || []),
-      hard: injectIds<TranslationItem>(trans.hard || []),
-    },
+  const processSection = (items: any[], type: 'qa' | 'vocab' | 'trans'): any => {
+    const grouped: Record<string, any[]> = {};
+    if (!Array.isArray(items)) return grouped;
+
+    items.forEach(item => {
+      let cat = item.category || 'All';
+      
+      // Migration logic for old QA parent/category structure
+      if (type === 'qa' && item.parent && item.category) {
+        const p = item.parent;
+        const c = item.category;
+        const formattedParent = p.replace(/([A-Z])/g, ' $1').replace(/^./, (str: string) => str.toUpperCase());
+        const formattedCat = c.charAt(0).toUpperCase() + c.slice(1);
+        cat = `${formattedParent} - ${formattedCat}`;
+      } else {
+        // Just capitalize category if it's a simple string
+        cat = cat.charAt(0).toUpperCase() + cat.slice(1);
+      }
+
+      if (!grouped[cat]) grouped[cat] = [];
+      grouped[cat].push({
+        ...item,
+        id: item.id ?? generateId(),
+        category: cat // Normalize category name in item too
+      });
+    });
+
+    return grouped;
   };
+
+  if (r.qa) data.qa = processSection(r.qa, 'qa');
+  if (r.imageVocabulary) data.imageVocabulary = processSection(r.imageVocabulary, 'vocab');
+  if (r.translations) data.translations = processSection(r.translations, 'trans');
+
+  // Ensure at least one category exists if total empty
+  if (Object.keys(data.qa).length === 0) data.qa = { 'Verb To Be - Singular': [] };
+  if (Object.keys(data.imageVocabulary).length === 0) data.imageVocabulary = { 'Transport': [] };
+  if (Object.keys(data.translations).length === 0) data.translations = { 'Easy': [] };
+
+  return data;
 }
+
 
 export type SectionKey = 'qa' | 'imageVocabulary' | 'translations';
-
-export interface CategoryMeta {
-  key: string;
-  label: string;
-  parent?: string;
-}
 
 export interface SectionMeta {
   key: SectionKey;
   label: string;
   icon: string;
-  categories: CategoryMeta[];
 }
 
 export const SECTIONS: SectionMeta[] = [
-  {
-    key: 'qa',
-    label: 'Questions & Answers',
-    icon: '💬',
-    categories: [
-      { key: 'singular', label: 'Verb To Be — Singular', parent: 'verbToBe' },
-      { key: 'plural', label: 'Verb To Be — Plural', parent: 'verbToBe' },
-      { key: 'what', label: 'Questions — What', parent: 'questions' },
-      { key: 'where', label: 'Questions — Where', parent: 'questions' },
-      { key: 'which', label: 'Questions — Which', parent: 'questions' },
-      { key: 'will', label: 'Questions — Will', parent: 'questions' },
-    ],
-  },
-  {
-    key: 'imageVocabulary',
-    label: 'Image Vocabulary',
-    icon: '🖼️',
-    categories: [
-      { key: 'transport', label: 'Transport' },
-      { key: 'kitchen', label: 'Kitchen' },
-      { key: 'office', label: 'Office' },
-      { key: 'misc', label: 'Miscellaneous' },
-    ],
-  },
-  {
-    key: 'translations',
-    label: 'Translations',
-    icon: '🌐',
-    categories: [
-      { key: 'easy', label: 'Easy' },
-      { key: 'medium', label: 'Medium' },
-      { key: 'hard', label: 'Hard' },
-    ],
-  },
+  { key: 'qa', label: 'Questions & Answers', icon: '💬' },
+  { key: 'imageVocabulary', label: 'Image Vocabulary', icon: '🖼️' },
+  { key: 'translations', label: 'Translations', icon: '🌐' },
 ];
+

@@ -35,27 +35,16 @@ export const Header: React.FC = () => {
   const calculateTotalItems = (): number => {
     let total = 0;
 
-    // QA
-    total += data.qa.verbToBe.singular.length;
-    total += data.qa.verbToBe.plural.length;
-    total += data.qa.questions.what.length;
-    total += data.qa.questions.where.length;
-    total += data.qa.questions.which.length;
-    total += data.qa.questions.will.length;
-
-    // Vocab
-    total += data.imageVocabulary.transport.length;
-    total += data.imageVocabulary.kitchen.length;
-    total += data.imageVocabulary.office.length;
-    total += data.imageVocabulary.misc.length;
-
-    // Translations
-    total += data.translations.easy.length;
-    total += data.translations.medium.length;
-    total += data.translations.hard.length;
+    // Dynamically sum all items in all categories across all sections
+    Object.values(data).forEach((section) => {
+      Object.values(section as Record<string, any[]>).forEach((items) => {
+        total += items.length;
+      });
+    });
 
     return total;
   };
+
 
   const totalItems = calculateTotalItems();
 
