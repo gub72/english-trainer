@@ -1,85 +1,188 @@
-import React, { createContext, useContext, useCallback, useMemo, useState } from 'react';
+import React, { createContext, useContext, useCallback, useMemo, useState, useEffect } from 'react';
 import { createDefaultData } from '../types/schema';
 import type { AppData, SectionKey } from '../types/schema';
-import { useLocalStorage } from '../hooks/useLocalStorage';
+import { api } from '../services/api';
 
 interface DataContextType {
   data: AppData;
   setData: React.Dispatch<React.SetStateAction<AppData>>;
-  addItem: (section: SectionKey, category: string, parent?: string) => void;
-  updateItem: (section: SectionKey, category: string, id: string, patch: any, parent?: string) => void;
-  deleteItem: (section: SectionKey, category: string, id: string, parent?: string) => void;
-  moveItem: (section: SectionKey, fromCat: string, toCat: string, id: string, fromParent?: string, toParent?: string) => void;
+  addItem: (section: SectionKey, category: string, parent?: string, initialData?: any) => Promise<void>;
+  updateItem: (section: SectionKey, category: string, id: string, patch: any, parent?: string) => Promise<void>;
+  deleteItem: (section: SectionKey, category: string, id: string, parent?: string) => Promise<void>;
+  moveItem: (section: SectionKey, fromCat: string, toCat: string, id: string, fromParent?: string, toParent?: string) => Promise<void>;
   searchTerm: string;
   setSearchTerm: (term: string) => void;
+  loading: boolean;
+  error: string | null;
+  refreshData: () => Promise<void>;
 }
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
 
 export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [data, setData] = useLocalStorage<AppData>('english-trainer-data', createDefaultData());
+  const [data, setData] = useState<AppData>(createDefaultData());
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
 
-  const addItem = useCallback((section: SectionKey, category: string, parent?: string) => {
-    setData((prev) => {
-      const newData = { ...prev };
-      const id = crypto.randomUUID();
+  const refreshData = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const [questions, vocabulary, sentences] = await Promise.all([
+        api.getQuestions(),
+        api.getVocabulary(),
+        api.getSentences(),
+      ]);
+
+      const newData = createDefaultData();
+
+      questions.forEach((item: any) => {
+        const { category, parent } = item;
+        if (parent && (newData.qa as any)[parent] && (newData.qa as any)[parent][category]) {
+          (newData.qa as any)[parent][category].push(item);
+        }
+      });
+
+      vocabulary.forEach((item: any) => {
+        const { category } = item;
+        if ((newData.imageVocabulary as any)[category]) {
+          (newData.imageVocabulary as any)[category].push(item);
+        }
+      });
+
+      sentences.forEach((item: any) => {
+        const { category } = item;
+        if ((newData.translations as any)[category]) {
+          (newData.translations as any)[category].push(item);
+        }
+      });
+
+      setData(newData);
+    } catch (err) {
+      console.error('Error loading data:', err);
+      setError('Failed to load data from server.');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    refreshData();
+  }, [refreshData]);
+
+  const addItem = useCallback(async (section: SectionKey, category: string, parent?: string, initialData?: any) => {
+    const id = crypto.randomUUID();
+    const newItemBase = section === 'qa' 
+      ? { id, question: '', answers: [''], ...initialData, category, parent }
+      : section === 'imageVocabulary'
+      ? { id, image: '', word: '', plural: '', ...initialData, category }
+      : { id, text: '', translation: '', ...initialData, category };
+
+    try {
+      if (section === 'qa') {
+        await api.addQuestion(newItemBase);
+      } else if (section === 'imageVocabulary') {
+        await api.addVocabulary(newItemBase);
+      } else {
+        await api.addSentence(newItemBase);
+      }
       
-      let targetList: any[];
-      if (section === 'qa' && parent) {
-        targetList = (newData.qa as any)[parent][category];
+      setData((prev) => {
+        const newData = { ...prev };
+        let targetList: any[];
+        if (section === 'qa' && parent) {
+          targetList = (newData.qa as any)[parent][category];
+        } else {
+          targetList = (newData[section] as any)[category];
+        }
+        targetList.push(newItemBase);
+        return { ...newData };
+      });
+    } catch (err) {
+      console.error('Error adding item:', err);
+      setError('Failed to add item.');
+    }
+  }, []);
+
+  const updateItem = useCallback(async (section: SectionKey, category: string, id: string, patch: any, parent?: string) => {
+    try {
+      // Find the current item to preserve metadata
+      let currentItem: any;
+      setData((prev) => {
+        let targetList: any[];
+        if (section === 'qa' && parent) {
+          targetList = (prev.qa as any)[parent][category];
+        } else {
+          targetList = (prev[section] as any)[category];
+        }
+        currentItem = targetList.find((item: any) => item.id === id);
+        return prev;
+      });
+
+      const updatedItem = { ...currentItem, ...patch };
+
+      if (section === 'qa') {
+        await api.updateQuestion(id, updatedItem);
+      } else if (section === 'imageVocabulary') {
+        await api.updateVocabulary(id, updatedItem);
       } else {
-        targetList = (newData[section] as any)[category];
+        await api.updateSentence(id, updatedItem);
       }
 
-      const newItem = section === 'qa' 
-        ? { id, question: '', answers: [''] }
-        : section === 'imageVocabulary'
-        ? { id, image: '', word: '', plural: '' }
-        : { id, text: '', translation: '' };
+      setData((prev) => {
+        const newData = { ...prev };
+        let targetList: any[];
+        if (section === 'qa' && parent) {
+          targetList = (newData.qa as any)[parent][category];
+        } else {
+          targetList = (newData[section] as any)[category];
+        }
 
-      targetList.push(newItem);
-      return newData;
-    });
-  }, [setData]);
+        const index = targetList.findIndex((item: any) => item.id === id);
+        if (index !== -1) {
+          targetList[index] = updatedItem;
+        }
+        return { ...newData };
+      });
+    } catch (err) {
+      console.error('Error updating item:', err);
+      setError('Failed to update item.');
+    }
+  }, []);
 
-  const updateItem = useCallback((section: SectionKey, category: string, id: string, patch: any, parent?: string) => {
-    setData((prev) => {
-      const newData = { ...prev };
-      let targetList: any[];
-      if (section === 'qa' && parent) {
-        targetList = (newData.qa as any)[parent][category];
+  const deleteItem = useCallback(async (section: SectionKey, category: string, id: string, parent?: string) => {
+    try {
+      if (section === 'qa') {
+        await api.deleteQuestion(id);
+      } else if (section === 'imageVocabulary') {
+        await api.deleteVocabulary(id);
       } else {
-        targetList = (newData[section] as any)[category];
+        await api.deleteSentence(id);
       }
 
-      const index = targetList.findIndex((item: any) => item.id === id);
-      if (index !== -1) {
-        targetList[index] = { ...targetList[index], ...patch };
-      }
-      return newData;
-    });
-  }, [setData]);
+      setData((prev) => {
+        const newData = { ...prev };
+        let targetList: any[];
+        if (section === 'qa' && parent) {
+          targetList = (newData.qa as any)[parent][category];
+        } else {
+          targetList = (newData[section] as any)[category];
+        }
 
-  const deleteItem = useCallback((section: SectionKey, category: string, id: string, parent?: string) => {
-    setData((prev) => {
-      const newData = { ...prev };
-      let targetList: any[];
-      if (section === 'qa' && parent) {
-        targetList = (newData.qa as any)[parent][category];
-      } else {
-        targetList = (newData[section] as any)[category];
-      }
+        const index = targetList.findIndex((item: any) => item.id === id);
+        if (index !== -1) {
+          targetList.splice(index, 1);
+        }
+        return { ...newData };
+      });
+    } catch (err) {
+      console.error('Error deleting item:', err);
+      setError('Failed to delete item.');
+    }
+  }, []);
 
-      const index = targetList.findIndex((item: any) => item.id === id);
-      if (index !== -1) {
-        targetList.splice(index, 1);
-      }
-      return newData;
-    });
-  }, [setData]);
-
-  const moveItem = useCallback((
+  const moveItem = useCallback(async (
     section: SectionKey, 
     fromCat: string, 
     toCat: string, 
@@ -87,27 +190,56 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     fromParent?: string, 
     toParent?: string
   ) => {
-    setData((prev) => {
-      const newData = { ...prev };
-      let fromList: any[];
-      let toList: any[];
+    try {
+      let itemToMove: any;
+      setData(prev => {
+        let fromList: any[];
+        if (section === 'qa') {
+          fromList = (prev.qa as any)[fromParent!][fromCat];
+        } else {
+          fromList = (prev[section] as any)[fromCat];
+        }
+        itemToMove = fromList.find((i: any) => i.id === id);
+        return prev;
+      });
+
+      if (!itemToMove) return;
+
+      const updatedItem = { ...itemToMove, category: toCat, parent: toParent };
 
       if (section === 'qa') {
-        fromList = (newData.qa as any)[fromParent!][fromCat];
-        toList = (newData.qa as any)[toParent!][toCat];
+        await api.updateQuestion(id, updatedItem);
+      } else if (section === 'imageVocabulary') {
+        await api.updateVocabulary(id, updatedItem);
       } else {
-        fromList = (newData[section] as any)[fromCat];
-        toList = (newData[section] as any)[toCat];
+        await api.updateSentence(id, updatedItem);
       }
 
-      const index = fromList.findIndex((item: any) => item.id === id);
-      if (index !== -1) {
-        const [item] = fromList.splice(index, 1);
-        toList.push(item);
-      }
-      return newData;
-    });
-  }, [setData]);
+      setData((prev) => {
+        const newData = { ...prev };
+        let fromList: any[];
+        let toList: any[];
+
+        if (section === 'qa') {
+          fromList = (newData.qa as any)[fromParent!][fromCat];
+          toList = (newData.qa as any)[toParent!][toCat];
+        } else {
+          fromList = (newData[section] as any)[fromCat];
+          toList = (newData[section] as any)[toCat];
+        }
+
+        const index = fromList.findIndex((item: any) => item.id === id);
+        if (index !== -1) {
+          const [item] = fromList.splice(index, 1);
+          toList.push({ ...item, category: toCat, parent: toParent });
+        }
+        return { ...newData };
+      });
+    } catch (err) {
+      console.error('Error moving item:', err);
+      setError('Failed to move item.');
+    }
+  }, []);
 
   const value = useMemo(() => ({
     data,
@@ -118,7 +250,10 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     moveItem,
     searchTerm,
     setSearchTerm,
-  }), [data, setData, addItem, updateItem, deleteItem, moveItem, searchTerm]);
+    loading,
+    error,
+    refreshData
+  }), [data, addItem, updateItem, deleteItem, moveItem, searchTerm, loading, error, refreshData]);
 
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>;
 };

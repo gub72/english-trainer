@@ -9,6 +9,7 @@ type VocabCategory = keyof VocabData;
 export const VocabEditor: React.FC = () => {
   const { data, addItem, updateItem, deleteItem, searchTerm } = useData();
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [addingCategory, setAddingCategory] = useState<string | null>(null);
 
   const filterItems = (items: VocabItem[]) => {
     if (!searchTerm) return items;
@@ -33,9 +34,31 @@ export const VocabEditor: React.FC = () => {
         id={categoryName}
         title={`Category - ${categoryName.charAt(0).toUpperCase() + categoryName.slice(1)}`}
         count={items.length}
-        onAdd={() => addItem('imageVocabulary', categoryName)}
+        onAdd={() => setAddingCategory(categoryName)}
       >
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1rem' }}>
+          {addingCategory === categoryName && (
+            <div 
+              className="glass" 
+              style={{ 
+                padding: '1.5rem', 
+                borderRadius: 'var(--radius)',
+                border: '2px dashed var(--accent)',
+                gridColumn: '1 / -1',
+                marginBottom: '1rem'
+              }}
+            >
+              <h4 style={{ marginTop: 0, marginBottom: '1rem', color: 'var(--accent)' }}>Add New Vocabulary Item</h4>
+              <VocabItemForm 
+                item={{ id: '', image: '', word: '', plural: '' }} 
+                onSave={async (patch: Partial<VocabItem>) => {
+                  await addItem('imageVocabulary', categoryName, undefined, patch);
+                  setAddingCategory(null);
+                }}
+                onCancel={() => setAddingCategory(null)}
+              />
+            </div>
+          )}
           {filteredItems.map((item: VocabItem) => (
             <div 
               key={item.id} 

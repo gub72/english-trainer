@@ -9,6 +9,7 @@ type TranslationCategory = keyof TranslationData;
 export const TranslationEditor: React.FC = () => {
   const { data, addItem, updateItem, deleteItem, searchTerm } = useData();
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [addingCategory, setAddingCategory] = useState<string | null>(null);
 
   const filterItems = (items: TranslationItem[]) => {
     if (!searchTerm) return items;
@@ -33,9 +34,30 @@ export const TranslationEditor: React.FC = () => {
         id={categoryName}
         title={`Translations - ${categoryName.toUpperCase()}`}
         count={items.length}
-        onAdd={() => addItem('translations', categoryName)}
+        onAdd={() => setAddingCategory(categoryName)}
       >
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+          {addingCategory === categoryName && (
+            <div 
+              className="glass" 
+              style={{ 
+                padding: '1.5rem', 
+                borderRadius: 'var(--radius)',
+                border: '2px dashed var(--accent)',
+                marginBottom: '1rem'
+              }}
+            >
+              <h4 style={{ marginTop: 0, marginBottom: '1rem', color: 'var(--accent)' }}>Add New Translation</h4>
+              <TranslationItemForm 
+                item={{ id: '', text: '', translation: '' }} 
+                onSave={async (patch: Partial<TranslationItem>) => {
+                  await addItem('translations', categoryName, undefined, patch);
+                  setAddingCategory(null);
+                }}
+                onCancel={() => setAddingCategory(null)}
+              />
+            </div>
+          )}
           {filteredItems.map((item: TranslationItem) => (
             <div 
               key={item.id} 

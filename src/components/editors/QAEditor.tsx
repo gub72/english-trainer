@@ -7,6 +7,7 @@ import type { QAItem } from '../../types/schema';
 export const QAEditor: React.FC = () => {
   const { data, addItem, updateItem, deleteItem, searchTerm } = useData();
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [addingCategory, setAddingCategory] = useState<{parent: string, category: string} | null>(null);
 
   const filterItems = (items: QAItem[]) => {
     if (!searchTerm) return items;
@@ -21,6 +22,7 @@ export const QAEditor: React.FC = () => {
   const renderCategory = (parent: 'verbToBe' | 'questions', category: string) => {
     const items = (data.qa as any)[parent][category] || [];
     const filteredItems = filterItems(items);
+    const isAdding = addingCategory?.parent === parent && addingCategory?.category === category;
 
     return (
       <CollapsibleSection
@@ -28,9 +30,31 @@ export const QAEditor: React.FC = () => {
         id={category}
         title={`${parent === 'verbToBe' ? 'Verb To Be' : 'Questions'} - ${category.toUpperCase()}`}
         count={items.length}
-        onAdd={() => addItem('qa', category, parent)}
+        onAdd={() => setAddingCategory({ parent, category })}
       >
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          {isAdding && (
+            <div 
+              className="glass" 
+              style={{ 
+                padding: '1.5rem', 
+                borderRadius: 'var(--radius)',
+                border: '2px dashed var(--accent)',
+                marginBottom: '1rem'
+              }}
+            >
+              <h4 style={{ marginTop: 0, marginBottom: '1rem', color: 'var(--accent)' }}>Create New Question</h4>
+              <QAItemForm 
+                item={{ id: '', question: '', answers: [''] }} 
+                onSave={async (patch: Partial<QAItem>) => {
+                  await addItem('qa', category, parent, patch);
+                  setAddingCategory(null);
+                }}
+                onCancel={() => setAddingCategory(null)}
+              />
+            </div>
+          )}
+
           {filteredItems.map((item: QAItem) => (
             <div 
               key={item.id} 

@@ -11,7 +11,28 @@ type View = 'game' | 'admin';
 
 function AppContent() {
   const [view, setView] = useState<View>('game');
-  const { data } = useData();
+  const { data, loading, error } = useData();
+
+  if (loading) return (
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: 'var(--bg-main)', color: 'var(--text-main)' }}>
+      <div style={{ fontSize: '1.25rem', fontWeight: 600 }}>Loading data...</div>
+    </div>
+  );
+
+  if (error) return (
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: 'var(--bg-main)', color: 'var(--text-main)', padding: '2rem', textAlign: 'center' }}>
+      <div>
+        <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#ef4444', marginBottom: '1rem' }}>Error</div>
+        <p>{error}</p>
+        <button 
+          onClick={() => window.location.reload()}
+          style={{ marginTop: '2rem', padding: '0.75rem 1.5rem', background: 'var(--accent)', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer' }}
+        >
+          Retry
+        </button>
+      </div>
+    </div>
+  );
 
   return (
     <>
