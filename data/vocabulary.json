@@ -1,86 +1,72 @@
 [
   {
-    "image": "/assets/vocab/1774993726329_frame_3031__3_.png",
-    "word": "car",
-    "plural": "cars",
-    "id": "83610675-4559-4931-8a21-948cdc6a6614",
-    "category": "Transport"
+    "image": "/images/phone.png",
+    "word": "phone",
+    "plural": "phones",
+    "id": "a1f3c9e2-5b7a-4d91-9c2a-1e8f0b2d4c11",
+    "category": "Personal"
   },
   {
-    "image": "/assets/vocab/1774994276879_lucid_origin_banner_publicitrio_minimalista_e_moderno_de_um_as_3.jpg",
-    "word": "bus",
-    "plural": "buses",
-    "id": "55a36f1a-5a89-4158-88af-20bd471aad69",
-    "category": "Transport"
+    "image": "/images/keys.png",
+    "word": "keys",
+    "plural": "keys",
+    "id": "b2d4e8f1-6c9b-4a32-8d11-2a7c5e9f0d22",
+    "category": "Personal"
   },
   {
-    "image": "/images/bicycle.png",
-    "word": "bicycle",
-    "plural": "bicycles",
-    "id": "35028cee-6cd3-4d1b-b48c-ce81ae97d1d7",
-    "category": "Transport"
+    "image": "/images/wallet.png",
+    "word": "wallet",
+    "plural": "wallets",
+    "id": "c3e5f9a2-7d1c-4b43-9e22-3b8d6f0a1e33",
+    "category": "Personal"
   },
   {
-    "image": "/images/spoon.png",
-    "word": "spoon",
-    "plural": "spoons",
-    "id": "d101ddd5-834f-48bf-ae05-631cdfb904f9",
-    "category": "Kitchen"
+    "image": "/images/bag.png",
+    "word": "bag",
+    "plural": "bags",
+    "id": "d4f6a1b3-8e2d-4c54-af33-4c9e7a1b2f44",
+    "category": "Personal"
   },
   {
-    "image": "/images/knife.png",
-    "word": "knife",
-    "plural": "knives",
-    "id": "78a8d797-f739-46c6-9d8c-d9a5fb06977f",
-    "category": "Kitchen"
+    "image": "/images/watch.png",
+    "word": "watch",
+    "plural": "watches",
+    "id": "e5a7b2c4-9f3e-4d65-b044-5d0f8b2c3a55",
+    "category": "Personal"
   },
   {
-    "image": "/images/plate.png",
-    "word": "plate",
-    "plural": "plates",
-    "id": "ed6e8a0c-1914-4483-8c89-c13af1d7d92a",
-    "category": "Kitchen"
+    "image": "/images/glasses.png",
+    "word": "glasses",
+    "plural": "glasses",
+    "id": "f6b8c3d5-a04f-4e76-c155-6e1a9c3d4b66",
+    "category": "Personal"
   },
   {
-    "image": "/images/computer.png",
-    "word": "computer",
-    "plural": "computers",
-    "id": "81ad1af6-b788-4ce8-9db6-90a545f3ddb5",
-    "category": "Office"
+    "image": "/images/sunglasses.png",
+    "word": "sunglasses",
+    "plural": "sunglasses",
+    "id": "07c9d4e6-b150-4f87-d266-7f2b0d4e5c77",
+    "category": "Personal"
   },
   {
-    "image": "/images/chair.png",
-    "word": "chair",
-    "plural": "chairs",
-    "id": "cce6d772-bb2e-4d72-94d3-9ced19a40263",
-    "category": "Office"
+    "image": "/images/headphones.png",
+    "word": "headphones",
+    "plural": "headphones",
+    "id": "18d0e5f7-c261-4098-e377-8a3c1e5f6d88",
+    "category": "Personal"
   },
   {
-    "image": "/images/printer.png",
-    "word": "printer",
-    "plural": "printers",
-    "id": "738d94c3-ed65-4c0f-9b36-43b4fa17331d",
-    "category": "Office"
+    "image": "/images/charger.png",
+    "word": "charger",
+    "plural": "chargers",
+    "id": "29e1f608-d372-41a9-f488-9b4d2f607e99",
+    "category": "Personal"
   },
   {
-    "image": "/images/tree.png",
-    "word": "tree",
-    "plural": "trees",
-    "id": "4da7dddc-e0ab-4d0b-977f-04949d208912",
-    "category": "Misc"
-  },
-  {
-    "image": "/images/dog.png",
-    "word": "dog",
-    "plural": "dogs",
-    "id": "1f85077a-5a30-42f9-8d88-906cefb54248",
-    "category": "Misc"
-  },
-  {
-    "image": "/images/house.png",
-    "word": "house",
-    "plural": "houses",
-    "id": "bc5cd619-9f8a-41a3-a0a2-0edb95bf82bc",
-    "category": "Misc"
+    "image": "/images/umbrella.png",
+    "word": "umbrella",
+    "plural": "umbrellas",
+    "id": "3af20719-e483-42ba-0599-ac5e3f718faa",
+    "category": "Personal"
   }
 ]
