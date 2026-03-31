@@ -3,42 +3,42 @@
     "text": "Good morning",
     "translation": "Bom dia",
     "id": "0bc0c3db-e8bd-47e0-ab4f-1ee10eaccf95",
-    "category": "easy"
+    "category": "Easy"
   },
   {
     "text": "How are you?",
     "translation": "Como você está?",
     "id": "8695250e-ce6d-499b-9bfe-f40771e835c1",
-    "category": "easy"
+    "category": "Easy"
   },
   {
     "text": "See you tomorrow",
     "translation": "Até amanhã",
     "id": "3af5177b-6bce-4f8e-a2b8-06508a3b2553",
-    "category": "easy"
+    "category": "Easy"
   },
   {
     "text": "I am learning English every day",
     "translation": "Eu estou aprendendo inglês todos os dias",
     "id": "ad79fbe6-4f2e-4c93-94fd-dd6a4c6dec73",
-    "category": "medium"
+    "category": "Medium"
   },
   {
     "text": "She works in a big company",
     "translation": "Ela trabalha em uma grande empresa",
     "id": "6c693ed5-efb7-40b4-ad99-dc98ffa7640b",
-    "category": "medium"
+    "category": "Medium"
   },
   {
     "text": "If I had more time, I would travel the world",
     "translation": "Se eu tivesse mais tempo, eu viajaria o mundo",
     "id": "97ab9dcd-3a8f-4f01-98e0-269b2df45070",
-    "category": "hard"
+    "category": "Hard"
   },
   {
     "text": "Learning a new language requires patience and practice",
     "translation": "Aprender um novo idioma requer paciência e prática",
     "id": "994f1b28-c2c4-4751-abfc-b796b5683d37",
-    "category": "hard"
+    "category": "Hard"
   }
 ]
