@@ -107,7 +107,15 @@ export const api = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
     });
-    if (!res.ok) throw new Error('Failed to save all data');
+    
+    if (!res.ok) {
+      const errorData = await res.json().catch(() => ({}));
+      const message = errorData.error || 'Failed to save all data';
+      const details = errorData.details ? ` (${errorData.details})` : '';
+      throw new Error(`${message}${details}`);
+    }
+    
     return res.json();
   },
 };
+
