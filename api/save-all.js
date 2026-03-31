@@ -1,10 +1,8 @@
-import GitHubService from './github.js';
-
+const GitHubService = require('./github.js');
 
 const github = new GitHubService();
 
 export default async function handler(req, res) {
-    if (cors(req, res)) return;
     if (req.method !== 'PUT') {
         return res.status(405).json({ error: 'Método não permitido' });
     }
@@ -16,6 +14,12 @@ export default async function handler(req, res) {
             return res.status(400).json({ error: 'Missing data: questions, vocabulary, and sentences are required.' });
         }
 
+        // Log para debug
+        console.log('Saving data...');
+        console.log('Questions:', questions?.length);
+        console.log('Vocabulary:', vocabulary?.length);
+        console.log('Sentences:', sentences?.length);
+
         // Save sequentially to avoid GitHub race conditions/conflicts on the same branch
         await github.salvar('data/questions.json', questions);
         await github.salvar('data/vocabulary.json', vocabulary);
@@ -24,7 +28,12 @@ export default async function handler(req, res) {
         return res.status(200).json({ success: true, message: 'All data saved successfully.' });
     } catch (error) {
         console.error('Error in save-all API:', error);
+        console.error('Error details:', error.response?.data || error.message);
+
         const errorMessage = error.response?.data?.message || error.message || 'Unknown error';
-        return res.status(500).json({ error: `Erro ao salvar dados: ${errorMessage}` });
+        return res.status(500).json({
+            error: `Erro ao salvar dados: ${errorMessage}`,
+            details: error.response?.data || error.message
+        });
     }
 }
