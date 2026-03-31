@@ -6,7 +6,7 @@
       "No, I'm not hungry"
     ],
     "id": "f52c97e2-673b-419a-9f23-94f0d3feccc8",
-    "category": "singular",
+    "category": "Verb To Be - Singular",
     "parent": "verbToBe"
   },
   {
@@ -16,7 +16,7 @@
       "No, she isn't"
     ],
     "id": "5c63d235-9d5e-4755-9604-db7ef228fd3a",
-    "category": "singular",
+    "category": "Verb To Be - Singular",
     "parent": "verbToBe"
   },
   {
@@ -26,7 +26,7 @@
       "No, you aren't"
     ],
     "id": "55938315-1123-483b-b474-795cec514c31",
-    "category": "singular",
+    "category": "Verb To Be - Singular",
     "parent": "verbToBe"
   },
   {
@@ -36,7 +36,7 @@
       "No, they aren't"
     ],
     "id": "b62672c0-2c5f-4f5d-9819-cfe29612aa85",
-    "category": "plural",
+    "category": "Verb To Be - Plural",
     "parent": "verbToBe"
   },
   {
@@ -46,7 +46,7 @@
       "No, we aren't"
     ],
     "id": "028ac742-0774-4b28-b0cd-48e6f451a85e",
-    "category": "plural",
+    "category": "Verb To Be - Plural",
     "parent": "verbToBe"
   },
   {
@@ -55,7 +55,7 @@
       "I live in Brazil"
     ],
     "id": "1e3f25dd-13dc-4272-b704-e6ddca615709",
-    "category": "where",
+    "category": "Questions - Where",
     "parent": "questions"
   },
   {
@@ -64,7 +64,7 @@
       "I work in an office"
     ],
     "id": "a871b250-2cb0-4084-b5a6-6f46c03617b8",
-    "category": "where",
+    "category": "Questions - Where",
     "parent": "questions"
   },
   {
@@ -73,7 +73,7 @@
       "I prefer blue"
     ],
     "id": "5cf998d5-0614-45c5-93cc-c9826efd2955",
-    "category": "which",
+    "category": "Questions - Which",
     "parent": "questions"
   },
   {
@@ -82,7 +82,7 @@
       "I like this book"
     ],
     "id": "8eba0802-e12d-4d8b-b22d-c7d254d69a0e",
-    "category": "which",
+    "category": "Questions - Which",
     "parent": "questions"
   },
   {
@@ -92,7 +92,7 @@
       "No, I won't"
     ],
     "id": "13bd509a-08dd-433b-8014-2987a1512530",
-    "category": "will",
+    "category": "Questions - Will",
     "parent": "questions"
   },
   {
@@ -102,7 +102,7 @@
       "No, they won't"
     ],
     "id": "10479a66-9d99-4d81-8fc5-5ef346580900",
-    "category": "will",
+    "category": "Questions - Will",
     "parent": "questions"
   },
   {
