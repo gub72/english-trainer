@@ -50,15 +50,6 @@
     "parent": "verbToBe"
   },
   {
-    "question": "What is your name?",
-    "answers": [
-      "My name is John"
-    ],
-    "id": "a2302a46-7384-42e2-bc45-39ab43df8868",
-    "category": "what",
-    "parent": "questions"
-  },
-  {
     "question": "What is your favorite color?",
     "answers": [
       "My favorite color is blue"
