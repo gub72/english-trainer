@@ -1,1 +1,86 @@
-[]
+[
+  {
+    "image": "/images/car.png",
+    "word": "car",
+    "plural": "cars",
+    "id": "364c3729-9c18-42e7-a857-755bc1d7f090",
+    "category": "transport"
+  },
+  {
+    "image": "/images/bus.png",
+    "word": "bus",
+    "plural": "buses",
+    "id": "e72dc780-6057-4928-bfde-6fb375e6c1e5",
+    "category": "transport"
+  },
+  {
+    "image": "/images/bicycle.png",
+    "word": "bicycle",
+    "plural": "bicycles",
+    "id": "ed9e05eb-9eda-4f5e-a178-6dc7853203db",
+    "category": "transport"
+  },
+  {
+    "image": "/images/spoon.png",
+    "word": "spoon",
+    "plural": "spoons",
+    "id": "1fb1a987-5d5d-41c6-914b-e58f2d849d93",
+    "category": "kitchen"
+  },
+  {
+    "image": "/images/knife.png",
+    "word": "knife",
+    "plural": "knives",
+    "id": "7f0e8791-20cf-4438-9384-d712b16c9704",
+    "category": "kitchen"
+  },
+  {
+    "image": "/images/plate.png",
+    "word": "plate",
+    "plural": "plates",
+    "id": "b54dc2b0-9347-43d6-b4b1-133ebc4ce48a",
+    "category": "kitchen"
+  },
+  {
+    "image": "/images/computer.png",
+    "word": "computer",
+    "plural": "computers",
+    "id": "6c350c6b-661a-422c-a147-2e1669d8ecc3",
+    "category": "office"
+  },
+  {
+    "image": "/images/chair.png",
+    "word": "chair",
+    "plural": "chairs",
+    "id": "c6ea0c85-27fe-4be1-9e8c-ce707d6063d8",
+    "category": "office"
+  },
+  {
+    "image": "/images/printer.png",
+    "word": "printer",
+    "plural": "printers",
+    "id": "66c1bbbb-af3c-42b7-94e1-d9db54edb0d7",
+    "category": "office"
+  },
+  {
+    "image": "/images/tree.png",
+    "word": "tree",
+    "plural": "trees",
+    "id": "d5e46ec5-a79e-4c74-bbfe-1056b17742ba",
+    "category": "misc"
+  },
+  {
+    "image": "/images/dog.png",
+    "word": "dog",
+    "plural": "dogs",
+    "id": "dcca489c-5957-4348-8055-ca2cbe282ecd",
+    "category": "misc"
+  },
+  {
+    "image": "/images/house.png",
+    "word": "house",
+    "plural": "houses",
+    "id": "2dc9b6b8-3127-465e-8a3c-e868830d57a9",
+    "category": "misc"
+  }
+]
