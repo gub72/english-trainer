@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useData } from '../../context/DataContext.tsx';
 import { downloadJson } from '../../utils/exportJson.ts';
 import { readJsonFile } from '../../utils/importJson.ts';
 
 export const Header: React.FC = () => {
-  const { data, setData } = useData();
+  const { data, setData, saveAll } = useData();
+  const [saving, setSaving] = useState(false);
 
   const handleImport = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -19,9 +20,21 @@ export const Header: React.FC = () => {
     e.target.value = '';
   };
 
+  const handleSaveAll = async () => {
+    setSaving(true);
+    try {
+      await saveAll();
+      alert('All data saved successfully!');
+    } catch (err) {
+      alert('Error saving data: ' + (err instanceof Error ? err.message : 'Unknown error'));
+    } finally {
+      setSaving(false);
+    }
+  };
+
   const calculateTotalItems = (): number => {
     let total = 0;
-    
+
     // QA
     total += data.qa.verbToBe.singular.length;
     total += data.qa.verbToBe.plural.length;
@@ -65,9 +78,9 @@ export const Header: React.FC = () => {
       </div>
 
       <div style={{ display: 'flex', gap: '1rem' }}>
-        <label className="button" style={{ 
-          background: 'var(--bg-card)', 
-          padding: '0.5rem 1rem', 
+        <label className="button" style={{
+          background: 'var(--bg-card)',
+          padding: '0.5rem 1rem',
           border: '1px solid var(--border)',
           display: 'inline-flex',
           alignItems: 'center',
@@ -77,15 +90,29 @@ export const Header: React.FC = () => {
           Import JSON
           <input type="file" accept=".json" onChange={handleImport} style={{ display: 'none' }} />
         </label>
-        
-        <button onClick={() => downloadJson(data)} style={{ 
-          background: 'var(--accent-gradient)', 
+
+        <button onClick={() => downloadJson(data)} style={{
+          background: 'var(--accent-gradient)',
           color: 'white',
           padding: '0.5rem 1rem'
         }}>
           Export JSON
         </button>
+        <button
+          onClick={handleSaveAll}
+          disabled={saving}
+          style={{
+            background: saving ? '#555' : 'var(--accent-gradient)',
+            color: 'white',
+            padding: '0.5rem 1rem',
+            opacity: saving ? 0.7 : 1,
+            cursor: saving ? 'not-allowed' : 'pointer'
+          }}
+        >
+          {saving ? 'Saving...' : 'Save JSON'}
+        </button>
       </div>
     </header>
   );
 };
+

@@ -10,6 +10,7 @@ interface DataContextType {
   updateItem: (section: SectionKey, category: string, id: string, patch: any, parent?: string) => Promise<void>;
   deleteItem: (section: SectionKey, category: string, id: string, parent?: string) => Promise<void>;
   moveItem: (section: SectionKey, fromCat: string, toCat: string, id: string, fromParent?: string, toParent?: string) => Promise<void>;
+  saveAll: () => Promise<void>;
   searchTerm: string;
   setSearchTerm: (term: string) => void;
   loading: boolean;
@@ -241,6 +242,41 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, []);
 
+  const saveAll = useCallback(async () => {
+    try {
+      // Flatten QA items into a flat array with category + parent metadata
+      const questions: any[] = [];
+      for (const [parentKey, parentObj] of Object.entries(data.qa)) {
+        for (const [catKey, items] of Object.entries(parentObj as Record<string, any[]>)) {
+          for (const item of items) {
+            questions.push({ ...item, category: catKey, parent: parentKey });
+          }
+        }
+      }
+
+      // Flatten vocabulary items
+      const vocabulary: any[] = [];
+      for (const [catKey, items] of Object.entries(data.imageVocabulary)) {
+        for (const item of items as any[]) {
+          vocabulary.push({ ...item, category: catKey });
+        }
+      }
+
+      // Flatten translation/sentence items
+      const sentences: any[] = [];
+      for (const [catKey, items] of Object.entries(data.translations)) {
+        for (const item of items as any[]) {
+          sentences.push({ ...item, category: catKey });
+        }
+      }
+
+      await api.saveAll({ questions, vocabulary, sentences });
+    } catch (err) {
+      console.error('Error saving all data:', err);
+      throw err;
+    }
+  }, [data]);
+
   const value = useMemo(() => ({
     data,
     setData,
@@ -248,12 +284,13 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     updateItem,
     deleteItem,
     moveItem,
+    saveAll,
     searchTerm,
     setSearchTerm,
     loading,
     error,
     refreshData
-  }), [data, addItem, updateItem, deleteItem, moveItem, searchTerm, loading, error, refreshData]);
+  }), [data, addItem, updateItem, deleteItem, moveItem, saveAll, searchTerm, loading, error, refreshData]);
 
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>;
 };

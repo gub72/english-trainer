@@ -100,4 +100,14 @@ export const api = {
     if (!res.ok) throw new Error('Failed to delete sentence');
     return true;
   },
+
+  async saveAll(payload: { questions: any[]; vocabulary: any[]; sentences: any[] }) {
+    const res = await fetch('/api/save-all', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) throw new Error('Failed to save all data');
+    return res.json();
+  },
 };
