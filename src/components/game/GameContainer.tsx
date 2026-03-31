@@ -35,40 +35,23 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
 
   const getQAItems = useCallback((cat: string): QAItem[] => {
     if (cat === 'all') {
-      return [
-        ...data.qa.verbToBe.singular,
-        ...data.qa.verbToBe.plural,
-        ...data.qa.questions.what,
-        ...data.qa.questions.where,
-        ...data.qa.questions.which,
-        ...data.qa.questions.will,
-      ];
+      return Object.values(data.qa).flat();
     }
-    if (cat === 'singular' || cat === 'plural') return data.qa.verbToBe[cat];
-    return (data.qa.questions as any)[cat] ?? [];
+    return data.qa[cat] || [];
   }, [data]);
 
   const getVocabItems = useCallback((cat: string): VocabItem[] => {
     if (cat === 'all') {
-      return [
-        ...data.imageVocabulary.transport,
-        ...data.imageVocabulary.kitchen,
-        ...data.imageVocabulary.office,
-        ...data.imageVocabulary.misc,
-      ];
+      return Object.values(data.imageVocabulary).flat();
     }
-    return (data.imageVocabulary as any)[cat] ?? [];
+    return data.imageVocabulary[cat] || [];
   }, [data]);
 
   const getTranslationItems = useCallback((cat: string): TranslationItem[] => {
     if (cat === 'all') {
-      return [
-        ...data.translations.easy,
-        ...data.translations.medium,
-        ...data.translations.hard,
-      ];
+      return Object.values(data.translations).flat();
     }
-    return (data.translations as any)[cat] ?? [];
+    return data.translations[cat] || [];
   }, [data]);
 
   const currentItems = useMemo(() => {
@@ -112,33 +95,38 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
 
   const getCategoriesForMode = useCallback((mode: GameMode) => {
     if (mode === 'qa') {
-      const cats: { key: string; label: string; count: number }[] = [
-        { key: 'all', label: '🔀 All', count: getQAItems('all').length },
-        { key: 'singular', label: 'Verb To Be — Singular', count: data.qa.verbToBe.singular.length },
-        { key: 'plural', label: 'Verb To Be — Plural', count: data.qa.verbToBe.plural.length },
-        { key: 'what', label: 'What', count: data.qa.questions.what.length },
-        { key: 'where', label: 'Where', count: data.qa.questions.where.length },
-        { key: 'which', label: 'Which', count: data.qa.questions.which.length },
-        { key: 'will', label: 'Will', count: data.qa.questions.will.length },
+      const cats = Object.keys(data.qa).map(key => ({
+        key,
+        label: key,
+        count: (data.qa[key] || []).length
+      }));
+      return [
+        { key: 'all', label: '🔀 All', count: Object.values(data.qa).flat().length },
+        ...cats
       ];
-      return cats;
     }
     if (mode === 'image') {
+      const cats = Object.keys(data.imageVocabulary).map(key => ({
+        key,
+        label: key,
+        count: (data.imageVocabulary[key] || []).length
+      }));
       return [
-        { key: 'all', label: '🔀 All', count: getVocabItems('all').length },
-        { key: 'transport', label: 'Transport', count: data.imageVocabulary.transport.length },
-        { key: 'kitchen', label: 'Kitchen', count: data.imageVocabulary.kitchen.length },
-        { key: 'office', label: 'Office', count: data.imageVocabulary.office.length },
-        { key: 'misc', label: 'Miscellaneous', count: data.imageVocabulary.misc.length },
+        { key: 'all', label: '🔀 All', count: Object.values(data.imageVocabulary).flat().length },
+        ...cats
       ];
     }
+    const cats = Object.keys(data.translations).map(key => ({
+      key,
+      label: key,
+      count: (data.translations[key] || []).length
+    }));
     return [
-      { key: 'all', label: '🔀 All', count: getTranslationItems('all').length },
-      { key: 'easy', label: 'Easy', count: data.translations.easy.length },
-      { key: 'medium', label: 'Medium', count: data.translations.medium.length },
-      { key: 'hard', label: 'Hard', count: data.translations.hard.length },
+      { key: 'all', label: '🔀 All', count: Object.values(data.translations).flat().length },
+      ...cats
     ];
-  }, [data, getQAItems, getVocabItems, getTranslationItems]);
+  }, [data]);
+
 
   // ------- actions -------
 
