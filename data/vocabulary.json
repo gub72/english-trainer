@@ -35,45 +35,10 @@
     "category": "Personal"
   },
   {
-    "image": "/assets/vocab/1775071369363_glasses.png",
-    "word": "glasses",
-    "plural": "glasses",
-    "id": "f6b8c3d5-a04f-4e76-c155-6e1a9c3d4b66",
-    "category": "Personal"
-  },
-  {
-    "image": "/assets/vocab/1775071378932_sunglasses.png",
-    "word": "sunglasses",
-    "plural": "sunglasses",
-    "id": "07c9d4e6-b150-4f87-d266-7f2b0d4e5c77",
-    "category": "Personal"
-  },
-  {
-    "image": "/assets/vocab/1775071388285_headphones.png",
-    "word": "headphones",
-    "plural": "headphones",
-    "id": "18d0e5f7-c261-4098-e377-8a3c1e5f6d88",
-    "category": "Personal"
-  },
-  {
-    "image": "/assets/vocab/1775071413638_charger.png",
-    "word": "charger",
-    "plural": "chargers",
-    "id": "29e1f608-d372-41a9-f488-9b4d2f607e99",
-    "category": "Personal"
-  },
-  {
     "image": "/assets/vocab/1775071434266_umbrella.png",
     "word": "umbrella",
     "plural": "umbrellas",
     "id": "3af20719-e483-42ba-0599-ac5e3f718faa",
-    "category": "Personal"
-  },
-  {
-    "image": "/assets/vocab/laptop.png",
-    "word": "laptop",
-    "plural": "laptops",
-    "id": "4bg3182a-f594-43cb-16aa-bd6f4g829gbb",
     "category": "Personal"
   },
   {
@@ -88,27 +53,6 @@
     "word": "bottle",
     "plural": "bottles",
     "id": "6di5304c-h716-65ed-38cc-df8h6i041idd",
-    "category": "Personal"
-  },
-  {
-    "image": "/assets/vocab/notebook.png",
-    "word": "notebook",
-    "plural": "notebooks",
-    "id": "7ej6415d-i827-76fe-49dd-eg9i7j152jee",
-    "category": "Personal"
-  },
-  {
-    "image": "/assets/vocab/pen.png",
-    "word": "pen",
-    "plural": "pens",
-    "id": "8fk7526e-j938-87af-50ee-fh0j8k263kff",
-    "category": "Personal"
-  },
-  {
-    "image": "/assets/vocab/pencil.png",
-    "word": "pencil",
-    "plural": "pencils",
-    "id": "9gl8637f-k049-98bg-61ff-gi1k9l374lgg",
     "category": "Personal"
   },
   {
@@ -147,34 +91,6 @@
     "category": "Personal"
   },
   {
-    "image": "/assets/vocab/mirror.png",
-    "word": "mirror",
-    "plural": "mirrors",
-    "id": "5mr4293l-q605-54hm-27ll-mo7r5q930rmm",
-    "category": "Personal"
-  },
-  {
-    "image": "/assets/vocab/clock.png",
-    "word": "clock",
-    "plural": "clocks",
-    "id": "6ns5304m-r716-65in-38mm-np8s6r041snn",
-    "category": "Personal"
-  },
-  {
-    "image": "/assets/vocab/lamp.png",
-    "word": "lamp",
-    "plural": "lamps",
-    "id": "7ot6415n-s827-76jo-49nn-oq9t7s152too",
-    "category": "Personal"
-  },
-  {
-    "image": "/assets/vocab/remote.png",
-    "word": "remote",
-    "plural": "remotes",
-    "id": "8pu7526o-t938-87kp-50oo-pr0u8t263upp",
-    "category": "Personal"
-  },
-  {
     "image": "/assets/vocab/shoes.png",
     "word": "shoes",
     "plural": "shoes",
@@ -209,89 +125,11 @@
     "id": "3uz2071t-y483-32pu-05tt-uw5z3y718zuu",
     "category": "Personal"
   },
-[
   {
     "image": "/assets/vocab/water_bottle.png",
     "word": "water bottle",
     "plural": "water bottles",
     "id": "4va4294c-g716-87fg-44aa-bc8g7h152kll",
-    "category": "Personal"
-  },
-  {
-    "image": "/assets/vocab/coffee_mug.png",
-    "word": "coffee mug",
-    "plural": "coffee mugs",
-    "id": "5wb5305d-h827-98gh-55bb-cd9h8i263mnn",
-    "category": "Personal"
-  },
-  {
-    "image": "/assets/vocab/backpack.png",
-    "word": "backpack",
-    "plural": "backpacks",
-    "id": "6xc6316e-i938-09hi-66cc-de0i9j374opp",
-    "category": "Personal"
-  },
-  {
-    "image": "/assets/vocab/laptop_bag.png",
-    "word": "laptop bag",
-    "plural": "laptop bags",
-    "id": "7yd7327f-j049-10ij-77dd-ef1j0k485qpp",
-    "category": "Personal"
-  },
-  {
-    "image": "/assets/vocab/power_bank.png",
-    "word": "power bank",
-    "plural": "power banks",
-    "id": "8ze8338g-k150-21jk-88ee-fg2k1l596rqq",
-    "category": "Personal"
-  },
-  {
-    "image": "/assets/vocab/usb_cable.png",
-    "word": "USB cable",
-    "plural": "USB cables",
-    "id": "9af9449h-l261-32kl-99ff-gh3l2m607srr",
-    "category": "Personal"
-  },
-  {
-    "image": "/assets/vocab/earbuds.png",
-    "word": "earbuds",
-    "plural": "earbuds",
-    "id": "0bg0550i-m372-43lm-00gg-hi4m3n718tss",
-    "category": "Personal"
-  },
-  {
-    "image": "/assets/vocab/notebook.png",
-    "word": "notebook",
-    "plural": "notebooks",
-    "id": "1ch1661j-n483-54mn-11hh-ij5n4o829utt",
-    "category": "Personal"
-  },
-  {
-    "image": "/assets/vocab/highlighter.png",
-    "word": "highlighter",
-    "plural": "highlighters",
-    "id": "2di2772k-o594-65no-22ii-jk6o5p930vuu",
-    "category": "Personal"
-  },
-  {
-    "image": "/assets/vocab/sticky_notes.png",
-    "word": "sticky note",
-    "plural": "sticky notes",
-    "id": "3ej3883l-p605-76op-33jj-kl7p6q041wvv",
-    "category": "Personal"
-  },
-  {
-    "image": "/assets/vocab/calculator.png",
-    "word": "calculator",
-    "plural": "calculators",
-    "id": "4fk4994m-q716-87pq-44kk-lm8q7r152xww",
-    "category": "Personal"
-  },
-  {
-    "image": "/assets/vocab/tissues.png",
-    "word": "tissue",
-    "plural": "tissues",
-    "id": "5gl5005n-r827-98qr-55ll-mn9r8s263yxx",
     "category": "Personal"
   },
   {
@@ -349,6 +187,159 @@
     "plural": "lanyards",
     "id": "3ot3883v-z605-76yz-33tt-uv7z6a041gff",
     "category": "Personal"
+  },
+  {
+    "image": "/assets/vocab/1775071369363_glasses.png",
+    "word": "glasses",
+    "plural": "glasses",
+    "id": "f6b8c3d5-a04f-4e76-c155-6e1a9c3d4b66",
+    "category": "Accessories"
+  },
+  {
+    "image": "/assets/vocab/1775071378932_sunglasses.png",
+    "word": "sunglasses",
+    "plural": "sunglasses",
+    "id": "07c9d4e6-b150-4f87-d266-7f2b0d4e5c77",
+    "category": "Accessories"
+  },
+  {
+    "image": "/assets/vocab/mirror.png",
+    "word": "mirror",
+    "plural": "mirrors",
+    "id": "5mr4293l-q605-54hm-27ll-mo7r5q930rmm",
+    "category": "Accessories"
+  },
+  {
+    "image": "/assets/vocab/1775071388285_headphones.png",
+    "word": "headphones",
+    "plural": "headphones",
+    "id": "18d0e5f7-c261-4098-e377-8a3c1e5f6d88",
+    "category": "Electronics"
+  },
+  {
+    "image": "/assets/vocab/1775071413638_charger.png",
+    "word": "charger",
+    "plural": "chargers",
+    "id": "29e1f608-d372-41a9-f488-9b4d2f607e99",
+    "category": "Electronics"
+  },
+  {
+    "image": "/assets/vocab/laptop.png",
+    "word": "laptop",
+    "plural": "laptops",
+    "id": "4bg3182a-f594-43cb-16aa-bd6f4g829gbb",
+    "category": "Electronics"
+  },
+  {
+    "image": "/assets/vocab/clock.png",
+    "word": "clock",
+    "plural": "clocks",
+    "id": "6ns5304m-r716-65in-38mm-np8s6r041snn",
+    "category": "Electronics"
+  },
+  {
+    "image": "/assets/vocab/lamp.png",
+    "word": "lamp",
+    "plural": "lamps",
+    "id": "7ot6415n-s827-76jo-49nn-oq9t7s152too",
+    "category": "Electronics"
+  },
+  {
+    "image": "/assets/vocab/remote.png",
+    "word": "remote",
+    "plural": "remotes",
+    "id": "8pu7526o-t938-87kp-50oo-pr0u8t263upp",
+    "category": "Electronics"
+  },
+  {
+    "image": "/assets/vocab/power_bank.png",
+    "word": "power bank",
+    "plural": "power banks",
+    "id": "8ze8338g-k150-21jk-88ee-fg2k1l596rqq",
+    "category": "Electronics"
+  },
+  {
+    "image": "/assets/vocab/usb_cable.png",
+    "word": "USB cable",
+    "plural": "USB cables",
+    "id": "9af9449h-l261-32kl-99ff-gh3l2m607srr",
+    "category": "Electronics"
+  },
+  {
+    "image": "/assets/vocab/earbuds.png",
+    "word": "earbuds",
+    "plural": "earbuds",
+    "id": "0bg0550i-m372-43lm-00gg-hi4m3n718tss",
+    "category": "Electronics"
+  },
+  {
+    "image": "/assets/vocab/notebook.png",
+    "word": "notebook",
+    "plural": "notebooks",
+    "id": "7ej6415d-i827-76fe-49dd-eg9i7j152jee",
+    "category": "Office"
+  },
+  {
+    "image": "/assets/vocab/pen.png",
+    "word": "pen",
+    "plural": "pens",
+    "id": "8fk7526e-j938-87af-50ee-fh0j8k263kff",
+    "category": "Office"
+  },
+  {
+    "image": "/assets/vocab/pencil.png",
+    "word": "pencil",
+    "plural": "pencils",
+    "id": "9gl8637f-k049-98bg-61ff-gi1k9l374lgg",
+    "category": "Office"
+  },
+  {
+    "image": "/assets/vocab/notebook.png",
+    "word": "notebook",
+    "plural": "notebooks",
+    "id": "1ch1661j-n483-54mn-11hh-ij5n4o829utt",
+    "category": "Office"
+  },
+  {
+    "image": "/assets/vocab/highlighter.png",
+    "word": "highlighter",
+    "plural": "highlighters",
+    "id": "2di2772k-o594-65no-22ii-jk6o5p930vuu",
+    "category": "Office"
+  },
+  {
+    "image": "/assets/vocab/sticky_notes.png",
+    "word": "sticky note",
+    "plural": "sticky notes",
+    "id": "3ej3883l-p605-76op-33jj-kl7p6q041wvv",
+    "category": "Office"
+  },
+  {
+    "image": "/assets/vocab/calculator.png",
+    "word": "calculator",
+    "plural": "calculators",
+    "id": "4fk4994m-q716-87pq-44kk-lm8q7r152xww",
+    "category": "Office"
+  },
+  {
+    "image": "/assets/vocab/coffee_mug.png",
+    "word": "coffee mug",
+    "plural": "coffee mugs",
+    "id": "5wb5305d-h827-98gh-55bb-cd9h8i263mnn",
+    "category": "Kitchen"
+  },
+  {
+    "image": "/assets/vocab/laptop_bag.png",
+    "word": "laptop bag",
+    "plural": "laptop bags",
+    "id": "7yd7327f-j049-10ij-77dd-ef1j0k485qpp",
+    "category": "Bags"
+  },
+  {
+    "image": "/assets/vocab/tissues.png",
+    "word": "tissue",
+    "plural": "tissues",
+    "id": "5gl5005n-r827-98qr-55ll-mn9r8s263yxx",
+    "category": "Personal Care"
   }
-]
 ]
