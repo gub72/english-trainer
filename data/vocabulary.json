@@ -68,5 +68,287 @@
     "plural": "umbrellas",
     "id": "3af20719-e483-42ba-0599-ac5e3f718faa",
     "category": "Personal"
+  },
+  {
+    "image": "/assets/vocab/laptop.png",
+    "word": "laptop",
+    "plural": "laptops",
+    "id": "4bg3182a-f594-43cb-16aa-bd6f4g829gbb",
+    "category": "Personal"
+  },
+  {
+    "image": "/assets/vocab/backpack.png",
+    "word": "backpack",
+    "plural": "backpacks",
+    "id": "5ch4293b-g605-54dc-27bb-ce7g5h930hcc",
+    "category": "Personal"
+  },
+  {
+    "image": "/assets/vocab/bottle.png",
+    "word": "bottle",
+    "plural": "bottles",
+    "id": "6di5304c-h716-65ed-38cc-df8h6i041idd",
+    "category": "Personal"
+  },
+  {
+    "image": "/assets/vocab/notebook.png",
+    "word": "notebook",
+    "plural": "notebooks",
+    "id": "7ej6415d-i827-76fe-49dd-eg9i7j152jee",
+    "category": "Personal"
+  },
+  {
+    "image": "/assets/vocab/pen.png",
+    "word": "pen",
+    "plural": "pens",
+    "id": "8fk7526e-j938-87af-50ee-fh0j8k263kff",
+    "category": "Personal"
+  },
+  {
+    "image": "/assets/vocab/pencil.png",
+    "word": "pencil",
+    "plural": "pencils",
+    "id": "9gl8637f-k049-98bg-61ff-gi1k9l374lgg",
+    "category": "Personal"
+  },
+  {
+    "image": "/assets/vocab/credit_card.png",
+    "word": "credit card",
+    "plural": "credit cards",
+    "id": "0hm9748g-l150-09ch-72gg-hj2m0l485mhh",
+    "category": "Personal"
+  },
+  {
+    "image": "/assets/vocab/id_card.png",
+    "word": "ID card",
+    "plural": "ID cards",
+    "id": "1in0859h-m261-10di-83hh-ik3n1m596nii",
+    "category": "Personal"
+  },
+  {
+    "image": "/assets/vocab/comb.png",
+    "word": "comb",
+    "plural": "combs",
+    "id": "2jo1960i-n372-21ej-94ii-jl4o2n607ojj",
+    "category": "Personal"
+  },
+  {
+    "image": "/assets/vocab/toothbrush.png",
+    "word": "toothbrush",
+    "plural": "toothbrushes",
+    "id": "3kp2071j-o483-32fk-05jj-km5p3o718pkk",
+    "category": "Personal"
+  },
+  {
+    "image": "/assets/vocab/towel.png",
+    "word": "towel",
+    "plural": "towels",
+    "id": "4lq3182k-p594-43gl-16kk-ln6q4p829qll",
+    "category": "Personal"
+  },
+  {
+    "image": "/assets/vocab/mirror.png",
+    "word": "mirror",
+    "plural": "mirrors",
+    "id": "5mr4293l-q605-54hm-27ll-mo7r5q930rmm",
+    "category": "Personal"
+  },
+  {
+    "image": "/assets/vocab/clock.png",
+    "word": "clock",
+    "plural": "clocks",
+    "id": "6ns5304m-r716-65in-38mm-np8s6r041snn",
+    "category": "Personal"
+  },
+  {
+    "image": "/assets/vocab/lamp.png",
+    "word": "lamp",
+    "plural": "lamps",
+    "id": "7ot6415n-s827-76jo-49nn-oq9t7s152too",
+    "category": "Personal"
+  },
+  {
+    "image": "/assets/vocab/remote.png",
+    "word": "remote",
+    "plural": "remotes",
+    "id": "8pu7526o-t938-87kp-50oo-pr0u8t263upp",
+    "category": "Personal"
+  },
+  {
+    "image": "/assets/vocab/shoes.png",
+    "word": "shoes",
+    "plural": "shoes",
+    "id": "9qv8637p-u049-98lq-61pp-qs1v9u374vqq",
+    "category": "Personal"
+  },
+  {
+    "image": "/assets/vocab/jacket.png",
+    "word": "jacket",
+    "plural": "jackets",
+    "id": "0rw9748q-v150-09mr-72qq-rt2w0v485wrr",
+    "category": "Personal"
+  },
+  {
+    "image": "/assets/vocab/hat.png",
+    "word": "hat",
+    "plural": "hats",
+    "id": "1sx0859r-w261-10ns-83rr-su3x1w596xss",
+    "category": "Personal"
+  },
+  {
+    "image": "/assets/vocab/scarf.png",
+    "word": "scarf",
+    "plural": "scarves",
+    "id": "2ty1960s-x372-21ot-94ss-tv4y2x607ytt",
+    "category": "Personal"
+  },
+  {
+    "image": "/assets/vocab/makeup.png",
+    "word": "makeup",
+    "plural": "makeup",
+    "id": "3uz2071t-y483-32pu-05tt-uw5z3y718zuu",
+    "category": "Personal"
+  },
+[
+  {
+    "image": "/assets/vocab/water_bottle.png",
+    "word": "water bottle",
+    "plural": "water bottles",
+    "id": "4va4294c-g716-87fg-44aa-bc8g7h152kll",
+    "category": "Personal"
+  },
+  {
+    "image": "/assets/vocab/coffee_mug.png",
+    "word": "coffee mug",
+    "plural": "coffee mugs",
+    "id": "5wb5305d-h827-98gh-55bb-cd9h8i263mnn",
+    "category": "Personal"
+  },
+  {
+    "image": "/assets/vocab/backpack.png",
+    "word": "backpack",
+    "plural": "backpacks",
+    "id": "6xc6316e-i938-09hi-66cc-de0i9j374opp",
+    "category": "Personal"
+  },
+  {
+    "image": "/assets/vocab/laptop_bag.png",
+    "word": "laptop bag",
+    "plural": "laptop bags",
+    "id": "7yd7327f-j049-10ij-77dd-ef1j0k485qpp",
+    "category": "Personal"
+  },
+  {
+    "image": "/assets/vocab/power_bank.png",
+    "word": "power bank",
+    "plural": "power banks",
+    "id": "8ze8338g-k150-21jk-88ee-fg2k1l596rqq",
+    "category": "Personal"
+  },
+  {
+    "image": "/assets/vocab/usb_cable.png",
+    "word": "USB cable",
+    "plural": "USB cables",
+    "id": "9af9449h-l261-32kl-99ff-gh3l2m607srr",
+    "category": "Personal"
+  },
+  {
+    "image": "/assets/vocab/earbuds.png",
+    "word": "earbuds",
+    "plural": "earbuds",
+    "id": "0bg0550i-m372-43lm-00gg-hi4m3n718tss",
+    "category": "Personal"
+  },
+  {
+    "image": "/assets/vocab/notebook.png",
+    "word": "notebook",
+    "plural": "notebooks",
+    "id": "1ch1661j-n483-54mn-11hh-ij5n4o829utt",
+    "category": "Personal"
+  },
+  {
+    "image": "/assets/vocab/highlighter.png",
+    "word": "highlighter",
+    "plural": "highlighters",
+    "id": "2di2772k-o594-65no-22ii-jk6o5p930vuu",
+    "category": "Personal"
+  },
+  {
+    "image": "/assets/vocab/sticky_notes.png",
+    "word": "sticky note",
+    "plural": "sticky notes",
+    "id": "3ej3883l-p605-76op-33jj-kl7p6q041wvv",
+    "category": "Personal"
+  },
+  {
+    "image": "/assets/vocab/calculator.png",
+    "word": "calculator",
+    "plural": "calculators",
+    "id": "4fk4994m-q716-87pq-44kk-lm8q7r152xww",
+    "category": "Personal"
+  },
+  {
+    "image": "/assets/vocab/tissues.png",
+    "word": "tissue",
+    "plural": "tissues",
+    "id": "5gl5005n-r827-98qr-55ll-mn9r8s263yxx",
+    "category": "Personal"
+  },
+  {
+    "image": "/assets/vocab/hand_sanitizer.png",
+    "word": "hand sanitizer",
+    "plural": "hand sanitizers",
+    "id": "6hm6116o-s938-09rs-66mm-no0s9t374zyy",
+    "category": "Personal"
+  },
+  {
+    "image": "/assets/vocab/wet_wipes.png",
+    "word": "wet wipe",
+    "plural": "wet wipes",
+    "id": "7in7227p-t049-10st-77nn-op1t0u485azz",
+    "category": "Personal"
+  },
+  {
+    "image": "/assets/vocab/mints.png",
+    "word": "mint",
+    "plural": "mints",
+    "id": "8jo8338q-u150-21tu-88oo-pq2u1v596baa",
+    "category": "Personal"
+  },
+  {
+    "image": "/assets/vocab/gum.png",
+    "word": "gum",
+    "plural": "gum",
+    "id": "9kp9449r-v261-32uv-99pp-qr3v2w607cbb",
+    "category": "Personal"
+  },
+  {
+    "image": "/assets/vocab/lip_balm.png",
+    "word": "lip balm",
+    "plural": "lip balms",
+    "id": "0lq0550s-w372-43vw-00qq-rs4w3x718dcc",
+    "category": "Personal"
+  },
+  {
+    "image": "/assets/vocab/sunscreen.png",
+    "word": "sunscreen",
+    "plural": "sunscreens",
+    "id": "1mr1661t-x483-54wx-11rr-st5x4y829edd",
+    "category": "Personal"
+  },
+  {
+    "image": "/assets/vocab/keys.png",
+    "word": "keychain",
+    "plural": "keychains",
+    "id": "2ns2772u-y594-65xy-22ss-tu6y5z930fee",
+    "category": "Personal"
+  },
+  {
+    "image": "/assets/vocab/lanyard.png",
+    "word": "lanyard",
+    "plural": "lanyards",
+    "id": "3ot3883v-z605-76yz-33tt-uv7z6a041gff",
+    "category": "Personal"
   }
+]
 ]
