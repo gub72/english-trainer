@@ -393,7 +393,7 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
             }}
           >
             <div style={{
-              ...styles.toggleThumb,
+              ...styles.toggleSwitchThumb,
               transform: state.isRandom ? 'translateX(24px)' : 'translateX(0)',
             }} />
           </button>
