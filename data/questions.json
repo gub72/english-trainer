@@ -1,182 +1,398 @@
 [
   {
-    "question": "Are you happy with your job?",
+    "question": "Am i hungry?",
     "answers": [
-      "Yes, I'm happy with my job",
-      "I'm not happy with my job"
+      "Yes, You are hungry.",
+      "No, You aren't hungry."
+    ],
+    "id": "1a2b3c4d-0001-4a1b-8c1a-111111111113",
+    "category": "Verb To Be - Are and Am"
+  },
+  {
+    "question": "Are you hungry?",
+    "answers": [
+      "Yes, I'm hungry.",
+      "No, I'm not hungry."
+    ],
+    "id": "1a2b3c4d-0002-4a1b-8c1a-222222222322",
+    "category": "Verb To Be - Are and Am"
+  },
+  {
+    "question": "Are we hungry?",
+    "answers": [
+      "Yes, we are hungry.",
+      "No, we aren't hungry."
+    ],
+    "id": "1a2b3c4d-0003-4a1b-8c1a-333333333328",
+    "category": "Verb To Be - Are and Am"
+  },
+  {
+    "question": "Are they hungry?",
+    "answers": [
+      "Yes, they are hungry.",
+      "No, they aren't hungry."
+    ],
+    "id": "1a2b3c4d-0004-4a1b-8c1a-444444445444",
+    "category": "Verb To Be - Are and Am"
+  },
+  {
+    "question": "Am i awesome?",
+    "answers": [
+      "Yes, You are awesome.",
+      "No, You aren't awesome."
     ],
     "id": "1a2b3c4d-0001-4a1b-8c1a-111111111111",
     "category": "Verb To Be - Are and Am"
   },
   {
-    "question": "Are you tired after your work?",
+    "question": "Are you awesome?",
     "answers": [
-      "Yes, I'm tired after my work",
-      "I'm not tired after my work"
+      "Yes, I'm awesome.",
+      "No, I'm not awesome."
     ],
     "id": "1a2b3c4d-0002-4a1b-8c1a-222222222222",
     "category": "Verb To Be - Are and Am"
   },
   {
-    "question": "Are you happy with your house?",
+    "question": "Are we awesome?",
     "answers": [
-      "Yes, I'm happy with my house",
-      "I'm not happy with my house"
+      "Yes, we are awesome.",
+      "No, we aren't awesome."
     ],
     "id": "1a2b3c4d-0003-4a1b-8c1a-333333333333",
     "category": "Verb To Be - Are and Am"
   },
   {
-    "question": "Are you busy with your tasks?",
+    "question": "Are they awesome?",
     "answers": [
-      "Yes, I'm busy with my tasks",
-      "I'm not busy with my tasks"
+      "Yes, they are awesome.",
+      "No, they aren't awesome."
     ],
     "id": "1a2b3c4d-0004-4a1b-8c1a-444444444444",
     "category": "Verb To Be - Are and Am"
   },
   {
-    "question": "Are you satisfied with your progress?",
+    "question": "Am i crazy?",
     "answers": [
-      "Yes, I'm satisfied with my progress",
-      "I'm not satisfied with my progress"
+      "Yes, You are crazy.",
+      "No, You aren't crazy."
     ],
     "id": "1a2b3c4d-0005-4a1b-8c1a-555555555555",
     "category": "Verb To Be - Are and Am"
   },
   {
-    "question": "Am I important in your life?",
+    "question": "Are you crazy?",
     "answers": [
-      "Yes, you're important in my life",
-      "You're not important in my life"
+      "Yes, I'm crazy.",
+      "No, I'm not crazy."
     ],
     "id": "1a2b3c4d-0006-4a1b-8c1a-666666666666",
     "category": "Verb To Be - Are and Am"
   },
   {
-    "question": "Am I wrong about your idea?",
+    "question": "Are we crazy?",
     "answers": [
-      "Yes, you're wrong about my idea",
-      "You're not wrong about my idea"
+      "Yes, we are crazy.",
+      "No, we aren't crazy."
     ],
     "id": "1a2b3c4d-0007-4a1b-8c1a-777777777777",
     "category": "Verb To Be - Are and Am"
   },
   {
-    "question": "Are you proud of your work?",
+    "question": "Are they crazy?",
     "answers": [
-      "Yes, I'm proud of my work",
-      "I'm not proud of my work"
+      "Yes, they are crazy.",
+      "No, they aren't crazy."
     ],
     "id": "1a2b3c4d-0008-4a1b-8c1a-888888888888",
     "category": "Verb To Be - Are and Am"
   },
   {
-    "question": "Are you ready for your exam?",
+    "question": "Am i tired?",
     "answers": [
-      "Yes, I'm ready for my exam",
-      "I'm not ready for my exam"
+      "Yes, You are tired.",
+      "No, You aren't tired."
     ],
     "id": "1a2b3c4d-0009-4a1b-8c1a-999999999999",
     "category": "Verb To Be - Are and Am"
   },
   {
-    "question": "Are you close to your family?",
+    "question": "Are you tired?",
     "answers": [
-      "Yes, I'm close to my family",
-      "I'm not close to my family"
+      "Yes, I'm tired.",
+      "No, I'm not tired."
     ],
-    "id": "1a2b3c4d-0010-4a1b-8c1a-aaaaaaaaaaaa",
+    "id": "1a2b3c4d-0010-4a1b-8c1a-101010101010",
     "category": "Verb To Be - Are and Am"
   },
   {
-    "question": "Is your mother happy today?",
+    "question": "Are we tired?",
     "answers": [
-      "Yes, she's happy today",
-      "She's not happy today"
+      "Yes, we are tired.",
+      "No, we aren't tired."
     ],
-    "id": "1a2b3c4d-0011-4a1b-8c1a-bbbbbbbbbbbb",
+    "id": "1a2b3c4d-0011-4a1b-8c1a-111111111112",
     "category": "Verb To Be - Are and Am"
   },
   {
-    "question": "Is your father busy right now?",
+    "question": "Are they tired?",
     "answers": [
-      "Yes, he's busy right now",
-      "He's not busy right now"
+      "Yes, they are tired.",
+      "No, they aren't tired."
     ],
-    "id": "1a2b3c4d-0012-4a1b-8c1a-cccccccccccc",
+    "id": "1a2b3c4d-0012-4a1b-8c1a-121212121212",
     "category": "Verb To Be - Are and Am"
   },
   {
-    "question": "Is his car fast?",
+    "question": "Am i busy?",
     "answers": [
-      "Yes, his car is very fast",
-      "His car is not fast"
+      "Yes, You are busy.",
+      "No, You aren't busy."
     ],
-    "id": "1a2b3c4d-0013-4a1b-8c1a-dddddddddddd",
+    "id": "1a2b3c4d-0013-4a1b-8c1a-131313131313",
     "category": "Verb To Be - Are and Am"
   },
   {
-    "question": "Is her house big?",
+    "question": "Are you busy?",
     "answers": [
-      "Yes, her house is very big",
-      "Her house is not big"
+      "Yes, I'm busy.",
+      "No, I'm not busy."
     ],
-    "id": "1a2b3c4d-0014-4a1b-8c1a-eeeeeeeeeeee",
+    "id": "1a2b3c4d-0014-4a1b-8c1a-141414141414",
     "category": "Verb To Be - Are and Am"
   },
   {
-    "question": "Are your friends friendly?",
+    "question": "Are we busy?",
     "answers": [
-      "Yes, my friends are very friendly",
-      "My friends are not friendly"
+      "Yes, we are busy.",
+      "No, we aren't busy."
     ],
-    "id": "1a2b3c4d-0015-4a1b-8c1a-ffffffffffff",
+    "id": "1a2b3c4d-0015-4a1b-8c1a-151515151515",
     "category": "Verb To Be - Are and Am"
   },
   {
-    "question": "Are your neighbors quiet?",
+    "question": "Are they busy?",
     "answers": [
-      "Yes, my neighbors are very quiet",
-      "My neighbors are not quiet"
+      "Yes, they are busy.",
+      "No, they aren't busy."
     ],
-    "id": "1a2b3c4d-0016-4a1b-8c1a-121212121212",
+    "id": "1a2b3c4d-0016-4a1b-8c1a-161616161616",
     "category": "Verb To Be - Are and Am"
   },
   {
-    "question": "Am I late for your meeting?",
+    "question": "Am i fun?",
     "answers": [
-      "Yes, you're late for my meeting",
-      "You're not late for my meeting"
+      "Yes, You are fun.",
+      "No, You aren't fun."
     ],
-    "id": "1a2b3c4d-0017-4a1b-8c1a-131313131313",
+    "id": "1a2b3c4d-0017-4a1b-8c1a-171717171717",
     "category": "Verb To Be - Are and Am"
   },
   {
-    "question": "Am I early for your class?",
+    "question": "Are you fun?",
     "answers": [
-      "Yes, you're early for my class",
-      "You're not early for my class"
+      "Yes, I'm fun.",
+      "No, I'm not fun."
     ],
-    "id": "1a2b3c4d-0018-4a1b-8c1a-141414141414",
+    "id": "1a2b3c4d-0018-4a1b-8c1a-181818181818",
     "category": "Verb To Be - Are and Am"
   },
   {
-    "question": "Is his idea good?",
+    "question": "Are we fun?",
     "answers": [
-      "Yes, his idea is very good",
-      "His idea is not good"
+      "Yes, we are fun.",
+      "No, we aren't fun."
     ],
-    "id": "1a2b3c4d-0019-4a1b-8c1a-151515151515",
+    "id": "1a2b3c4d-0019-4a1b-8c1a-191919191919",
     "category": "Verb To Be - Are and Am"
   },
   {
-    "question": "Is her job interesting?",
+    "question": "Are they fun?",
     "answers": [
-      "Yes, her job is very interesting",
-      "Her job is not interesting"
+      "Yes, they are fun.",
+      "No, they aren't fun."
     ],
-    "id": "1a2b3c4d-0020-4a1b-8c1a-161616161616",
+    "id": "1a2b3c4d-0020-4a1b-8c1a-202020202020",
+    "category": "Verb To Be - Are and Am"
+  },
+  {
+    "question": "Am i annoying?",
+    "answers": [
+      "Yes, You are annoying.",
+      "No, You aren't annoying."
+    ],
+    "id": "1a2b3c4d-0021-4a1b-8c1a-212121212121",
+    "category": "Verb To Be - Are and Am"
+  },
+  {
+    "question": "Are you annoying?",
+    "answers": [
+      "Yes, I'm annoying.",
+      "No, I'm not annoying."
+    ],
+    "id": "1a2b3c4d-0022-4a1b-8c1a-222222222222",
+    "category": "Verb To Be - Are and Am"
+  },
+  {
+    "question": "Are we annoying?",
+    "answers": [
+      "Yes, we are annoying.",
+      "No, we aren't annoying."
+    ],
+    "id": "1a2b3c4d-0023-4a1b-8c1a-232323232323",
+    "category": "Verb To Be - Are and Am"
+  },
+  {
+    "question": "Are they annoying?",
+    "answers": [
+      "Yes, they are annoying.",
+      "No, they aren't annoying."
+    ],
+    "id": "1a2b3c4d-0024-4a1b-8c1a-242424242424",
+    "category": "Verb To Be - Are and Am"
+  },
+  {
+    "question": "Am i hilarious?",
+    "answers": [
+      "Yes, You are hilarious.",
+      "No, You aren't hilarious."
+    ],
+    "id": "1a2b3c4d-0025-4a1b-8c1a-252525252525",
+    "category": "Verb To Be - Are and Am"
+  },
+  {
+    "question": "Are you hilarious?",
+    "answers": [
+      "Yes, I'm hilarious.",
+      "No, I'm not hilarious."
+    ],
+    "id": "1a2b3c4d-0026-4a1b-8c1a-262626262626",
+    "category": "Verb To Be - Are and Am"
+  },
+  {
+    "question": "Are we hilarious?",
+    "answers": [
+      "Yes, we are hilarious.",
+      "No, we aren't hilarious."
+    ],
+    "id": "1a2b3c4d-0027-4a1b-8c1a-272727272727",
+    "category": "Verb To Be - Are and Am"
+  },
+  {
+    "question": "Are they hilarious?",
+    "answers": [
+      "Yes, they are hilarious.",
+      "No, they aren't hilarious."
+    ],
+    "id": "1a2b3c4d-0028-4a1b-8c1a-282828282828",
+    "category": "Verb To Be - Are and Am"
+  },
+  {
+    "question": "Am i awkward?",
+    "answers": [
+      "Yes, You are awkward.",
+      "No, You aren't awkward."
+    ],
+    "id": "1a2b3c4d-0029-4a1b-8c1a-292929292929",
+    "category": "Verb To Be - Are and Am"
+  },
+  {
+    "question": "Are you awkward?",
+    "answers": [
+      "Yes, I'm awkward.",
+      "No, I'm not awkward."
+    ],
+    "id": "1a2b3c4d-0030-4a1b-8c1a-303030303030",
+    "category": "Verb To Be - Are and Am"
+  },
+  {
+    "question": "Are we awkward?",
+    "answers": [
+      "Yes, we are awkward.",
+      "No, we aren't awkward."
+    ],
+    "id": "1a2b3c4d-0031-4a1b-8c1a-313131313131",
+    "category": "Verb To Be - Are and Am"
+  },
+  {
+    "question": "Are they awkward?",
+    "answers": [
+      "Yes, they are awkward.",
+      "No, they aren't awkward."
+    ],
+    "id": "1a2b3c4d-0032-4a1b-8c1a-323232323232",
+    "category": "Verb To Be - Are and Am"
+  },
+  {
+    "question": "Am i broken?",
+    "answers": [
+      "Yes, You are broken.",
+      "No, You aren't broken."
+    ],
+    "id": "1a2b3c4d-0033-4a1b-8c1a-333333333333",
+    "category": "Verb To Be - Are and Am"
+  },
+  {
+    "question": "Are you broken?",
+    "answers": [
+      "Yes, I'm broken.",
+      "No, I'm not broken."
+    ],
+    "id": "1a2b3c4d-0034-4a1b-8c1a-343434343434",
+    "category": "Verb To Be - Are and Am"
+  },
+  {
+    "question": "Are we broken?",
+    "answers": [
+      "Yes, we are broken.",
+      "No, we aren't broken."
+    ],
+    "id": "1a2b3c4d-0035-4a1b-8c1a-353535353535",
+    "category": "Verb To Be - Are and Am"
+  },
+  {
+    "question": "Are they broken?",
+    "answers": [
+      "Yes, they are broken.",
+      "No, they aren't broken."
+    ],
+    "id": "1a2b3c4d-0036-4a1b-8c1a-363636363636",
+    "category": "Verb To Be - Are and Am"
+  },
+  {
+    "question": "Am i random?",
+    "answers": [
+      "Yes, You are random.",
+      "No, You aren't random."
+    ],
+    "id": "1a2b3c4d-0037-4a1b-8c1a-373737373737",
+    "category": "Verb To Be - Are and Am"
+  },
+  {
+    "question": "Are you random?",
+    "answers": [
+      "Yes, I'm random.",
+      "No, I'm not random."
+    ],
+    "id": "1a2b3c4d-0038-4a1b-8c1a-383838383838",
+    "category": "Verb To Be - Are and Am"
+  },
+  {
+    "question": "Are we random?",
+    "answers": [
+      "Yes, we are random.",
+      "No, we aren't random."
+    ],
+    "id": "1a2b3c4d-0039-4a1b-8c1a-393939393939",
+    "category": "Verb To Be - Are and Am"
+  },
+  {
+    "question": "Are they random?",
+    "answers": [
+      "Yes, they are random.",
+      "No, they aren't random."
+    ],
+    "id": "1a2b3c4d-0040-4a1b-8c1a-404040404040",
     "category": "Verb To Be - Are and Am"
   }
 ]
