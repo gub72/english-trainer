@@ -585,7 +585,7 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
                     <p style={styles.dimText}>{qaItem.question}</p>
                     <button
                       onClick={() => handleSpeak(qaItem.question)}
-                      style={{ ...styles.iconBtn, width: '30px', height: '30px', fontSize: '1rem' }}
+                      style={{ ...styles.iconBtn }}
                       title="Ouça em Inglês"
                     >
                       <svg width="22" height="20" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
