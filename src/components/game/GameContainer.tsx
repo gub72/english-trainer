@@ -30,6 +30,7 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
   const [timerSeconds, setTimerSeconds] = useState(0);
   const [timerActive, setTimerActive] = useState(false);
   const [shuffledIndices, setShuffledIndices] = useState<number[]>([]);
+  const [showTranslation, setShowTranslation] = useState(false);
 
   // ------- helpers to get items based on mode + category -------
 
@@ -187,8 +188,15 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
     }
   }, [state.mode, state.isRandom, totalItems, shuffle]);
 
+  const handleShowTranslation = useCallback(() => {
+    setShowTranslation((prev) => !prev);
+  }, []);
+
   const handleNext = useCallback(() => {
     if (state.phase !== 'playing' || totalItems === 0) return;
+
+    // Reset translation
+    setShowTranslation(false);
 
     const item = currentItems[actualIndex];
     if (!item) return;
@@ -274,6 +282,8 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
         setTimerActive(true);
       }
     }
+    // Reset translation
+    setShowTranslation(false);
   }, [state.phase, state.step, state.itemIndex, state.mode, state.isRandom, totalItems, currentItems, shuffledIndices]);
 
   // ------- keyboard support -------
@@ -505,22 +515,58 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
         {/* QA mode */}
         {state.mode === 'qa' && item && (() => {
           const qaItem = item as QAItem;
+
           return (
             <div style={styles.cardContent}>
               <div style={styles.stepBadge}>
                 {state.step === 0 ? 'QUESTION' : `ANSWER ${state.step}`}
               </div>
+              
+              {/* Translation Toggle Switch */}
+              <div style={styles.toggleContainer}>
+                <span style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-dim)' }}>Translation</span>
+                <div 
+                  onClick={handleShowTranslation}
+                  style={{
+                    ...styles.toggleSwitch,
+                    background: showTranslation ? modeColor : 'var(--border)',
+                  }}
+                >
+                  <div style={{
+                    ...styles.toggleSwitchThumb,
+                    transform: showTranslation ? 'translateX(24px)' : 'translateX(0)',
+                  }} />
+                </div>
+              </div>
+
               {state.step === 0 ? (
-                <p style={styles.mainText}>{qaItem.question}</p>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', gap: '1rem' }}>
+                  <p style={styles.mainText}>{qaItem.question}</p>
+                  {showTranslation && (
+                    <p style={{ ...styles.translationText, color: modeColor }}>
+                      {qaItem.questao || '— Translation missing —'}
+                    </p>
+                  )}
+                </div>
               ) : (
                 <>
                   <p style={{ ...styles.dimText, marginBottom: '1.5rem' }}>{qaItem.question}</p>
-                  <p style={{
-                    ...styles.mainText,
-                    color: state.step === 1 ? '#10b981' : state.step === 2 ? '#ef4444' : modeColor,
-                  }}>
-                    {qaItem.answers[state.step - 1] ?? '—'}
-                  </p>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', gap: '1rem' }}>
+                    <p style={{
+                      ...styles.mainText,
+                      color: state.step === 1 ? '#10b981' : state.step === 2 ? '#ef4444' : modeColor,
+                    }}>
+                      {qaItem.answers[state.step - 1] ?? '—'}
+                    </p>
+                    {showTranslation && (
+                      <p style={{ 
+                        ...styles.translationText, 
+                        color: state.step === 1 ? '#059669' : state.step === 2 ? '#dc2626' : modeColor 
+                      }}>
+                        {qaItem.respostas?.[state.step - 1] || '— Translation missing —'}
+                      </p>
+                    )}
+                  </div>
                 </>
               )}
             </div>
@@ -854,12 +900,38 @@ const styles: Record<string, React.CSSProperties> = {
     display: 'flex',
     alignItems: 'center',
   },
-  toggleThumb: {
+  toggleSwitch: {
+    width: '48px',
+    height: '24px',
+    borderRadius: '12px',
+    padding: '2px',
+    cursor: 'pointer',
+    transition: 'all 0.2s ease',
+    display: 'flex',
+    alignItems: 'center',
+  },
+  toggleSwitchThumb: {
     width: '20px',
     height: '20px',
-    background: 'white',
     borderRadius: '50%',
-    transition: 'transform 0.3s ease',
-    boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
+    background: 'white',
+    transition: 'transform 0.2s ease',
+    boxShadow: '0 1px 3px rgba(0,0,0,0.2)',
+  },
+  toggleContainer: {
+    position: 'absolute',
+    top: '1.5rem',
+    right: '1.5rem',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.75rem',
+    zIndex: 10,
+  },
+  translationText: {
+    fontSize: '1.25rem',
+    fontWeight: 500,
+    fontStyle: 'italic',
+    animation: 'fadeIn 0.3s ease forwards',
+    textAlign: 'center',
   },
 };

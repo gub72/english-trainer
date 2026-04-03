@@ -3,6 +3,8 @@ export interface QAItem {
   question: string;
   answers: string[];
   category?: string;
+  questao?: string;
+  respostas?: string[];
 }
 
 export interface VocabItem {
