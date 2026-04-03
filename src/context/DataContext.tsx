@@ -2,6 +2,7 @@ import React, { createContext, useContext, useCallback, useMemo, useState, useEf
 import { createDefaultData, hydrateWithIds } from '../types/schema';
 import type { AppData, SectionKey } from '../types/schema';
 import { api } from '../services/api';
+import localQuestions from '../../data/questions.json';
 
 interface DataContextType {
   data: AppData;
@@ -37,6 +38,17 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
         api.getVocabulary(),
         api.getSentences(),
       ]);
+
+      // Merge local translations into fetched questions
+      if (Array.isArray(questions)) {
+         questions.forEach(q => {
+            const localMatch = (localQuestions as any[]).find(lq => lq.id === q.id);
+            if (localMatch) {
+               if (localMatch.questao) q.questao = localMatch.questao;
+               if (localMatch.respostas) q.respostas = localMatch.respostas;
+            }
+         });
+      }
 
       setData(hydrateWithIds({
         qa: questions,
