@@ -47,10 +47,10 @@
       "Yes, they are hungry.",
       "No, they aren't hungry."
     ],
-    "questao": "Eles/Elas estão com fome?",
+    "questao": "Eles estão com fome?",
     "respostas": [
-      "Sim, eles/elas estão com fome.",
-      "Não, eles/elas não estão com fome."
+      "Sim, eles estão com fome.",
+      "Não, eles não estão com fome."
     ],
     "id": "1a2b3c4d-0004-4a1b-8c1a-444444445444",
     "category": "Verb To Be - Are and Am"
@@ -103,10 +103,10 @@
       "Yes, they are awesome.",
       "No, they aren't awesome."
     ],
-    "questao": "Eles/Elas são incríveis?",
+    "questao": "Eles são incríveis?",
     "respostas": [
-      "Sim, eles/elas são incríveis.",
-      "Não, eles/elas não são incríveis."
+      "Sim, eles são incríveis.",
+      "Não, eles não são incríveis."
     ],
     "id": "1a2b3c4d-0004-4a1b-8c1a-444444444444",
     "category": "Verb To Be - Are and Am"
@@ -159,10 +159,10 @@
       "Yes, they are crazy.",
       "No, they aren't crazy."
     ],
-    "questao": "Eles/Elas são loucos?",
+    "questao": "Eles são loucos?",
     "respostas": [
-      "Sim, eles/elas são loucos.",
-      "Não, eles/elas não são loucos."
+      "Sim, eles são loucos.",
+      "Não, eles não são loucos."
     ],
     "id": "1a2b3c4d-0008-4a1b-8c1a-888888888888",
     "category": "Verb To Be - Are and Am"
@@ -215,10 +215,10 @@
       "Yes, they are tired.",
       "No, they aren't tired."
     ],
-    "questao": "Eles/Elas estão cansados?",
+    "questao": "Eles estão cansados?",
     "respostas": [
-      "Sim, eles/elas estão cansados.",
-      "Não, eles/elas não estão cansados."
+      "Sim, eles estão cansados.",
+      "Não, eles não estão cansados."
     ],
     "id": "1a2b3c4d-0012-4a1b-8c1a-121212121212",
     "category": "Verb To Be - Are and Am"
@@ -271,10 +271,10 @@
       "Yes, they are busy.",
       "No, they aren't busy."
     ],
-    "questao": "Eles/Elas estão ocupados?",
+    "questao": "Eles estão ocupados?",
     "respostas": [
-      "Sim, eles/elas estão ocupados.",
-      "Não, eles/elas não estão ocupados."
+      "Sim, eles estão ocupados.",
+      "Não, eles não estão ocupados."
     ],
     "id": "1a2b3c4d-0016-4a1b-8c1a-161616161616",
     "category": "Verb To Be - Are and Am"
@@ -327,10 +327,10 @@
       "Yes, they are fun.",
       "No, they aren't fun."
     ],
-    "questao": "Eles/Elas são divertidos?",
+    "questao": "Eles são divertidos?",
     "respostas": [
-      "Sim, eles/elas são divertidos.",
-      "Não, eles/elas não são divertidos."
+      "Sim, eles são divertidos.",
+      "Não, eles não são divertidos."
     ],
     "id": "1a2b3c4d-0020-4a1b-8c1a-202020202020",
     "category": "Verb To Be - Are and Am"
@@ -383,10 +383,10 @@
       "Yes, they are annoying.",
       "No, they aren't annoying."
     ],
-    "questao": "Eles/Elas são irritantes?",
+    "questao": "Eles são irritantes?",
     "respostas": [
-      "Sim, eles/elas são irritantes.",
-      "Não, eles/elas não são irritantes."
+      "Sim, eles são irritantes.",
+      "Não, eles não são irritantes."
     ],
     "id": "1a2b3c4d-0024-4a1b-8c1a-242424242424",
     "category": "Verb To Be - Are and Am"
@@ -439,10 +439,10 @@
       "Yes, they are hilarious.",
       "No, they aren't hilarious."
     ],
-    "questao": "Eles/Elas são muito engraçados?",
+    "questao": "Eles são muito engraçados?",
     "respostas": [
-      "Sim, eles/elas são muito engraçados.",
-      "Não, eles/elas não são muito engraçados."
+      "Sim, eles são muito engraçados.",
+      "Não, eles não são muito engraçados."
     ],
     "id": "1a2b3c4d-0028-4a1b-8c1a-282828282828",
     "category": "Verb To Be - Are and Am"
@@ -495,10 +495,10 @@
       "Yes, they are awkward.",
       "No, they aren't awkward."
     ],
-    "questao": "Eles/Elas são estranhos/constrangedores?",
+    "questao": "Eles são estranhos/constrangedores?",
     "respostas": [
-      "Sim, eles/elas são estranhos.",
-      "Não, eles/elas não são estranhos."
+      "Sim, eles são estranhos.",
+      "Não, eles não são estranhos."
     ],
     "id": "1a2b3c4d-0032-4a1b-8c1a-323232323232",
     "category": "Verb To Be - Are and Am"
@@ -551,10 +551,10 @@
       "Yes, they are broken.",
       "No, they aren't broken."
     ],
-    "questao": "Eles/Elas estão quebrados/destruídos?",
+    "questao": "Eles estão quebrados/destruídos?",
     "respostas": [
-      "Sim, eles/elas estão quebrados.",
-      "Não, eles/elas não estão quebrados."
+      "Sim, eles estão quebrados.",
+      "Não, eles não estão quebrados."
     ],
     "id": "1a2b3c4d-0036-4a1b-8c1a-363636363636",
     "category": "Verb To Be - Are and Am"
@@ -607,10 +607,10 @@
       "Yes, they are random.",
       "No, they aren't random."
     ],
-    "questao": "Eles/Elas são aleatórios?",
+    "questao": "Eles são aleatórios?",
     "respostas": [
-      "Sim, eles/elas são aleatórios.",
-      "Não, eles/elas não são aleatórios."
+      "Sim, eles são aleatórios.",
+      "Não, eles não são aleatórios."
     ],
     "id": "1a2b3c4d-0040-4a1b-8c1a-404040404040",
     "category": "Verb To Be - Are and Am"

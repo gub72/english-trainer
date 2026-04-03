@@ -900,16 +900,6 @@ const styles: Record<string, React.CSSProperties> = {
     display: 'flex',
     alignItems: 'center',
   },
-  toggleSwitch: {
-    width: '48px',
-    height: '24px',
-    borderRadius: '12px',
-    padding: '2px',
-    cursor: 'pointer',
-    transition: 'all 0.2s ease',
-    display: 'flex',
-    alignItems: 'center',
-  },
   toggleSwitchThumb: {
     width: '20px',
     height: '20px',
