@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import type { AppData, QAItem, VocabItem, TranslationItem } from '../../types/schema';
 
 type GameMode = 'qa' | 'image' | 'text';
-type GamePhase = 'mode-select' | 'category-select' | 'playing';
+type GamePhase = 'mode-select' | 'category-select' | 'playing' | 'finished';
 
 interface GameState {
   mode: GameMode | null;
@@ -150,8 +150,13 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
       if (state.mode === 'image') return getVocabItems(category);
       return getTranslationItems(category);
     })();
-    setShuffledIndices(shuffle(items.length));
-  }, [state.mode, getQAItems, getVocabItems, getTranslationItems, shuffle]);
+    
+    if (state.isRandom) {
+      setShuffledIndices(shuffle(items.length));
+    } else {
+      setShuffledIndices(Array.from({ length: items.length }, (_, i) => i));
+    }
+  }, [state.mode, state.isRandom, getQAItems, getVocabItems, getTranslationItems, shuffle]);
 
   const toggleRandom = useCallback(() => {
     setState((prev) => {
@@ -166,12 +171,21 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
   const goBack = useCallback(() => {
     if (state.phase === 'category-select') {
       setState({ mode: null, category: null, phase: 'mode-select', itemIndex: 0, step: 0, isRandom: false });
-    } else if (state.phase === 'playing') {
+    } else if (state.phase === 'playing' || state.phase === 'finished') {
       setState((prev) => ({ ...prev, category: null, phase: 'category-select', itemIndex: 0, step: 0 }));
       setTimerActive(false);
       setTimerSeconds(0);
     }
   }, [state.phase]);
+
+  const restartGame = useCallback(() => {
+    setState((prev) => ({ ...prev, phase: 'playing', itemIndex: 0, step: 0 }));
+    setTimerSeconds(0);
+    if (state.mode === 'text') setTimerActive(true);
+    if (state.isRandom) {
+      setShuffledIndices(shuffle(totalItems));
+    }
+  }, [state.mode, state.isRandom, totalItems, shuffle]);
 
   const handleNext = useCallback(() => {
     if (state.phase !== 'playing' || totalItems === 0) return;
@@ -189,8 +203,7 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
         if (state.itemIndex < totalItems - 1) {
           setState((prev) => ({ ...prev, itemIndex: prev.itemIndex + 1, step: 0 }));
         } else {
-          setState((prev) => ({ ...prev, itemIndex: 0, step: 0 }));
-          if (state.isRandom) setShuffledIndices(shuffle(totalItems));
+          setState((prev) => ({ ...prev, phase: 'finished' }));
         }
       }
     } else if (state.mode === 'image') {
@@ -202,8 +215,7 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
         if (state.itemIndex < totalItems - 1) {
           setState((prev) => ({ ...prev, itemIndex: prev.itemIndex + 1, step: 0 }));
         } else {
-          setState((prev) => ({ ...prev, itemIndex: 0, step: 0 }));
-          if (state.isRandom) setShuffledIndices(shuffle(totalItems));
+          setState((prev) => ({ ...prev, phase: 'finished' }));
         }
       }
     } else {
@@ -217,14 +229,52 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
           setTimerSeconds(0);
           setTimerActive(true);
         } else {
-          setState((prev) => ({ ...prev, itemIndex: 0, step: 0 }));
-          setTimerSeconds(0);
-          setTimerActive(true);
-          if (state.isRandom) setShuffledIndices(shuffle(totalItems));
+          setState((prev) => ({ ...prev, phase: 'finished' }));
+          setTimerActive(false);
         }
       }
     }
   }, [state, totalItems, currentItems, actualIndex, shuffle]);
+
+  const handleBack = useCallback(() => {
+    if (state.phase !== 'playing' || totalItems === 0) return;
+
+    if (state.step > 0) {
+      setState((prev) => ({ ...prev, step: prev.step - 1 }));
+    } else {
+      // Go to previous question
+      let prevIndex = state.itemIndex - 1;
+      if (prevIndex < 0) prevIndex = totalItems - 1;
+
+      const prevActualIndex = state.isRandom && shuffledIndices.length > 0
+        ? (shuffledIndices[prevIndex % shuffledIndices.length] ?? prevIndex)
+        : prevIndex;
+
+      const prevItem = currentItems[prevActualIndex];
+      if (!prevItem) return;
+
+      let prevMaxSteps = 0;
+      if (state.mode === 'qa') {
+        prevMaxSteps = (prevItem as QAItem).answers.length;
+      } else if (state.mode === 'image') {
+        prevMaxSteps = (prevItem as VocabItem).plural ? 2 : 1;
+      } else {
+        prevMaxSteps = 1; // text mode
+      }
+
+      setState((prev) => ({
+        ...prev,
+        itemIndex: prevIndex,
+        step: prevMaxSteps,
+      }));
+
+      // reset or handle timer for text mode
+      if (state.mode === 'text') {
+        setTimerSeconds(0);
+        setTimerActive(true);
+      }
+    }
+  }, [state.phase, state.step, state.itemIndex, state.mode, state.isRandom, totalItems, currentItems, shuffledIndices]);
 
   // ------- keyboard support -------
 
@@ -233,11 +283,21 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
       if (e.code === 'Space') {
         e.preventDefault();
         handleNext();
+      } else if (e.code === 'ArrowLeft' || e.code === 'Backspace') {
+        e.preventDefault();
+        handleBack();
+      } else if (e.code === 'ArrowRight' || e.code === 'Enter') {
+        e.preventDefault();
+        if (state.phase === 'finished') {
+          restartGame();
+        } else {
+          handleNext();
+        }
       }
     };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
-  }, [handleNext]);
+  }, [handleNext, handleBack, restartGame, state.phase]);
 
   // ------- format timer -------
 
@@ -302,6 +362,27 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
           {state.mode === 'qa' ? '💬 Questions' : state.mode === 'image' ? '🖼️ Image' : '📝 Text'}
         </h1>
         <p style={styles.subtitle}>Select a category</p>
+
+        {/* Randomness Toggle */}
+        <div style={styles.toggleWrapper}>
+          <span style={{ color: 'var(--text-dim)', fontSize: '0.9rem' }}>Sequential</span>
+          <button
+            onClick={toggleRandom}
+            style={{
+              ...styles.toggleSwitch,
+              background: state.isRandom ? color : 'var(--border)',
+            }}
+          >
+            <div style={{
+              ...styles.toggleThumb,
+              transform: state.isRandom ? 'translateX(24px)' : 'translateX(0)',
+            }} />
+          </button>
+          <span style={{ color: state.isRandom ? color : 'var(--text-dim)', fontSize: '0.9rem', fontWeight: 600 }}>
+            🔀 Random
+          </span>
+        </div>
+
         <div style={styles.categoryGrid}>
           {categories.map((cat) => (
             <button
@@ -344,6 +425,42 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
       <div style={styles.centeredContainer}>
         <button onClick={goBack} style={styles.backBtn}>← Back</button>
         <p style={{ fontSize: '1.25rem', color: 'var(--text-dim)' }}>No items in this category. Add some in the Admin!</p>
+      </div>
+    );
+  }
+
+  // Finished
+  if (state.phase === 'finished') {
+    const modeColor = state.mode === 'qa' ? '#7c3aed' : state.mode === 'image' ? '#10b981' : '#f59e0b';
+    return (
+      <div style={styles.centeredContainer}>
+        <div style={{ ...styles.gameCard, borderColor: modeColor, padding: '4rem 2rem' }}>
+          <div style={styles.cardContent}>
+            <span style={{ fontSize: '5rem', marginBottom: '1.5rem' }}>🎯</span>
+            <h1 style={{ ...styles.mainTitle, color: modeColor, marginBottom: '1rem' }}>Success!</h1>
+            <p style={{ ...styles.subtitle, marginBottom: '2rem' }}>
+              You've completed all {totalItems} items in {state.category}.
+            </p>
+            
+            <div style={styles.buttonGroup}>
+              <button
+                onClick={goBack}
+                style={{ ...styles.nextBtn, background: 'transparent', border: `2px solid ${modeColor}`, color: modeColor }}
+              >
+                Category Menu
+              </button>
+              <button
+                onClick={restartGame}
+                style={{ ...styles.nextBtn, background: modeColor }}
+              >
+                Restart Game
+              </button>
+            </div>
+            <p style={{ color: 'var(--text-dim)', fontSize: '0.75rem', marginTop: '1.5rem' }}>
+              or press <kbd style={styles.kbd}>ENTER</kbd> to Restart
+            </p>
+          </div>
+        </div>
       </div>
     );
   }
@@ -487,15 +604,23 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
         })()}
       </div>
 
-      {/* Next button */}
-      <button
-        onClick={handleNext}
-        style={{ ...styles.nextBtn, background: modeColor }}
-      >
-        Next →
-      </button>
+      {/* Navigation buttons */}
+      <div style={styles.buttonGroup}>
+        <button
+          onClick={handleBack}
+          style={{ ...styles.nextBtn, background: 'transparent', border: `2px solid ${modeColor}`, color: modeColor }}
+        >
+          ← Back
+        </button>
+        <button
+          onClick={handleNext}
+          style={{ ...styles.nextBtn, background: modeColor }}
+        >
+          Next →
+        </button>
+      </div>
       <p style={{ color: 'var(--text-dim)', fontSize: '0.75rem', marginTop: '0.75rem' }}>
-        or press <kbd style={styles.kbd}>SPACE</kbd>
+        <kbd style={styles.kbd}>SPACE</kbd> or <kbd style={styles.kbd}>→</kbd> to Next | <kbd style={styles.kbd}>←</kbd> to Back
       </p>
     </div>
   );
@@ -691,6 +816,13 @@ const styles: Record<string, React.CSSProperties> = {
     border: 'none',
     cursor: 'pointer',
     transition: 'all 0.2s ease',
+    minWidth: '160px',
+  },
+  buttonGroup: {
+    display: 'flex',
+    gap: '1rem',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   kbd: {
     display: 'inline-block',
@@ -700,5 +832,34 @@ const styles: Record<string, React.CSSProperties> = {
     border: '1px solid var(--border)',
     fontFamily: 'monospace',
     fontSize: '0.75rem',
+  },
+  toggleWrapper: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '1rem',
+    marginBottom: '2rem',
+    background: 'var(--bg-card)',
+    padding: '0.75rem 1.5rem',
+    borderRadius: '30px',
+    border: '1px solid var(--border)',
+  },
+  toggleSwitch: {
+    width: '48px',
+    height: '24px',
+    borderRadius: '12px',
+    padding: '2px',
+    cursor: 'pointer',
+    transition: 'all 0.3s ease',
+    border: 'none',
+    display: 'flex',
+    alignItems: 'center',
+  },
+  toggleThumb: {
+    width: '20px',
+    height: '20px',
+    background: 'white',
+    borderRadius: '50%',
+    transition: 'transform 0.3s ease',
+    boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
   },
 };
