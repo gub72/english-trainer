@@ -27,8 +27,7 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
     isRandom: false,
   });
 
-  const [timerSeconds, setTimerSeconds] = useState(0);
-  const [timerActive, setTimerActive] = useState(false);
+
   const [shuffledIndices, setShuffledIndices] = useState<number[]>([]);
   const [showTranslation, setShowTranslation] = useState(false);
   const [textRate, setTextRate] = useState<number>(0.9);
@@ -132,15 +131,7 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
     return state.itemIndex;
   }, [state.itemIndex, state.isRandom, shuffledIndices]);
 
-  // ------- timer for text mode -------
 
-  useEffect(() => {
-    let interval: number | undefined;
-    if (timerActive) {
-      interval = window.setInterval(() => setTimerSeconds((s) => s + 1), 1000);
-    }
-    return () => { if (interval) clearInterval(interval); };
-  }, [timerActive]);
 
   // ------- shuffle helper -------
 
@@ -194,8 +185,6 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
 
   const selectMode = useCallback((mode: GameMode) => {
     setState({ mode, category: null, phase: 'category-select', itemIndex: 0, step: 0, isRandom: false });
-    setTimerSeconds(0);
-    setTimerActive(false);
   }, []);
 
   const selectCategory = useCallback((category: string) => {
@@ -203,8 +192,6 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
       const newState = { ...prev, category, phase: 'playing' as const, itemIndex: 0, step: 0 };
       return newState;
     });
-    setTimerSeconds(0);
-    if (state.mode === 'text') setTimerActive(true);
 
     // Build shuffle order
     const items = (() => {
@@ -235,15 +222,11 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
       setState({ mode: null, category: null, phase: 'mode-select', itemIndex: 0, step: 0, isRandom: false });
     } else if (state.phase === 'playing' || state.phase === 'finished') {
       setState((prev) => ({ ...prev, category: null, phase: 'category-select', itemIndex: 0, step: 0 }));
-      setTimerActive(false);
-      setTimerSeconds(0);
     }
   }, [state.phase]);
 
   const restartGame = useCallback(() => {
     setState((prev) => ({ ...prev, phase: 'playing', itemIndex: 0, step: 0 }));
-    setTimerSeconds(0);
-    if (state.mode === 'text') setTimerActive(true);
     if (state.isRandom) {
       setShuffledIndices(shuffle(totalItems));
     }
@@ -357,11 +340,9 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
       // text mode
       if (state.step === 0) {
         setState((prev) => ({ ...prev, step: 1 }));
-        setTimerActive(false);
       } else {
         // In text mode, each text is a single game, so it doesn't move to the next item
         setState((prev) => ({ ...prev, phase: 'finished' }));
-        setTimerActive(false);
       }
     }
   }, [state, totalItems, currentItems, actualIndex, shuffle]);
@@ -375,7 +356,6 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
       if (state.mode === 'text') {
         // Since each text is standalone, 'Back' at step 0 goes back to selection menu
         setState((prev) => ({ ...prev, phase: 'category-select' }));
-        setTimerActive(false);
         setShowTranslation(false);
         setIsRepeating(false);
         isRepeatingRef.current = false;
@@ -447,13 +427,7 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
     return () => window.removeEventListener('keydown', handler);
   }, [handleNext, handleBack, restartGame, state.phase, state.mode]);
 
-  // ------- format timer -------
 
-  const formatTime = (sec: number) => {
-    const m = Math.floor(sec / 60);
-    const s = sec % 60;
-    return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-  };
 
   // ------- rendering helpers -------
 
@@ -571,8 +545,7 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
                     step: 0,
                     isRandom: false
                   });
-                  setTimerSeconds(0);
-                  setTimerActive(true);
+                  handleSwReset();
                   handleSwReset();
                 }}
                 style={{
