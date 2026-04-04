@@ -132,3 +132,23 @@ input:focus, textarea:focus {
   }
 }
 
+/* QA Game Layout */
+.qa-text-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.qa-icons-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .qa-text-container {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+

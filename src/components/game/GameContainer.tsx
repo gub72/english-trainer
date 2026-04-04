@@ -533,81 +533,11 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
 
               {state.step === 0 ? (
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', gap: '1rem' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <div className="qa-text-container">
                     <p style={styles.mainText}>{qaItem.question}</p>
-                    <button
-                      onClick={() => handleSpeak(qaItem.question)}
-                      style={styles.iconBtn}
-                      title="Ouça em Inglês"
-                    >
-                      <svg width="22" height="20" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M9 15H3C2.20435 15 1.4413 14.6839 0.878693 14.1213C0.316083 13.5587 0 12.7956 0 12V8C0 7.20435 0.316083 6.44129 0.878693 5.87868C1.4413 5.31607 2.20435 5 3 5H9V15ZM3 7C2.73478 7 2.48044 7.10536 2.29291 7.29289C2.10537 7.48043 2 7.73478 2 8V12C2 12.2652 2.10537 12.5196 2.29291 12.7071C2.48044 12.8946 2.73478 13 3 13H7V7H3Z" fill="#4F4F4D" />
-                        <path d="M22 20H17V18.67L7 14.67V5.32001L17 1.32001V0H22V20ZM19 18H20V2H19V2.67L9 6.67V13.32L19 17.32V18Z" fill="#4F4F4D" />
-                        <path d="M8.00001 19.94H4.32001L2.07001 14.31L3.92001 13.57L5.67001 17.94H6.00001V13.94H8.00001V19.94Z" fill="#4F4F4D" />
-                        <path d="M19 1.94H17V5.94H19V1.94Z" fill="#4F4F4D" />
-                        <path d="M19 7.94H17V18.94H19V7.94Z" fill="#4F4F4D" />
-                        <path d="M8.00002 7.94H3.00002V9.94H8.00002V7.94Z" fill="#4F4F4D" />
-                      </svg>
-
-                    </button>
-                    <button
-                      onClick={handleShowTranslation}
-                      style={{
-                        ...styles.iconBtn,
-                        background: showTranslation ? modeColor : 'var(--bg-main)',
-                        borderColor: showTranslation ? modeColor : 'var(--border)',
-                      }}
-                      title="Mostrar Tradução"
-                    >
-                      {showTranslation ? (
-                        <svg width="23" height="14" viewBox="0 0 23 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M11.27 13.98C7.35 13.98 3.61 11.77 0.449997 7.59L0 6.99001L0.449997 6.39001C3.61 2.21001 7.35 0 11.27 0C15.19 0 18.92 2.21001 22.08 6.39001L22.54 6.99001L22.08 7.59C18.92 11.76 15.18 13.98 11.27 13.98ZM2.52 6.98C5.17 10.25 8.19 11.98 11.27 11.98C14.35 11.98 17.36 10.26 20.01 6.98C17.36 3.71 14.35 1.98 11.27 1.98C8.19 1.98 5.17 3.71 2.52 6.98Z" fill="#ffffff" />
-                          <path d="M11.27 11.98C10.2811 11.98 9.31438 11.6868 8.49213 11.1373C7.66989 10.5879 7.02903 9.80704 6.6506 8.89341C6.27216 7.97978 6.17314 6.97445 6.36606 6.00455C6.55899 5.03464 7.03519 4.14372 7.73446 3.44446C8.43372 2.7452 9.32463 2.269 10.2945 2.07607C11.2644 1.88315 12.2698 1.98216 13.1834 2.3606C14.097 2.73903 14.8779 3.3799 15.4273 4.20214C15.9768 5.02439 16.27 5.99109 16.27 6.98C16.27 8.30608 15.7432 9.57785 14.8055 10.5155C13.8678 11.4532 12.5961 11.98 11.27 11.98ZM11.27 3.98C10.6767 3.98 10.0966 4.15594 9.60328 4.48559C9.10993 4.81523 8.72542 5.28377 8.49836 5.83195C8.2713 6.38013 8.21187 6.98333 8.32763 7.56527C8.44338 8.14721 8.72911 8.68176 9.14867 9.10132C9.56823 9.52088 10.1028 9.80659 10.6847 9.92235C11.2667 10.0381 11.8699 9.9787 12.418 9.75163C12.9662 9.52457 13.4348 9.14005 13.7644 8.64671C14.094 8.15336 14.27 7.57334 14.27 6.98C14.27 6.18435 13.9539 5.42128 13.3913 4.85867C12.8287 4.29606 12.0656 3.98 11.27 3.98Z" fill="#ffffff" />
-                        </svg>
-                      ) : (
-                        <svg width="23" height="16" viewBox="0 0 23 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M11.27 14.98C7.35 14.98 3.61 12.77 0.449997 8.59L0 7.99001L0.449997 7.39001C3.61 3.21001 7.35 1 11.27 1C15.19 1 18.92 3.21001 22.08 7.39001L22.54 7.99001L22.08 8.59C18.92 12.76 15.18 14.98 11.27 14.98ZM2.52 7.98C5.17 11.25 8.19 12.98 11.27 12.98C14.35 12.98 17.36 11.26 20.01 7.98C17.36 4.71 14.35 2.98 11.27 2.98C8.19 2.98 5.17 4.71 2.52 7.98Z" fill="#4F4F4D" />
-                          <path d="M11.27 12.98C10.2811 12.98 9.31438 12.6868 8.49213 12.1373C7.66989 11.5879 7.02903 10.807 6.6506 9.89341C6.27216 8.97978 6.17314 7.97445 6.36606 7.00455C6.55899 6.03464 7.03519 5.14372 7.73446 4.44446C8.43372 3.7452 9.32463 3.269 10.2945 3.07607C11.2644 2.88315 12.2698 2.98216 13.1834 3.3606C14.097 3.73903 14.8779 4.3799 15.4273 5.20214C15.9768 6.02439 16.27 6.99109 16.27 7.98C16.27 9.30608 15.7432 10.5779 14.8055 11.5155C13.8678 12.4532 12.5961 12.98 11.27 12.98V12.98ZM11.27 4.98C10.6767 4.98 10.0966 5.15594 9.60328 5.48559C9.10993 5.81523 8.72542 6.28377 8.49836 6.83195C8.2713 7.38013 8.21187 7.98333 8.32763 8.56527C8.44338 9.14721 8.72911 9.68176 9.14867 10.1013C9.56823 10.5209 10.1028 10.8066 10.6847 10.9223C11.2667 11.0381 11.8699 10.9787 12.418 10.7516C12.9662 10.5246 13.4348 10.1401 13.7644 9.64671C14.094 9.15336 14.27 8.57334 14.27 7.98C14.27 7.18435 13.9539 6.42128 13.3913 5.85867C12.8287 5.29606 12.0656 4.98 11.27 4.98V4.98Z" fill="#4F4F4D" />
-                          <path d="M17.3195 -7.5353e-06L3 14.3195L4.6805 16L19 1.6805L17.3195 -7.5353e-06Z" fill="#4F4F4D" />
-                        </svg>
-                      )}
-                    </button>
-                  </div>
-                  {showTranslation && (
-                    <p style={{ ...styles.translationText, color: modeColor }}>
-                      {qaItem.questao || '— Translation missing —'}
-                    </p>
-                  )}
-                </div>
-              ) : (
-                <>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.5rem' }}>
-                    <p style={styles.dimText}>{qaItem.question}</p>
-                    <button
-                      onClick={() => handleSpeak(qaItem.question)}
-                      style={{ ...styles.iconBtn }}
-                      title="Ouça em Inglês"
-                    >
-                      <svg width="22" height="20" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M9 15H3C2.20435 15 1.4413 14.6839 0.878693 14.1213C0.316083 13.5587 0 12.7956 0 12V8C0 7.20435 0.316083 6.44129 0.878693 5.87868C1.4413 5.31607 2.20435 5 3 5H9V15ZM3 7C2.73478 7 2.48044 7.10536 2.29291 7.29289C2.10537 7.48043 2 7.73478 2 8V12C2 12.2652 2.10537 12.5196 2.29291 12.7071C2.48044 12.8946 2.73478 13 3 13H7V7H3Z" fill="#4F4F4D" />
-                        <path d="M22 20H17V18.67L7 14.67V5.32001L17 1.32001V0H22V20ZM19 18H20V2H19V2.67L9 6.67V13.32L19 17.32V18Z" fill="#4F4F4D" />
-                        <path d="M8.00001 19.94H4.32001L2.07001 14.31L3.92001 13.57L5.67001 17.94H6.00001V13.94H8.00001V19.94Z" fill="#4F4F4D" />
-                        <path d="M19 1.94H17V5.94H19V1.94Z" fill="#4F4F4D" />
-                        <path d="M19 7.94H17V18.94H19V7.94Z" fill="#4F4F4D" />
-                        <path d="M8.00002 7.94H3.00002V9.94H8.00002V7.94Z" fill="#4F4F4D" />
-                      </svg>
-                    </button>
-                  </div>
-                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', gap: '1rem' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                      <p style={{
-                        ...styles.mainText,
-                        color: state.step === 1 ? '#10b981' : state.step === 2 ? '#ef4444' : modeColor,
-                      }}>
-                        {qaItem.answers[state.step - 1] ?? '—'}
-                      </p>
+                    <div className="qa-icons-container">
                       <button
-                        onClick={() => handleSpeak(qaItem.answers[state.step - 1] ?? '')}
+                        onClick={() => handleSpeak(qaItem.question)}
                         style={styles.iconBtn}
                         title="Ouça em Inglês"
                       >
@@ -619,13 +549,14 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
                           <path d="M19 7.94H17V18.94H19V7.94Z" fill="#4F4F4D" />
                           <path d="M8.00002 7.94H3.00002V9.94H8.00002V7.94Z" fill="#4F4F4D" />
                         </svg>
+
                       </button>
                       <button
                         onClick={handleShowTranslation}
                         style={{
                           ...styles.iconBtn,
-                          background: showTranslation ? (state.step === 1 ? '#10b981' : state.step === 2 ? '#ef4444' : modeColor) : 'var(--bg-main)',
-                          borderColor: showTranslation ? (state.step === 1 ? '#10b981' : state.step === 2 ? '#ef4444' : modeColor) : 'var(--border)',
+                          background: showTranslation ? modeColor : 'var(--bg-main)',
+                          borderColor: showTranslation ? modeColor : 'var(--border)',
                         }}
                         title="Mostrar Tradução"
                       >
@@ -642,6 +573,81 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
                           </svg>
                         )}
                       </button>
+                    </div>
+                  </div>
+                  {showTranslation && (
+                    <p style={{ ...styles.translationText, color: modeColor }}>
+                      {qaItem.questao || '— Translation missing —'}
+                    </p>
+                  )}
+                </div>
+              ) : (
+                <>
+                  <div className="qa-text-container" style={{ marginBottom: '1.5rem' }}>
+                    <p style={styles.dimText}>{qaItem.question}</p>
+                    <div className="qa-icons-container">
+                      <button
+                        onClick={() => handleSpeak(qaItem.question)}
+                        style={{ ...styles.iconBtn }}
+                        title="Ouça em Inglês"
+                      >
+                        <svg width="22" height="20" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M9 15H3C2.20435 15 1.4413 14.6839 0.878693 14.1213C0.316083 13.5587 0 12.7956 0 12V8C0 7.20435 0.316083 6.44129 0.878693 5.87868C1.4413 5.31607 2.20435 5 3 5H9V15ZM3 7C2.73478 7 2.48044 7.10536 2.29291 7.29289C2.10537 7.48043 2 7.73478 2 8V12C2 12.2652 2.10537 12.5196 2.29291 12.7071C2.48044 12.8946 2.73478 13 3 13H7V7H3Z" fill="#4F4F4D" />
+                          <path d="M22 20H17V18.67L7 14.67V5.32001L17 1.32001V0H22V20ZM19 18H20V2H19V2.67L9 6.67V13.32L19 17.32V18Z" fill="#4F4F4D" />
+                          <path d="M8.00001 19.94H4.32001L2.07001 14.31L3.92001 13.57L5.67001 17.94H6.00001V13.94H8.00001V19.94Z" fill="#4F4F4D" />
+                          <path d="M19 1.94H17V5.94H19V1.94Z" fill="#4F4F4D" />
+                          <path d="M19 7.94H17V18.94H19V7.94Z" fill="#4F4F4D" />
+                          <path d="M8.00002 7.94H3.00002V9.94H8.00002V7.94Z" fill="#4F4F4D" />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', gap: '1rem' }}>
+                    <div className="qa-text-container">
+                      <p style={{
+                        ...styles.mainText,
+                        color: state.step === 1 ? '#10b981' : state.step === 2 ? '#ef4444' : modeColor,
+                      }}>
+                        {qaItem.answers[state.step - 1] ?? '—'}
+                      </p>
+                      <div className="qa-icons-container">
+                        <button
+                          onClick={() => handleSpeak(qaItem.answers[state.step - 1] ?? '')}
+                          style={styles.iconBtn}
+                          title="Ouça em Inglês"
+                        >
+                          <svg width="22" height="20" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 15H3C2.20435 15 1.4413 14.6839 0.878693 14.1213C0.316083 13.5587 0 12.7956 0 12V8C0 7.20435 0.316083 6.44129 0.878693 5.87868C1.4413 5.31607 2.20435 5 3 5H9V15ZM3 7C2.73478 7 2.48044 7.10536 2.29291 7.29289C2.10537 7.48043 2 7.73478 2 8V12C2 12.2652 2.10537 12.5196 2.29291 12.7071C2.48044 12.8946 2.73478 13 3 13H7V7H3Z" fill="#4F4F4D" />
+                            <path d="M22 20H17V18.67L7 14.67V5.32001L17 1.32001V0H22V20ZM19 18H20V2H19V2.67L9 6.67V13.32L19 17.32V18Z" fill="#4F4F4D" />
+                            <path d="M8.00001 19.94H4.32001L2.07001 14.31L3.92001 13.57L5.67001 17.94H6.00001V13.94H8.00001V19.94Z" fill="#4F4F4D" />
+                            <path d="M19 1.94H17V5.94H19V1.94Z" fill="#4F4F4D" />
+                            <path d="M19 7.94H17V18.94H19V7.94Z" fill="#4F4F4D" />
+                            <path d="M8.00002 7.94H3.00002V9.94H8.00002V7.94Z" fill="#4F4F4D" />
+                          </svg>
+                        </button>
+                        <button
+                          onClick={handleShowTranslation}
+                          style={{
+                            ...styles.iconBtn,
+                            background: showTranslation ? (state.step === 1 ? '#10b981' : state.step === 2 ? '#ef4444' : modeColor) : 'var(--bg-main)',
+                            borderColor: showTranslation ? (state.step === 1 ? '#10b981' : state.step === 2 ? '#ef4444' : modeColor) : 'var(--border)',
+                          }}
+                          title="Mostrar Tradução"
+                        >
+                          {showTranslation ? (
+                            <svg width="23" height="14" viewBox="0 0 23 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M11.27 13.98C7.35 13.98 3.61 11.77 0.449997 7.59L0 6.99001L0.449997 6.39001C3.61 2.21001 7.35 0 11.27 0C15.19 0 18.92 2.21001 22.08 6.39001L22.54 6.99001L22.08 7.59C18.92 11.76 15.18 13.98 11.27 13.98ZM2.52 6.98C5.17 10.25 8.19 11.98 11.27 11.98C14.35 11.98 17.36 10.26 20.01 6.98C17.36 3.71 14.35 1.98 11.27 1.98C8.19 1.98 5.17 3.71 2.52 6.98Z" fill="#ffffff" />
+                              <path d="M11.27 11.98C10.2811 11.98 9.31438 11.6868 8.49213 11.1373C7.66989 10.5879 7.02903 9.80704 6.6506 8.89341C6.27216 7.97978 6.17314 6.97445 6.36606 6.00455C6.55899 5.03464 7.03519 4.14372 7.73446 3.44446C8.43372 2.7452 9.32463 2.269 10.2945 2.07607C11.2644 1.88315 12.2698 1.98216 13.1834 2.3606C14.097 2.73903 14.8779 3.3799 15.4273 4.20214C15.9768 5.02439 16.27 5.99109 16.27 6.98C16.27 8.30608 15.7432 9.57785 14.8055 10.5155C13.8678 11.4532 12.5961 11.98 11.27 11.98ZM11.27 3.98C10.6767 3.98 10.0966 4.15594 9.60328 4.48559C9.10993 4.81523 8.72542 5.28377 8.49836 5.83195C8.2713 6.38013 8.21187 6.98333 8.32763 7.56527C8.44338 8.14721 8.72911 8.68176 9.14867 9.10132C9.56823 9.52088 10.1028 9.80659 10.6847 9.92235C11.2667 10.0381 11.8699 9.9787 12.418 9.75163C12.9662 9.52457 13.4348 9.14005 13.7644 8.64671C14.094 8.15336 14.27 7.57334 14.27 6.98C14.27 6.18435 13.9539 5.42128 13.3913 4.85867C12.8287 4.29606 12.0656 3.98 11.27 3.98Z" fill="#ffffff" />
+                            </svg>
+                          ) : (
+                            <svg width="23" height="16" viewBox="0 0 23 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M11.27 14.98C7.35 14.98 3.61 12.77 0.449997 8.59L0 7.99001L0.449997 7.39001C3.61 3.21001 7.35 1 11.27 1C15.19 1 18.92 3.21001 22.08 7.39001L22.54 7.99001L22.08 8.59C18.92 12.76 15.18 14.98 11.27 14.98ZM2.52 7.98C5.17 11.25 8.19 12.98 11.27 12.98C14.35 12.98 17.36 11.26 20.01 7.98C17.36 4.71 14.35 2.98 11.27 2.98C8.19 2.98 5.17 4.71 2.52 7.98Z" fill="#4F4F4D" />
+                              <path d="M11.27 12.98C10.2811 12.98 9.31438 12.6868 8.49213 12.1373C7.66989 11.5879 7.02903 10.807 6.6506 9.89341C6.27216 8.97978 6.17314 7.97445 6.36606 7.00455C6.55899 6.03464 7.03519 5.14372 7.73446 4.44446C8.43372 3.7452 9.32463 3.269 10.2945 3.07607C11.2644 2.88315 12.2698 2.98216 13.1834 3.3606C14.097 3.73903 14.8779 4.3799 15.4273 5.20214C15.9768 6.02439 16.27 6.99109 16.27 7.98C16.27 9.30608 15.7432 10.5779 14.8055 11.5155C13.8678 12.4532 12.5961 12.98 11.27 12.98V12.98ZM11.27 4.98C10.6767 4.98 10.0966 5.15594 9.60328 5.48559C9.10993 5.81523 8.72542 6.28377 8.49836 6.83195C8.2713 7.38013 8.21187 7.98333 8.32763 8.56527C8.44338 9.14721 8.72911 9.68176 9.14867 10.1013C9.56823 10.5209 10.1028 10.8066 10.6847 10.9223C11.2667 11.0381 11.8699 10.9787 12.418 10.7516C12.9662 10.5246 13.4348 10.1401 13.7644 9.64671C14.094 9.15336 14.27 8.57334 14.27 7.98C14.27 7.18435 13.9539 6.42128 13.3913 5.85867C12.8287 5.29606 12.0656 4.98 11.27 4.98V4.98Z" fill="#4F4F4D" />
+                              <path d="M17.3195 -7.5353e-06L3 14.3195L4.6805 16L19 1.6805L17.3195 -7.5353e-06Z" fill="#4F4F4D" />
+                            </svg>
+                          )}
+                        </button>
+                      </div>
                     </div>
                     {showTranslation && (
                       <p style={{
@@ -948,6 +954,7 @@ const styles: Record<string, React.CSSProperties> = {
     cursor: 'pointer',
     transition: 'all 0.2s ease',
     minWidth: '160px',
+    whiteSpace: 'nowrap',
   },
   buttonGroup: {
     display: 'flex',
