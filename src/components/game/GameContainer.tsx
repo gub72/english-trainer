@@ -305,14 +305,9 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
         setState((prev) => ({ ...prev, step: 1 }));
         setTimerActive(false);
       } else {
-        if (state.itemIndex < totalItems - 1) {
-          setState((prev) => ({ ...prev, itemIndex: prev.itemIndex + 1, step: 0 }));
-          setTimerSeconds(0);
-          setTimerActive(true);
-        } else {
-          setState((prev) => ({ ...prev, phase: 'finished' }));
-          setTimerActive(false);
-        }
+        // In text mode, each text is a single game, so it doesn't move to the next item
+        setState((prev) => ({ ...prev, phase: 'finished' }));
+        setTimerActive(false);
       }
     }
   }, [state, totalItems, currentItems, actualIndex, shuffle]);
@@ -323,6 +318,18 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
     if (state.step > 0) {
       setState((prev) => ({ ...prev, step: prev.step - 1 }));
     } else {
+      if (state.mode === 'text') {
+        // Since each text is standalone, 'Back' at step 0 goes back to selection menu
+        setState((prev) => ({ ...prev, phase: 'category-select' }));
+        setTimerActive(false);
+        setShowTranslation(false);
+        setIsRepeating(false);
+        isRepeatingRef.current = false;
+        setSpokenWord(null);
+        window.speechSynthesis.cancel();
+        return;
+      }
+
       // Go to previous question
       let prevIndex = state.itemIndex - 1;
       if (prevIndex < 0) prevIndex = totalItems - 1;
@@ -349,11 +356,7 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
         step: prevMaxSteps,
       }));
 
-      // reset or handle timer for text mode
-      if (state.mode === 'text') {
-        setTimerSeconds(0);
-        setTimerActive(true);
-      }
+
     }
     // Reset translation and repeating
     setShowTranslation(false);
@@ -470,6 +473,76 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
     const categories = getCategoriesForMode(state.mode);
     const modeColors: Record<GameMode, string> = { qa: '#7c3aed', image: '#10b981', text: '#f59e0b' };
     const color = modeColors[state.mode];
+
+    if (state.mode === 'text') {
+      // In text mode, the user wants a list of individual texts instead of categories
+      const allTexts: { category: string, index: number, text: TranslationItem, globalIndex: number }[] = [];
+      let globalIndex = 0;
+      Object.entries(data.translations).forEach(([catKey, texts]) => {
+        texts.forEach((text, catIdx) => {
+          allTexts.push({
+            category: catKey,
+            index: catIdx + 1,
+            text,
+            globalIndex
+          });
+          globalIndex++;
+        });
+      });
+
+      return (
+        <div style={styles.centeredContainer}>
+          <button onClick={goBack} style={styles.backBtn}>← Back</button>
+          <h1 style={{ ...styles.mainTitle, color }}>📝 Text</h1>
+          <p style={styles.subtitle}>Select a text to practice</p>
+
+          <div style={{
+            ...styles.categoryGrid,
+            gridTemplateColumns: 'minmax(300px, 1fr)',
+            maxWidth: '800px'
+          }}>
+            {allTexts.map((item) => (
+              <button
+                key={item.globalIndex}
+                onClick={() => {
+                  setState({
+                    mode: 'text',
+                    category: 'all',
+                    phase: 'playing',
+                    itemIndex: item.globalIndex,
+                    step: 0,
+                    isRandom: false
+                  });
+                  setTimerSeconds(0);
+                  setTimerActive(true);
+                }}
+                style={{
+                  ...styles.categoryCard,
+                  borderColor: color,
+                  textAlign: 'left',
+                  alignItems: 'flex-start',
+                  padding: '1.25rem',
+                  gap: '0.5rem',
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.transform = 'translateY(-3px)';
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.transform = 'none';
+                }}
+              >
+                <span style={{ fontWeight: 600, fontSize: '1.1rem', color: 'var(--text-main)' }}>
+                  {item.category} #{item.index}
+                </span>
+                <span style={{ fontSize: '0.9rem', color: 'var(--text-dim)', alignSelf: 'flex-start', textAlign: 'left' }}>
+                  {item.text.text.length > 100 ? item.text.text.substring(0, 100) + '...' : item.text.text}
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+      );
+    }
 
     return (
       <div style={styles.centeredContainer}>
@@ -589,32 +662,36 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
       {/* Top bar */}
       <div style={styles.topBar}>
         <button onClick={goBack} style={styles.backBtn}>← Back</button>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <span style={{ fontSize: '0.875rem', color: 'var(--text-dim)' }}>
-            {state.itemIndex + 1} / {totalItems}
-          </span>
-          <button
-            onClick={toggleRandom}
-            style={{
-              ...styles.toggleBtn,
-              background: state.isRandom ? modeColor : 'transparent',
-              color: state.isRandom ? 'white' : 'var(--text-dim)',
-              border: `1px solid ${state.isRandom ? modeColor : 'var(--border)'}`,
-            }}
-          >
-            🔀 {state.isRandom ? 'Random' : 'Sequential'}
-          </button>
-        </div>
+        {state.mode !== 'text' && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <span style={{ fontSize: '0.875rem', color: 'var(--text-dim)' }}>
+              {state.itemIndex + 1} / {totalItems}
+            </span>
+            <button
+              onClick={toggleRandom}
+              style={{
+                ...styles.toggleBtn,
+                background: state.isRandom ? modeColor : 'transparent',
+                color: state.isRandom ? 'white' : 'var(--text-dim)',
+                border: `1px solid ${state.isRandom ? modeColor : 'var(--border)'}`,
+              }}
+            >
+              🔀 {state.isRandom ? 'Random' : 'Sequential'}
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Progress bar */}
-      <div style={styles.progressBarBg}>
-        <div style={{
-          ...styles.progressBarFill,
-          width: `${((state.itemIndex + 1) / totalItems) * 100}%`,
-          background: modeColor,
-        }} />
-      </div>
+      {state.mode !== 'text' && (
+        <div style={styles.progressBarBg}>
+          <div style={{
+            ...styles.progressBarFill,
+            width: `${((state.itemIndex + 1) / totalItems) * 100}%`,
+            background: modeColor,
+          }} />
+        </div>
+      )}
 
       {/* Game card */}
       <div style={{ ...styles.gameCard, borderColor: modeColor }}>
@@ -871,27 +948,35 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
                       <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
                     </svg>
                   </button>
+                  <button
+                    onClick={handleShowTranslation}
+                    style={{
+                      ...styles.iconBtn,
+                      background: showTranslation ? modeColor : 'var(--bg-main)',
+                      borderColor: showTranslation ? modeColor : 'var(--border)',
+                    }}
+                    title="Mostrar Tradução"
+                  >
+                    {showTranslation ? (
+                      <svg width="23" height="14" viewBox="0 0 23 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M11.27 13.98C7.35 13.98 3.61 11.77 0.449997 7.59L0 6.99001L0.449997 6.39001C3.61 2.21001 7.35 0 11.27 0C15.19 0 18.92 2.21001 22.08 6.39001L22.54 6.99001L22.08 7.59C18.92 11.76 15.18 13.98 11.27 13.98ZM2.52 6.98C5.17 10.25 8.19 11.98 11.27 11.98C14.35 11.98 17.36 10.26 20.01 6.98C17.36 3.71 14.35 1.98 11.27 1.98C8.19 1.98 5.17 3.71 2.52 6.98Z" fill="#ffffff" />
+                        <path d="M11.27 11.98C10.2811 11.98 9.31438 11.6868 8.49213 11.1373C7.66989 10.5879 7.02903 9.80704 6.6506 8.89341C6.27216 7.97978 6.17314 6.97445 6.36606 6.00455C6.55899 5.03464 7.03519 4.14372 7.73446 3.44446C8.43372 2.7452 9.32463 2.269 10.2945 2.07607C11.2644 1.88315 12.2698 1.98216 13.1834 2.3606C14.097 2.73903 14.8779 3.3799 15.4273 4.20214C15.9768 5.02439 16.27 5.99109 16.27 6.98C16.27 8.30608 15.7432 9.57785 14.8055 10.5155C13.8678 11.4532 12.5961 11.98 11.27 11.98ZM11.27 3.98C10.6767 3.98 10.0966 4.15594 9.60328 4.48559C9.10993 4.81523 8.72542 5.28377 8.49836 5.83195C8.2713 6.38013 8.21187 6.98333 8.32763 7.56527C8.44338 8.14721 8.72911 8.68176 9.14867 9.10132C9.56823 9.52088 10.1028 9.80659 10.6847 9.92235C11.2667 10.0381 11.8699 9.9787 12.418 9.75163C12.9662 9.52457 13.4348 9.14005 13.7644 8.64671C14.094 8.15336 14.27 7.57334 14.27 6.98C14.27 6.18435 13.9539 5.42128 13.3913 4.85867C12.8287 4.29606 12.0656 3.98 11.27 3.98Z" fill="#ffffff" />
+                      </svg>
+                    ) : (
+                      <svg width="23" height="16" viewBox="0 0 23 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M11.27 14.98C7.35 14.98 3.61 12.77 0.449997 8.59L0 7.99001L0.449997 7.39001C3.61 3.21001 7.35 1 11.27 1C15.19 1 18.92 3.21001 22.08 7.39001L22.54 7.99001L22.08 8.59C18.92 12.76 15.18 14.98 11.27 14.98ZM2.52 7.98C5.17 11.25 8.19 12.98 11.27 12.98C14.35 12.98 17.36 11.26 20.01 7.98C17.36 4.71 14.35 2.98 11.27 2.98C8.19 2.98 5.17 4.71 2.52 7.98Z" fill="#4F4F4D" />
+                        <path d="M11.27 12.98C10.2811 12.98 9.31438 12.6868 8.49213 12.1373C7.66989 11.5879 7.02903 10.807 6.6506 9.89341C6.27216 8.97978 6.17314 7.97445 6.36606 7.00455C6.55899 6.03464 7.03519 5.14372 7.73446 4.44446C8.43372 3.7452 9.32463 3.269 10.2945 3.07607C11.2644 2.88315 12.2698 2.98216 13.1834 3.3606C14.097 3.73903 14.8779 4.3799 15.4273 5.20214C15.9768 6.02439 16.27 6.99109 16.27 7.98C16.27 9.30608 15.7432 10.5779 14.8055 11.5155C13.8678 12.4532 12.5961 12.98 11.27 12.98V12.98ZM11.27 4.98C10.6767 4.98 10.0966 5.15594 9.60328 5.48559C9.10993 5.81523 8.72542 6.28377 8.49836 6.83195C8.2713 7.38013 8.21187 7.98333 8.32763 8.56527C8.44338 9.14721 8.72911 9.68176 9.14867 10.1013C9.56823 10.5209 10.1028 10.8066 10.6847 10.9223C11.2667 11.0381 11.8699 10.9787 12.418 10.7516C12.9662 10.5246 13.4348 10.1401 13.7644 9.64671C14.094 9.15336 14.27 8.57334 14.27 7.98C14.27 7.18435 13.9539 6.42128 13.3913 5.85867C12.8287 5.29606 12.0656 4.98 11.27 4.98V4.98Z" fill="#4F4F4D" />
+                        <path d="M17.3195 -7.5353e-06L3 14.3195L4.6805 16L19 1.6805L17.3195 -7.5353e-06Z" fill="#4F4F4D" />
+                      </svg>
+                    )}
+                  </button>
                 </div>
               </div>
 
-              {state.step === 0 && (
-                <div style={styles.timer}>
-                  <span style={{ fontSize: '2rem', fontVariantNumeric: 'tabular-nums', color: modeColor }}>
-                    {formatTime(timerSeconds)}
-                  </span>
-                  <p style={{ color: 'var(--text-dim)', fontSize: '0.875rem', marginTop: '0.25rem' }}>
-                    Read as fast as you can!
-                  </p>
-                </div>
-              )}
-
-              {state.step === 1 && (
+              {((state.step === 0 && showTranslation) || state.step === 1) && (
                 <div style={{ marginTop: '2rem', paddingTop: '1.5rem', borderTop: '1px solid var(--border)' }}>
                   <p style={{ ...styles.subText, color: modeColor, fontSize: '1.5rem' }}>
-                    {transItem.translation}
-                  </p>
-                  <p style={{ color: 'var(--text-dim)', fontSize: '0.875rem', marginTop: '0.5rem' }}>
-                    Time: {formatTime(timerSeconds)}
+                    {transItem.translation || '—'}
                   </p>
                 </div>
               )}
@@ -901,23 +986,39 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
       </div>
 
       {/* Navigation buttons */}
-      <div style={styles.buttonGroup}>
-        <button
-          onClick={handleBack}
-          style={{ ...styles.nextBtn, background: 'transparent', border: `2px solid ${modeColor}`, color: modeColor }}
-        >
-          ← Back
-        </button>
-        <button
-          onClick={handleNext}
-          style={{ ...styles.nextBtn, background: modeColor }}
-        >
-          Next →
-        </button>
-      </div>
-      <p style={{ color: 'var(--text-dim)', fontSize: '0.75rem', marginTop: '0.75rem' }}>
-        <kbd style={styles.kbd}>SPACE</kbd> or <kbd style={styles.kbd}>→</kbd> to Next | <kbd style={styles.kbd}>←</kbd> to Back
-      </p>
+      {state.mode === 'text' ? (
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '2rem' }}>
+          <button
+            onClick={() => {
+              window.speechSynthesis.cancel();
+              setState((prev) => ({ ...prev, phase: 'category-select' }));
+            }}
+            style={{ ...styles.nextBtn, background: 'transparent', border: `2px solid ${modeColor}`, color: modeColor }}
+          >
+            ← Voltar para Lista
+          </button>
+        </div>
+      ) : (
+        <>
+          <div style={styles.buttonGroup}>
+            <button
+              onClick={handleBack}
+              style={{ ...styles.nextBtn, background: 'transparent', border: `2px solid ${modeColor}`, color: modeColor }}
+            >
+              ← Back
+            </button>
+            <button
+              onClick={handleNext}
+              style={{ ...styles.nextBtn, background: modeColor }}
+            >
+              Next →
+            </button>
+          </div>
+          <p style={{ color: 'var(--text-dim)', fontSize: '0.75rem', marginTop: '0.75rem' }}>
+            <kbd style={styles.kbd}>SPACE</kbd> or <kbd style={styles.kbd}>→</kbd> to Next | <kbd style={styles.kbd}>←</kbd> to Back
+          </p>
+        </>
+      )}
     </div>
   );
 };
