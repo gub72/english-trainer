@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import type { AppData, QAItem, VocabItem, TranslationItem } from '../../types/schema';
 
 type GameMode = 'qa' | 'image' | 'text';
@@ -31,6 +31,13 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
   const [timerActive, setTimerActive] = useState(false);
   const [shuffledIndices, setShuffledIndices] = useState<number[]>([]);
   const [showTranslation, setShowTranslation] = useState(false);
+  const [textRate, setTextRate] = useState<number>(0.9);
+  
+  const [isRepeating, setIsRepeating] = useState(false);
+  const isRepeatingRef = useRef(false);
+  const [spokenWord, setSpokenWord] = useState<{ text: string; start: number; length: number } | null>(null);
+  const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
+  const lastSpokenTextRef = useRef<string | null>(null);
 
   // ------- helpers to get items based on mode + category -------
 
@@ -192,20 +199,77 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
     setShowTranslation((prev) => !prev);
   }, []);
 
-  const handleSpeak = useCallback((text: string) => {
+  const handleSpeak = useCallback((text: string, forceRate?: number) => {
     if (!text || typeof window === 'undefined' || !window.speechSynthesis) return;
-    window.speechSynthesis.cancel();
+    
+    if (window.speechSynthesis.speaking || window.speechSynthesis.pending) {
+      window.speechSynthesis.cancel();
+      // Only clear if manually stopped via click, but allow new speech if a different text was clicked
+      setIsRepeating(false);
+      isRepeatingRef.current = false;
+      setSpokenWord(null);
+      
+      if (lastSpokenTextRef.current === text) {
+        lastSpokenTextRef.current = null;
+        return; // Act as a Toggle STOP
+      }
+    }
+
+    lastSpokenTextRef.current = text;
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'en-US';
-    utterance.rate = 0.9; // SLightly slower for clearer pronunciation
+    utteranceRef.current = utterance; // Prevent garbage collection bug in Chrome
+
+    // Select an English voice (prefer local service as network voices often ignore 'rate')
+    const voices = window.speechSynthesis.getVoices();
+    const englishVoices = voices.filter(v => v.lang.startsWith('en'));
+    // Prefer local voices since many cloud/network TTS ignore rate settings
+    const preferredVoice = englishVoices.find(v => v.localService) || englishVoices[0];
+
+    if (preferredVoice) {
+      utterance.voice = preferredVoice;
+    } else {
+      utterance.lang = 'en-US';
+    }
+
+    const appliedRate = forceRate ?? 0.9;
+    utterance.rate = appliedRate; // Slightly slower for clearer pronunciation by default
+    console.log("Playing text '", text, "' at rate:", appliedRate, "Voice:", preferredVoice?.name);
+    
+    // Add loop and bounding logic
+    utterance.onstart = () => {
+      setSpokenWord({ text, start: 0, length: 0 }); // init
+    };
+    utterance.onboundary = (e) => {
+      let length = e.charLength || 0;
+      if (length === 0) {
+        const match = text.slice(e.charIndex).match(/^[^\s.,;?!]+/);
+        if (match) length = match[0].length;
+        else length = 1;
+      }
+      setSpokenWord({ text, start: e.charIndex, length });
+    };
+    utterance.onend = () => {
+      setSpokenWord(null);
+      if (isRepeatingRef.current) {
+        // Use a clean timeout to avoid speech API quirks on instantaneous restart
+        setTimeout(() => handleSpeak(text, forceRate), 800);
+      } else {
+        lastSpokenTextRef.current = null;
+      }
+    };
+
     window.speechSynthesis.speak(utterance);
   }, []);
 
   const handleNext = useCallback(() => {
     if (state.phase !== 'playing' || totalItems === 0) return;
 
-    // Reset translation
+    // Reset translation and repeating
     setShowTranslation(false);
+    setIsRepeating(false);
+    isRepeatingRef.current = false;
+    setSpokenWord(null);
+    window.speechSynthesis.cancel();
 
     const item = currentItems[actualIndex];
     if (!item) return;
@@ -291,8 +355,12 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
         setTimerActive(true);
       }
     }
-    // Reset translation
+    // Reset translation and repeating
     setShowTranslation(false);
+    setIsRepeating(false);
+    isRepeatingRef.current = false;
+    setSpokenWord(null);
+    window.speechSynthesis.cancel();
   }, [state.phase, state.step, state.itemIndex, state.mode, state.isRandom, totalItems, currentItems, shuffledIndices]);
 
   // ------- keyboard support -------
@@ -325,6 +393,35 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
     const s = sec % 60;
     return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
   };
+
+  // ------- rendering helpers -------
+
+  const renderTextWithHighlight = useCallback((textToRender: string, color: string) => {
+    if (!spokenWord || spokenWord.text !== textToRender || spokenWord.start >= textToRender.length) {
+      return <>{textToRender}</>;
+    }
+    
+    const { start, length } = spokenWord;
+    const before = textToRender.slice(0, start);
+    // If length is 0, it means we are just starting and haven't hit a boundary for word length, or it's just initializing
+    const word = length > 0 ? textToRender.slice(start, start + length) : '';
+    const after = length > 0 ? textToRender.slice(start + length) : textToRender.slice(start);
+    
+    return (
+      <>
+        {before}
+        {length > 0 && (
+          <span style={{ 
+            backgroundColor: `${color}33`, 
+            color: color,
+            borderRadius: '4px',
+            transition: 'all 0.1s ease',
+          }}>{word}</span>
+        )}
+        {after}
+      </>
+    );
+  }, [spokenWord]);
 
   // ===================== RENDER =====================
 
@@ -534,7 +631,7 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
               {state.step === 0 ? (
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', gap: '1rem' }}>
                   <div className="qa-text-container">
-                    <p style={styles.mainText}>{qaItem.question}</p>
+                    <p style={styles.mainText}>{renderTextWithHighlight(qaItem.question, modeColor)}</p>
                     <div className="qa-icons-container">
                       <button
                         onClick={() => handleSpeak(qaItem.question)}
@@ -584,7 +681,7 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
               ) : (
                 <>
                   <div className="qa-text-container" style={{ marginBottom: '1.5rem' }}>
-                    <p style={styles.dimText}>{qaItem.question}</p>
+                    <p style={styles.dimText}>{renderTextWithHighlight(qaItem.question, modeColor)}</p>
                     <div className="qa-icons-container">
                       <button
                         onClick={() => handleSpeak(qaItem.question)}
@@ -608,7 +705,7 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
                         ...styles.mainText,
                         color: state.step === 1 ? '#10b981' : state.step === 2 ? '#ef4444' : modeColor,
                       }}>
-                        {qaItem.answers[state.step - 1] ?? '—'}
+                        {renderTextWithHighlight(qaItem.answers[state.step - 1] ?? '—', modeColor)}
                       </p>
                       <div className="qa-icons-container">
                         <button
@@ -713,7 +810,69 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
                 {state.step === 0 ? 'READ' : 'TRANSLATION'}
               </div>
 
-              <p style={styles.mainText}>{transItem.text}</p>
+              <div className="qa-text-container">
+                <p style={styles.mainText}>{renderTextWithHighlight(transItem.text, modeColor)}</p>
+                <div className="qa-icons-container">
+                  <button
+                    onClick={() => handleSpeak(transItem.text, textRate)}
+                    style={styles.iconBtn}
+                    title="Ouça em Inglês"
+                  >
+                    <svg width="22" height="20" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M9 15H3C2.20435 15 1.4413 14.6839 0.878693 14.1213C0.316083 13.5587 0 12.7956 0 12V8C0 7.20435 0.316083 6.44129 0.878693 5.87868C1.4413 5.31607 2.20435 5 3 5H9V15ZM3 7C2.73478 7 2.48044 7.10536 2.29291 7.29289C2.10537 7.48043 2 7.73478 2 8V12C2 12.2652 2.10537 12.5196 2.29291 12.7071C2.48044 12.8946 2.73478 13 3 13H7V7H3Z" fill="#4F4F4D" />
+                      <path d="M22 20H17V18.67L7 14.67V5.32001L17 1.32001V0H22V20ZM19 18H20V2H19V2.67L9 6.67V13.32L19 17.32V18Z" fill="#4F4F4D" />
+                      <path d="M8.00001 19.94H4.32001L2.07001 14.31L3.92001 13.57L5.67001 17.94H6.00001V13.94H8.00001V19.94Z" fill="#4F4F4D" />
+                      <path d="M19 1.94H17V5.94H19V1.94Z" fill="#4F4F4D" />
+                      <path d="M19 7.94H17V18.94H19V7.94Z" fill="#4F4F4D" />
+                      <path d="M8.00002 7.94H3.00002V9.94H8.00002V7.94Z" fill="#4F4F4D" />
+                    </svg>
+                  </button>
+                  <button
+                    onClick={() => {
+                      const nextRate = textRate === 0.9 ? 1.0 : textRate === 1.0 ? 1.5 : textRate === 1.5 ? 1.6 : 0.9;
+                      setTextRate(nextRate);
+                      if (window.speechSynthesis.speaking) {
+                        handleSpeak(transItem.text, nextRate);
+                      }
+                    }}
+                    style={{
+                      ...styles.iconBtn,
+                      fontSize: '0.8rem',
+                      fontWeight: 'bold',
+                      color: modeColor,
+                      borderColor: modeColor
+                    }}
+                    title="Mudar Velocidade"
+                  >
+                    {textRate}x
+                  </button>
+                  <button
+                    onClick={() => {
+                      const nextRepeating = !isRepeating;
+                      setIsRepeating(nextRepeating);
+                      isRepeatingRef.current = nextRepeating;
+                      if (nextRepeating && !window.speechSynthesis.speaking) {
+                        handleSpeak(transItem.text, textRate);
+                      } else if (!nextRepeating) {
+                        window.speechSynthesis.cancel();
+                      }
+                    }}
+                    style={{
+                      ...styles.iconBtn,
+                      background: isRepeating ? modeColor : 'var(--bg-main)',
+                      borderColor: isRepeating ? modeColor : 'var(--border)',
+                    }}
+                    title="Repetir Áudio"
+                  >
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={isRepeating ? '#fff' : '#4F4F4D'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="17 1 21 5 17 9"></polyline>
+                      <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+                      <polyline points="7 23 3 19 7 15"></polyline>
+                      <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
 
               {state.step === 0 && (
                 <div style={styles.timer}>
