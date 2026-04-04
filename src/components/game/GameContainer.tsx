@@ -32,12 +32,66 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
   const [shuffledIndices, setShuffledIndices] = useState<number[]>([]);
   const [showTranslation, setShowTranslation] = useState(false);
   const [textRate, setTextRate] = useState<number>(0.9);
-  
+
   const [isRepeating, setIsRepeating] = useState(false);
   const isRepeatingRef = useRef(false);
   const [spokenWord, setSpokenWord] = useState<{ text: string; start: number; length: number } | null>(null);
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
   const lastSpokenTextRef = useRef<string | null>(null);
+
+  // Stopwatch state for Text mode
+  const [swTimeMs, setSwTimeMs] = useState(0);
+  const [swIsRunning, setSwIsRunning] = useState(false);
+  const [swHistoryMap, setSwHistoryMap] = useState<Record<string, number[]>>({});
+  const swStartTimeRef = useRef<number | null>(null);
+  const swAccumulatedRef = useRef<number>(0);
+  const swIntervalRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (swIsRunning) {
+      swStartTimeRef.current = Date.now();
+      swIntervalRef.current = window.setInterval(() => {
+        if (swStartTimeRef.current !== null) {
+          const elapsed = Date.now() - swStartTimeRef.current;
+          setSwTimeMs(swAccumulatedRef.current + elapsed);
+        }
+      }, 50);
+    } else {
+      if (swIntervalRef.current) clearInterval(swIntervalRef.current);
+      if (swStartTimeRef.current !== null) {
+        swAccumulatedRef.current += (Date.now() - swStartTimeRef.current);
+        swStartTimeRef.current = null;
+      }
+    }
+    return () => {
+      if (swIntervalRef.current) clearInterval(swIntervalRef.current);
+    };
+  }, [swIsRunning]);
+
+  const formatSw = (ms: number) => {
+    const minutes = Math.floor(ms / 60000);
+    const seconds = Math.floor((ms % 60000) / 1000);
+    const centiseconds = Math.floor((ms % 1000) / 10);
+    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${centiseconds.toString().padStart(2, '0')}`;
+  };
+
+  const handleSwStart = () => setSwIsRunning(true);
+  const handleSwPause = () => setSwIsRunning(false);
+  const handleSwReset = () => {
+    setSwIsRunning(false);
+    swAccumulatedRef.current = 0;
+    swStartTimeRef.current = null;
+    setSwTimeMs(0);
+  };
+  const handleSwSave = (textKey: string) => {
+    if (swTimeMs > 0) {
+      setSwHistoryMap(prev => ({
+        ...prev,
+        [textKey]: [swTimeMs, ...(prev[textKey] || [])]
+      }));
+      handleSwReset();
+    }
+  };
 
   // ------- helpers to get items based on mode + category -------
 
@@ -201,14 +255,14 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
 
   const handleSpeak = useCallback((text: string, forceRate?: number) => {
     if (!text || typeof window === 'undefined' || !window.speechSynthesis) return;
-    
+
     if (window.speechSynthesis.speaking || window.speechSynthesis.pending) {
       window.speechSynthesis.cancel();
       // Only clear if manually stopped via click, but allow new speech if a different text was clicked
       setIsRepeating(false);
       isRepeatingRef.current = false;
       setSpokenWord(null);
-      
+
       if (lastSpokenTextRef.current === text) {
         lastSpokenTextRef.current = null;
         return; // Act as a Toggle STOP
@@ -234,7 +288,7 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
     const appliedRate = forceRate ?? 0.9;
     utterance.rate = appliedRate; // Slightly slower for clearer pronunciation by default
     console.log("Playing text '", text, "' at rate:", appliedRate, "Voice:", preferredVoice?.name);
-    
+
     // Add loop and bounding logic
     utterance.onstart = () => {
       setSpokenWord({ text, start: 0, length: 0 }); // init
@@ -372,7 +426,11 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
     const handler = (e: KeyboardEvent) => {
       if (e.code === 'Space') {
         e.preventDefault();
-        handleNext();
+        if (state.mode === 'text' && state.phase === 'playing') {
+          setSwIsRunning(prev => !prev);
+        } else {
+          handleNext();
+        }
       } else if (e.code === 'ArrowLeft' || e.code === 'Backspace') {
         e.preventDefault();
         handleBack();
@@ -387,7 +445,7 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
     };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
-  }, [handleNext, handleBack, restartGame, state.phase]);
+  }, [handleNext, handleBack, restartGame, state.phase, state.mode]);
 
   // ------- format timer -------
 
@@ -403,19 +461,19 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
     if (!spokenWord || spokenWord.text !== textToRender || spokenWord.start >= textToRender.length) {
       return <>{textToRender}</>;
     }
-    
+
     const { start, length } = spokenWord;
     const before = textToRender.slice(0, start);
     // If length is 0, it means we are just starting and haven't hit a boundary for word length, or it's just initializing
     const word = length > 0 ? textToRender.slice(start, start + length) : '';
     const after = length > 0 ? textToRender.slice(start + length) : textToRender.slice(start);
-    
+
     return (
       <>
         {before}
         {length > 0 && (
-          <span style={{ 
-            backgroundColor: `${color}33`, 
+          <span style={{
+            backgroundColor: `${color}33`,
             color: color,
             borderRadius: '4px',
             transition: 'all 0.1s ease',
@@ -515,6 +573,7 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
                   });
                   setTimerSeconds(0);
                   setTimerActive(true);
+                  handleSwReset();
                 }}
                 style={{
                   ...styles.categoryCard,
@@ -694,7 +753,10 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
       )}
 
       {/* Game card */}
-      <div style={{ ...styles.gameCard, borderColor: modeColor }}>
+      <div
+        style={state.mode === 'text' ? {} : { ...styles.gameCard, borderColor: modeColor }}
+        className={state.mode === 'text' ? "text-mode-container" : ""}
+      >
         {/* QA mode */}
         {state.mode === 'qa' && item && (() => {
           const qaItem = item as QAItem;
@@ -882,105 +944,143 @@ export const GameContainer: React.FC<Props> = ({ data }) => {
         {state.mode === 'text' && item && (() => {
           const transItem = item as TranslationItem;
           return (
-            <div style={styles.cardContent}>
-              <div style={styles.stepBadge}>
-                {state.step === 0 ? 'READ' : 'TRANSLATION'}
-              </div>
+            <>
+              <div className="text-mode-main-card" style={{ ...styles.gameCard, borderColor: modeColor, height: 'fit-content', padding: '3rem 2rem' }}>
+                <div style={styles.cardContent}>
+                  <div style={styles.stepBadge}>
+                    {state.step === 0 ? 'READ' : 'TRANSLATION'}
+                  </div>
 
-              <div className="qa-text-container">
-                <p style={styles.mainText}>{renderTextWithHighlight(transItem.text, modeColor)}</p>
-                <div className="qa-icons-container">
-                  <button
-                    onClick={() => handleSpeak(transItem.text, textRate)}
-                    style={styles.iconBtn}
-                    title="Ouça em Inglês"
-                  >
-                    <svg width="22" height="20" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M9 15H3C2.20435 15 1.4413 14.6839 0.878693 14.1213C0.316083 13.5587 0 12.7956 0 12V8C0 7.20435 0.316083 6.44129 0.878693 5.87868C1.4413 5.31607 2.20435 5 3 5H9V15ZM3 7C2.73478 7 2.48044 7.10536 2.29291 7.29289C2.10537 7.48043 2 7.73478 2 8V12C2 12.2652 2.10537 12.5196 2.29291 12.7071C2.48044 12.8946 2.73478 13 3 13H7V7H3Z" fill="#4F4F4D" />
-                      <path d="M22 20H17V18.67L7 14.67V5.32001L17 1.32001V0H22V20ZM19 18H20V2H19V2.67L9 6.67V13.32L19 17.32V18Z" fill="#4F4F4D" />
-                      <path d="M8.00001 19.94H4.32001L2.07001 14.31L3.92001 13.57L5.67001 17.94H6.00001V13.94H8.00001V19.94Z" fill="#4F4F4D" />
-                      <path d="M19 1.94H17V5.94H19V1.94Z" fill="#4F4F4D" />
-                      <path d="M19 7.94H17V18.94H19V7.94Z" fill="#4F4F4D" />
-                      <path d="M8.00002 7.94H3.00002V9.94H8.00002V7.94Z" fill="#4F4F4D" />
-                    </svg>
-                  </button>
-                  <button
-                    onClick={() => {
-                      const nextRate = textRate === 0.9 ? 1.0 : textRate === 1.0 ? 1.5 : textRate === 1.5 ? 1.6 : 0.9;
-                      setTextRate(nextRate);
-                      if (window.speechSynthesis.speaking) {
-                        handleSpeak(transItem.text, nextRate);
-                      }
-                    }}
-                    style={{
-                      ...styles.iconBtn,
-                      fontSize: '0.8rem',
-                      fontWeight: 'bold',
-                      color: modeColor,
-                      borderColor: modeColor
-                    }}
-                    title="Mudar Velocidade"
-                  >
-                    {textRate}x
-                  </button>
-                  <button
-                    onClick={() => {
-                      const nextRepeating = !isRepeating;
-                      setIsRepeating(nextRepeating);
-                      isRepeatingRef.current = nextRepeating;
-                      if (nextRepeating && !window.speechSynthesis.speaking) {
-                        handleSpeak(transItem.text, textRate);
-                      } else if (!nextRepeating) {
-                        window.speechSynthesis.cancel();
-                      }
-                    }}
-                    style={{
-                      ...styles.iconBtn,
-                      background: isRepeating ? modeColor : 'var(--bg-main)',
-                      borderColor: isRepeating ? modeColor : 'var(--border)',
-                    }}
-                    title="Repetir Áudio"
-                  >
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={isRepeating ? '#fff' : '#4F4F4D'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="17 1 21 5 17 9"></polyline>
-                      <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
-                      <polyline points="7 23 3 19 7 15"></polyline>
-                      <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
-                    </svg>
-                  </button>
-                  <button
-                    onClick={handleShowTranslation}
-                    style={{
-                      ...styles.iconBtn,
-                      background: showTranslation ? modeColor : 'var(--bg-main)',
-                      borderColor: showTranslation ? modeColor : 'var(--border)',
-                    }}
-                    title="Mostrar Tradução"
-                  >
-                    {showTranslation ? (
-                      <svg width="23" height="14" viewBox="0 0 23 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M11.27 13.98C7.35 13.98 3.61 11.77 0.449997 7.59L0 6.99001L0.449997 6.39001C3.61 2.21001 7.35 0 11.27 0C15.19 0 18.92 2.21001 22.08 6.39001L22.54 6.99001L22.08 7.59C18.92 11.76 15.18 13.98 11.27 13.98ZM2.52 6.98C5.17 10.25 8.19 11.98 11.27 11.98C14.35 11.98 17.36 10.26 20.01 6.98C17.36 3.71 14.35 1.98 11.27 1.98C8.19 1.98 5.17 3.71 2.52 6.98Z" fill="#ffffff" />
-                        <path d="M11.27 11.98C10.2811 11.98 9.31438 11.6868 8.49213 11.1373C7.66989 10.5879 7.02903 9.80704 6.6506 8.89341C6.27216 7.97978 6.17314 6.97445 6.36606 6.00455C6.55899 5.03464 7.03519 4.14372 7.73446 3.44446C8.43372 2.7452 9.32463 2.269 10.2945 2.07607C11.2644 1.88315 12.2698 1.98216 13.1834 2.3606C14.097 2.73903 14.8779 3.3799 15.4273 4.20214C15.9768 5.02439 16.27 5.99109 16.27 6.98C16.27 8.30608 15.7432 9.57785 14.8055 10.5155C13.8678 11.4532 12.5961 11.98 11.27 11.98ZM11.27 3.98C10.6767 3.98 10.0966 4.15594 9.60328 4.48559C9.10993 4.81523 8.72542 5.28377 8.49836 5.83195C8.2713 6.38013 8.21187 6.98333 8.32763 7.56527C8.44338 8.14721 8.72911 8.68176 9.14867 9.10132C9.56823 9.52088 10.1028 9.80659 10.6847 9.92235C11.2667 10.0381 11.8699 9.9787 12.418 9.75163C12.9662 9.52457 13.4348 9.14005 13.7644 8.64671C14.094 8.15336 14.27 7.57334 14.27 6.98C14.27 6.18435 13.9539 5.42128 13.3913 4.85867C12.8287 4.29606 12.0656 3.98 11.27 3.98Z" fill="#ffffff" />
-                      </svg>
-                    ) : (
-                      <svg width="23" height="16" viewBox="0 0 23 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M11.27 14.98C7.35 14.98 3.61 12.77 0.449997 8.59L0 7.99001L0.449997 7.39001C3.61 3.21001 7.35 1 11.27 1C15.19 1 18.92 3.21001 22.08 7.39001L22.54 7.99001L22.08 8.59C18.92 12.76 15.18 14.98 11.27 14.98ZM2.52 7.98C5.17 11.25 8.19 12.98 11.27 12.98C14.35 12.98 17.36 11.26 20.01 7.98C17.36 4.71 14.35 2.98 11.27 2.98C8.19 2.98 5.17 4.71 2.52 7.98Z" fill="#4F4F4D" />
-                        <path d="M11.27 12.98C10.2811 12.98 9.31438 12.6868 8.49213 12.1373C7.66989 11.5879 7.02903 10.807 6.6506 9.89341C6.27216 8.97978 6.17314 7.97445 6.36606 7.00455C6.55899 6.03464 7.03519 5.14372 7.73446 4.44446C8.43372 3.7452 9.32463 3.269 10.2945 3.07607C11.2644 2.88315 12.2698 2.98216 13.1834 3.3606C14.097 3.73903 14.8779 4.3799 15.4273 5.20214C15.9768 6.02439 16.27 6.99109 16.27 7.98C16.27 9.30608 15.7432 10.5779 14.8055 11.5155C13.8678 12.4532 12.5961 12.98 11.27 12.98V12.98ZM11.27 4.98C10.6767 4.98 10.0966 5.15594 9.60328 5.48559C9.10993 5.81523 8.72542 6.28377 8.49836 6.83195C8.2713 7.38013 8.21187 7.98333 8.32763 8.56527C8.44338 9.14721 8.72911 9.68176 9.14867 10.1013C9.56823 10.5209 10.1028 10.8066 10.6847 10.9223C11.2667 11.0381 11.8699 10.9787 12.418 10.7516C12.9662 10.5246 13.4348 10.1401 13.7644 9.64671C14.094 9.15336 14.27 8.57334 14.27 7.98C14.27 7.18435 13.9539 6.42128 13.3913 5.85867C12.8287 5.29606 12.0656 4.98 11.27 4.98V4.98Z" fill="#4F4F4D" />
-                        <path d="M17.3195 -7.5353e-06L3 14.3195L4.6805 16L19 1.6805L17.3195 -7.5353e-06Z" fill="#4F4F4D" />
-                      </svg>
-                    )}
-                  </button>
+                  <div className="qa-text-container">
+                    <p style={styles.mainText}>{renderTextWithHighlight(transItem.text, modeColor)}</p>
+                    <div className="qa-icons-container">
+                      <button
+                        onClick={() => handleSpeak(transItem.text, textRate)}
+                        style={styles.iconBtn}
+                        title="Ouça em Inglês"
+                      >
+                        <svg width="22" height="20" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M9 15H3C2.20435 15 1.4413 14.6839 0.878693 14.1213C0.316083 13.5587 0 12.7956 0 12V8C0 7.20435 0.316083 6.44129 0.878693 5.87868C1.4413 5.31607 2.20435 5 3 5H9V15ZM3 7C2.73478 7 2.48044 7.10536 2.29291 7.29289C2.10537 7.48043 2 7.73478 2 8V12C2 12.2652 2.10537 12.5196 2.29291 12.7071C2.48044 12.8946 2.73478 13 3 13H7V7H3Z" fill="#4F4F4D" />
+                          <path d="M22 20H17V18.67L7 14.67V5.32001L17 1.32001V0H22V20ZM19 18H20V2H19V2.67L9 6.67V13.32L19 17.32V18Z" fill="#4F4F4D" />
+                          <path d="M8.00001 19.94H4.32001L2.07001 14.31L3.92001 13.57L5.67001 17.94H6.00001V13.94H8.00001V19.94Z" fill="#4F4F4D" />
+                          <path d="M19 1.94H17V5.94H19V1.94Z" fill="#4F4F4D" />
+                          <path d="M19 7.94H17V18.94H19V7.94Z" fill="#4F4F4D" />
+                          <path d="M8.00002 7.94H3.00002V9.94H8.00002V7.94Z" fill="#4F4F4D" />
+                        </svg>
+                      </button>
+                      <button
+                        onClick={() => {
+                          const nextRate = textRate === 0.9 ? 1.0 : textRate === 1.0 ? 1.5 : textRate === 1.5 ? 1.6 : 0.9;
+                          setTextRate(nextRate);
+                          if (window.speechSynthesis.speaking) {
+                            handleSpeak(transItem.text, nextRate);
+                          }
+                        }}
+                        style={{
+                          ...styles.iconBtn,
+                          fontSize: '0.8rem',
+                          fontWeight: 'bold',
+                          color: modeColor,
+                          borderColor: modeColor
+                        }}
+                        title="Mudar Velocidade"
+                      >
+                        {textRate}x
+                      </button>
+                      <button
+                        onClick={() => {
+                          const nextRepeating = !isRepeating;
+                          setIsRepeating(nextRepeating);
+                          isRepeatingRef.current = nextRepeating;
+                          if (nextRepeating && !window.speechSynthesis.speaking) {
+                            handleSpeak(transItem.text, textRate);
+                          } else if (!nextRepeating) {
+                            window.speechSynthesis.cancel();
+                          }
+                        }}
+                        style={{
+                          ...styles.iconBtn,
+                          background: isRepeating ? modeColor : 'var(--bg-main)',
+                          borderColor: isRepeating ? modeColor : 'var(--border)',
+                        }}
+                        title="Repetir Áudio"
+                      >
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={isRepeating ? '#fff' : '#4F4F4D'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="17 1 21 5 17 9"></polyline>
+                          <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+                          <polyline points="7 23 3 19 7 15"></polyline>
+                          <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+                        </svg>
+                      </button>
+                      <button
+                        onClick={handleShowTranslation}
+                        style={{
+                          ...styles.iconBtn,
+                          background: showTranslation ? modeColor : 'var(--bg-main)',
+                          borderColor: showTranslation ? modeColor : 'var(--border)',
+                        }}
+                        title="Mostrar Tradução"
+                      >
+                        {showTranslation ? (
+                          <svg width="23" height="14" viewBox="0 0 23 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M11.27 13.98C7.35 13.98 3.61 11.77 0.449997 7.59L0 6.99001L0.449997 6.39001C3.61 2.21001 7.35 0 11.27 0C15.19 0 18.92 2.21001 22.08 6.39001L22.54 6.99001L22.08 7.59C18.92 11.76 15.18 13.98 11.27 13.98ZM2.52 6.98C5.17 10.25 8.19 11.98 11.27 11.98C14.35 11.98 17.36 10.26 20.01 6.98C17.36 3.71 14.35 1.98 11.27 1.98C8.19 1.98 5.17 3.71 2.52 6.98Z" fill="#ffffff" />
+                            <path d="M11.27 11.98C10.2811 11.98 9.31438 11.6868 8.49213 11.1373C7.66989 10.5879 7.02903 9.80704 6.6506 8.89341C6.27216 7.97978 6.17314 6.97445 6.36606 6.00455C6.55899 5.03464 7.03519 4.14372 7.73446 3.44446C8.43372 2.7452 9.32463 2.269 10.2945 2.07607C11.2644 1.88315 12.2698 1.98216 13.1834 2.3606C14.097 2.73903 14.8779 3.3799 15.4273 4.20214C15.9768 5.02439 16.27 5.99109 16.27 6.98C16.27 8.30608 15.7432 9.57785 14.8055 10.5155C13.8678 11.4532 12.5961 11.98 11.27 11.98ZM11.27 3.98C10.6767 3.98 10.0966 4.15594 9.60328 4.48559C9.10993 4.81523 8.72542 5.28377 8.49836 5.83195C8.2713 6.38013 8.21187 6.98333 8.32763 7.56527C8.44338 8.14721 8.72911 8.68176 9.14867 9.10132C9.56823 9.52088 10.1028 9.80659 10.6847 9.92235C11.2667 10.0381 11.8699 9.9787 12.418 9.75163C12.9662 9.52457 13.4348 9.14005 13.7644 8.64671C14.094 8.15336 14.27 7.57334 14.27 6.98C14.27 6.18435 13.9539 5.42128 13.3913 4.85867C12.8287 4.29606 12.0656 3.98 11.27 3.98Z" fill="#ffffff" />
+                          </svg>
+                        ) : (
+                          <svg width="23" height="16" viewBox="0 0 23 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M11.27 14.98C7.35 14.98 3.61 12.77 0.449997 8.59L0 7.99001L0.449997 7.39001C3.61 3.21001 7.35 1 11.27 1C15.19 1 18.92 3.21001 22.08 7.39001L22.54 7.99001L22.08 8.59C18.92 12.76 15.18 14.98 11.27 14.98ZM2.52 7.98C5.17 11.25 8.19 12.98 11.27 12.98C14.35 12.98 17.36 11.26 20.01 7.98C17.36 4.71 14.35 2.98 11.27 2.98C8.19 2.98 5.17 4.71 2.52 7.98Z" fill="#4F4F4D" />
+                            <path d="M11.27 12.98C10.2811 12.98 9.31438 12.6868 8.49213 12.1373C7.66989 11.5879 7.02903 10.807 6.6506 9.89341C6.27216 8.97978 6.17314 7.97445 6.36606 7.00455C6.55899 6.03464 7.03519 5.14372 7.73446 4.44446C8.43372 3.7452 9.32463 3.269 10.2945 3.07607C11.2644 2.88315 12.2698 2.98216 13.1834 3.3606C14.097 3.73903 14.8779 4.3799 15.4273 5.20214C15.9768 6.02439 16.27 6.99109 16.27 7.98C16.27 9.30608 15.7432 10.5779 14.8055 11.5155C13.8678 12.4532 12.5961 12.98 11.27 12.98V12.98ZM11.27 4.98C10.6767 4.98 10.0966 5.15594 9.60328 5.48559C9.10993 5.81523 8.72542 6.28377 8.49836 6.83195C8.2713 7.38013 8.21187 7.98333 8.32763 8.56527C8.44338 9.14721 8.72911 9.68176 9.14867 10.1013C9.56823 10.5209 10.1028 10.8066 10.6847 10.9223C11.2667 11.0381 11.8699 10.9787 12.418 10.7516C12.9662 10.5246 13.4348 10.1401 13.7644 9.64671C14.094 9.15336 14.27 8.57334 14.27 7.98C14.27 7.18435 13.9539 6.42128 13.3913 5.85867C12.8287 5.29606 12.0656 4.98 11.27 4.98V4.98Z" fill="#4F4F4D" />
+                            <path d="M17.3195 -7.5353e-06L3 14.3195L4.6805 16L19 1.6805L17.3195 -7.5353e-06Z" fill="#4F4F4D" />
+                          </svg>
+                        )}
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Stopwatch UI */}
+                  <div style={{ marginTop: '2rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}>
+                    <div style={{ fontSize: '3rem', fontVariantNumeric: 'tabular-nums', color: modeColor, fontFamily: 'monospace' }}>
+                      {formatSw(swTimeMs)}
+                    </div>
+                    <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+                      {!swIsRunning ? (
+                        <button onClick={handleSwStart} style={{ ...styles.actionBtn, background: modeColor, color: '#fff', border: 'none' }}>▶ Iniciar</button>
+                      ) : (
+                        <button onClick={handleSwPause} style={{ ...styles.actionBtn, background: '#ef4444', color: '#fff', border: 'none' }}>⏸ Pausar</button>
+                      )}
+                      <button onClick={handleSwReset} style={{ ...styles.actionBtn, ...styles.actionBtnSecondary }}>⏹ Zerar</button>
+                      <button onClick={() => handleSwSave(transItem.text)} style={{ ...styles.actionBtn, ...styles.actionBtnSecondary, opacity: swTimeMs === 0 ? 0.5 : 1 }} disabled={swTimeMs === 0} title="Salvar e Zerar">💾 Salvar</button>
+                    </div>
+
+                  </div>
+
+                  {((state.step === 0 && showTranslation) || state.step === 1) && (
+                    <div style={{ marginTop: '2rem', paddingTop: '1.5rem', borderTop: '1px solid var(--border)' }}>
+                      <p style={{ ...styles.subText, color: modeColor, fontSize: '1.5rem' }}>
+                        {transItem.translation || '—'}
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
 
-              {((state.step === 0 && showTranslation) || state.step === 1) && (
-                <div style={{ marginTop: '2rem', paddingTop: '1.5rem', borderTop: '1px solid var(--border)' }}>
-                  <p style={{ ...styles.subText, color: modeColor, fontSize: '1.5rem' }}>
-                    {transItem.translation || '—'}
-                  </p>
-                </div>
-              )}
-            </div>
+              {(() => {
+                const currentHistory = swHistoryMap[transItem.text] || [];
+                return currentHistory.length > 0 && (
+                  <div className="text-mode-history-panel" style={{ background: 'transparent', borderRadius: '12px', padding: '1rem', border: '1px solid var(--border)', height: 'fit-content' }}>
+                    <h4 style={{ margin: '0 0 10px 0', fontSize: '0.9rem', color: modeColor, textAlign: 'center', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Histórico de Leitura</h4>
+                    <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                      {currentHistory.map((time, idx) => (
+                        <li key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'var(--bg-card)', padding: '0.5rem 1rem', borderRadius: '6px' }}>
+                          <span style={{ fontFamily: 'monospace', fontSize: '1.2rem', color: 'var(--text-main)' }}>{formatSw(time)}</span>
+                          <button onClick={() => setSwHistoryMap(prev => ({ ...prev, [transItem.text]: prev[transItem.text].filter((_, i) => i !== idx) }))} style={{ background: 'transparent', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '1.2rem', padding: '0 5px' }} title="Excluir">✕</button>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                );
+              })()}
+            </>
           );
         })()}
       </div>
@@ -1280,5 +1380,21 @@ const styles: Record<string, React.CSSProperties> = {
     fontSize: '1.25rem',
     transition: 'all 0.2s ease',
     boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+  },
+  actionBtn: {
+    padding: '0.6rem 1.25rem',
+    borderRadius: '8px',
+    fontSize: '1rem',
+    fontWeight: 600,
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.5rem',
+    cursor: 'pointer',
+    transition: 'all 0.2s ease',
+  },
+  actionBtnSecondary: {
+    background: 'var(--bg-main)',
+    border: '1px solid var(--border)',
+    color: 'var(--text-dim)',
   },
 };
