@@ -1,43 +1,31 @@
 [
   {
-    "text": "Good morning",
-    "translation": "Bom dia",
+    "text": "I am hungry and I am going to the mall to eat hot food I want to eat feijoada and I eat fast Bruno is at the beach The water at the beach is blue",
+    "translation": "Eu estou com fome e vou ao shopping para comer comida quente Eu quero comer feijoada e eu como rápido Bruno está na praia A água da praia é azul",
     "id": "0bc0c3db-e8bd-47e0-ab4f-1ee10eaccf95",
     "category": "Easy"
   },
   {
-    "text": "How are you?",
-    "translation": "Como você está?",
-    "id": "8695250e-ce6d-499b-9bfe-f40771e835c1",
-    "category": "Easy"
-  },
-  {
-    "text": "See you tomorrow",
-    "translation": "Até amanhã",
-    "id": "3af5177b-6bce-4f8e-a2b8-06508a3b2553",
-    "category": "Easy"
-  },
-  {
-    "text": "I am learning English every day",
-    "translation": "Eu estou aprendendo inglês todos os dias",
+    "text": "I am very thirsty. The water on the table is very good. Today is very beautiful. I am going to the beach and I am going to read books. I have many books on the table in the house. The water at the beach is not very good.",
+    "translation": "Eu estou com muita sede. A água na mesa é muito boa. Hoje está muito bonito. Eu vou para a praia e vou ler livros. Eu tenho muitos livros na mesa da casa. A água da praia não é muito boa.",
     "id": "ad79fbe6-4f2e-4c93-94fd-dd6a4c6dec73",
     "category": "Medium"
   },
   {
-    "text": "She works in a big company",
-    "translation": "Ela trabalha em uma grande empresa",
+    "text": "I have a dog but I don’t have time. My dog is white and very big. I’m going to read to him today but I’m not going to read fast. I am going to the beach today. My house is in Santos. Do you like Santos? I use my car to drive there. I don’t have time to eat breakfast. I like to eat oranges with my breakfast.",
+    "translation": "Eu tenho um cachorro, mas não tenho tempo. Meu cachorro é branco e muito grande. Eu vou ler para ele hoje, mas não vou ler rápido. Eu vou para a praia hoje. Minha casa fica em Santos. Você gosta de Santos? Eu uso meu carro para dirigir até lá. Eu não tenho tempo para tomar café da manhã. Eu gosto de comer laranjas no meu café da manhã.",
     "id": "6c693ed5-efb7-40b4-ad99-dc98ffa7640b",
     "category": "Medium"
   },
   {
-    "text": "If I had more time, I would travel the world",
-    "translation": "Se eu tivesse mais tempo, eu viajaria o mundo",
+    "text": "I need to write a letter to my father. I don’t write good letters now. I want to learn how to write a good letter. I don’t want to spend a lot of money. My school is bad. There is a good school in Guarulhos. Do you write bad letters? I like to eat a lot of vegetables. I need to buy more vegetables. My car is blue and I drive it to buy vegetables. Do you have a car? There are two big cities in Brazil. People play soccer in Guarulhos. There are a lot of people in Guarulhos. My father is in Guarulhos. I need to eat dinner with him there. Do you like Guarulhos? I like to drive there. There is an apple on the table. Do you like apples? I like to give apples to my father. I am thirsty and I need to drink water. I am going to sleep now.",
+    "translation": "Eu preciso escrever uma carta para meu pai. Eu não escrevo boas cartas agora. Eu quero aprender como escrever uma boa carta. Eu não quero gastar muito dinheiro. Minha escola é ruim. Há uma boa escola em Guarulhos. Você escreve cartas ruins? Eu gosto de comer muitos vegetais. Eu preciso comprar mais vegetais. Meu carro é azul e eu dirijo ele para comprar vegetais. Você tem um carro? Existem duas grandes cidades no Brasil. As pessoas jogam futebol em Guarulhos. Há muitas pessoas em Guarulhos. Meu pai está em Guarulhos. Eu preciso jantar com ele lá. Você gosta de Guarulhos? Eu gosto de dirigir até lá. Há uma maçã na mesa. Você gosta de maçãs? Eu gosto de dar maçãs para meu pai. Eu estou com sede e preciso beber água. Eu vou dormir agora.",
     "id": "97ab9dcd-3a8f-4f01-98e0-269b2df45070",
     "category": "Hard"
   },
   {
-    "text": "Learning a new language requires patience and practice",
-    "translation": "Aprender um novo idioma requer paciência e prática",
+    "text": "I cannot find my keys. Can you find the keys for me? I cannot drive my car without my keys. I have to drive to work tomorrow. It is in Guarulhos. I need to write a lot. I like to drive to Guarulhos. There is a good mall there and I like it. I have to buy a table. I want to live there. It is very cold there in July. Do you like to go there? I have to wash Bruno’s car. I’m going to bring it to him. How is he? Can you give me the keys? You have a good car and drive very well. Do you need to wash your car? I can do it for you. I am good. My mother can make dinner for you. She can cook very well. I like it. Do you want to eat breakfast and dinner? I can bring it for you. Do you have to eat a lot?",
+    "translation": "Eu não consigo encontrar minhas chaves. Você pode encontrar as chaves para mim? Eu não posso dirigir meu carro sem minhas chaves. Eu tenho que dirigir para o trabalho amanhã. Fica em Guarulhos. Eu preciso escrever muito. Eu gosto de dirigir até Guarulhos. Há um bom shopping lá e eu gosto dele. Eu tenho que comprar uma mesa. Eu quero morar lá. Lá faz muito frio em julho. Você gosta de ir lá? Eu tenho que lavar o carro do Bruno. Eu vou levá-lo para ele. Como ele está? Você pode me dar as chaves? Você tem um bom carro e dirige muito bem. Você precisa lavar seu carro? Eu posso fazer isso para você. Eu estou bem. Minha mãe pode fazer o jantar para você. Ela cozinha muito bem. Eu gosto disso. Você quer comer café da manhã e jantar? Eu posso levar para você. Você precisa comer muito?",
     "id": "994f1b28-c2c4-4751-abfc-b796b5683d37",
     "category": "Hard"
   }
