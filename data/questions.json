@@ -614,5 +614,145 @@
     ],
     "id": "1a2b3c4d-0040-4a1b-8c1a-404040404040",
     "category": "Verb To Be - Are and Am"
+  },
+{
+    "question": "Is there a car in the garage?",
+    "answers": [
+      "Yes, there is a car in the garage.",
+      "No, there isn't a car in the garage."
+    ],
+    "questao": "Existe um carro na garagem?",
+    "respostas": [
+      "Sim, existe um carro na garagem.",
+      "Não, não existe um carro na garagem."
+    ],
+    "id": "2b3c4d5e-0050-5b2c-9d2b-505050505001",
+    "category": "There to be - Are there - Is there"
+  },
+  {
+    "question": "Are there two apples in the basket?",
+    "answers": [
+      "Yes, there are two apples in the basket.",
+      "No, there aren't two apples in the basket."
+    ],
+    "questao": "Há duas maçãs na cesta?",
+    "respostas": [
+      "Sim, há duas maçãs na cesta.",
+      "Não, não há duas maçãs na cesta."
+    ],
+    "id": "2b3c4d5e-0050-5b2c-9d2b-505050505002",
+    "category": "There to be - Are there - Is there"
+  },
+  {
+    "question": "Is there a dog in the park?",
+    "answers": [
+      "Yes, there is a dog in the park.",
+      "No, there isn't a dog in the park."
+    ],
+    "questao": "Há um cachorro no parque?",
+    "respostas": [
+      "Sim, há um cachorro no parque.",
+      "Não, não há um cachorro no parque."
+    ],
+    "id": "2b3c4d5e-0050-5b2c-9d2b-505050505003",
+    "category": "There to be - Are there - Is there"
+  },
+  {
+    "question": "Are there many students in the classroom?",
+    "answers": [
+      "Yes, there are many students in the classroom.",
+      "No, there aren't many students in the classroom."
+    ],
+    "questao": "Existem muitos alunos na sala de aula?",
+    "respostas": [
+      "Sim, existem muitos alunos na sala de aula.",
+      "Não, não existem muitos alunos na sala de aula."
+    ],
+    "id": "2b3c4d5e-0050-5b2c-9d2b-505050505004",
+    "category": "There to be - Are there - Is there"
+  },
+  {
+    "question": "Is there a computer on the desk?",
+    "answers": [
+      "Yes, there is a computer on the desk.",
+      "No, there isn't a computer on the desk."
+    ],
+    "questao": "Há um computador sobre a mesa?",
+    "respostas": [
+      "Sim, há um computador sobre a mesa.",
+      "Não, não há um computador sobre a mesa."
+    ],
+    "id": "2b3c4d5e-0050-5b2c-9d2b-505050505005",
+    "category": "There to be - Are there - Is there"
+  },
+  {
+    "question": "Are there three chairs in the kitchen?",
+    "answers": [
+      "Yes, there are three chairs in the kitchen.",
+      "No, there aren't three chairs in the kitchen."
+    ],
+    "questao": "Há três cadeiras na cozinha?",
+    "respostas": [
+      "Sim, há três cadeiras na cozinha.",
+      "Não, não há três cadeiras na cozinha."
+    ],
+    "id": "2b3c4d5e-0050-5b2c-9d2b-505050505006",
+    "category": "There to be - Are there - Is there"
+  },
+  {
+    "question": "Is there water in the bottle?",
+    "answers": [
+      "Yes, there is water in the bottle.",
+      "No, there isn't water in the bottle."
+    ],
+    "questao": "Há água na garrafa?",
+    "respostas": [
+      "Sim, há água na garrafa.",
+      "Não, não há água na garrafa."
+    ],
+    "id": "2b3c4d5e-0050-5b2c-9d2b-505050505007",
+    "category": "There to be - Are there - Is there"
+  },
+  {
+    "question": "Are there pictures on the wall?",
+    "answers": [
+      "Yes, there are pictures on the wall.",
+      "No, there aren't pictures on the wall."
+    ],
+    "questao": "Existem quadros na parede?",
+    "respostas": [
+      "Sim, existem quadros na parede.",
+      "Não, não existem quadros na parede."
+    ],
+    "id": "2b3c4d5e-0050-5b2c-9d2b-505050505008",
+    "category": "There to be - Are there - Is there"
+  },
+  {
+    "question": "Is there a bank near here?",
+    "answers": [
+      "Yes, there is a bank near here.",
+      "No, there isn't a bank near here."
+    ],
+    "questao": "Existe um banco perto daqui?",
+    "respostas": [
+      "Sim, existe um banco perto daqui.",
+      "Não, não existe um banco perto daqui."
+    ],
+    "id": "2b3c4d5e-0050-5b2c-9d2b-505050505009",
+    "category": "There to be - Are there - Is there"
+  },
+  {
+    "question": "Are there open spots in the parking lot?",
+    "answers": [
+      "Yes, there are open spots in the parking lot.",
+      "No, there aren't open spots in the parking lot."
+    ],
+    "questao": "Há vagas disponíveis no estacionamento?",
+    "respostas": [
+      "Sim, há vagas disponíveis no estacionamento.",
+      "Não, não há vagas disponíveis no estacionamento."
+    ],
+    "id": "2b3c4d5e-0050-5b2c-9d2b-505050505010",
+    "category": "There to be - Are there - Is there"
   }
 ]

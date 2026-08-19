@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://english-trainer-fa5tuocd1-gub72s-projects.vercel.app',
+        target: 'https://english-trainer-gub72s-projects.vercel.app',
         changeOrigin: true,
       },
     },
