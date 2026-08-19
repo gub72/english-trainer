@@ -754,5 +754,425 @@
     ],
     "id": "2b3c4d5e-0050-5b2c-9d2b-505050505010",
     "category": "There to be - Are there - Is there"
+  },
+{
+    "question": "Are you studying English now?",
+    "answers": [
+      "Yes, I am studying English now.",
+      "No, I am not studying English now."
+    ],
+    "questao": "Você está estudando inglês agora?",
+    "respostas": [
+      "Sim, eu estou estudando inglês agora.",
+      "Não, eu não estou estudando inglês agora."
+    ],
+    "id": "3c4d5e6f-0060-6c3d-0e3c-606060606001",
+    "category": "Present Continuous"
+  },
+  {
+    "question": "Is she working today?",
+    "answers": [
+      "Yes, she is working today.",
+      "No, she isn't working today."
+    ],
+    "questao": "Ela está trabalhando hoje?",
+    "respostas": [
+      "Sim, ela está trabalhando hoje.",
+      "Não, ela não está trabalhando hoje."
+    ],
+    "id": "3c4d5e6f-0060-6c3d-0e3c-606060606002",
+    "category": "Present Continuous"
+  },
+  {
+    "question": "Are they playing soccer at the park?",
+    "answers": [
+      "Yes, they are playing soccer at the park.",
+      "No, they aren't playing soccer at the park."
+    ],
+    "questao": "Eles estão jogando futebol no parque?",
+    "respostas": [
+      "Sim, eles estão jogando futebol no parque.",
+      "Não, eles não estão jogando futebol no parque."
+    ],
+    "id": "3c4d5e6f-0060-6c3d-0e3c-606060606003",
+    "category": "Present Continuous"
+  },
+  {
+    "question": "Is he reading a book right now?",
+    "answers": [
+      "Yes, he is reading a book right now.",
+      "No, he isn't reading a book right now."
+    ],
+    "questao": "Ele está lendo um livro agora mesmo?",
+    "respostas": [
+      "Sim, ele está lendo um livro agora mesmo.",
+      "Não, ele não está lendo um livro agora mesmo."
+    ],
+    "id": "3c4d5e6f-0060-6c3d-0e3c-606060606004",
+    "category": "Present Continuous"
+  },
+  {
+    "question": "Are we waiting for the bus?",
+    "answers": [
+      "Yes, we are waiting for the bus.",
+      "No, we aren't waiting for the bus."
+    ],
+    "questao": "Nós estamos esperando pelo ônibus?",
+    "respostas": [
+      "Sim, nós estamos esperando pelo ônibus.",
+      "Não, nós não estamos esperando pelo ônibus."
+    ],
+    "id": "3c4d5e6f-0060-6c3d-0e3c-606060606005",
+    "category": "Present Continuous"
+  },
+  {
+    "question": "Is it raining outside?",
+    "answers": [
+      "Yes, it is raining outside.",
+      "No, it isn't raining outside."
+    ],
+    "questao": "Está chovendo lá fora?",
+    "respostas": [
+      "Sim, está chovendo lá fora.",
+      "Não, não está chovendo lá fora."
+    ],
+    "id": "3c4d5e6f-0060-6c3d-0e3c-606060606006",
+    "category": "Present Continuous"
+  },
+  {
+    "question": "Are the children watching TV?",
+    "answers": [
+      "Yes, the children are watching TV.",
+      "No, the children aren't watching TV."
+    ],
+    "questao": "As crianças estão assistindo TV?",
+    "respostas": [
+      "Sim, as crianças estão assistindo TV.",
+      "Não, as crianças não estão assistindo TV."
+    ],
+    "id": "3c4d5e6f-0060-6c3d-0e3c-606060606007",
+    "category": "Present Continuous"
+  },
+  {
+    "question": "Is the chef cooking dinner?",
+    "answers": [
+      "Yes, the chef is cooking dinner.",
+      "No, the chef isn't cooking dinner."
+    ],
+    "questao": "O chefe está cozinhando o jantar?",
+    "respostas": [
+      "Sim, o chefe está cozinhando o jantar.",
+      "Não, o chefe não está cozinhando o jantar."
+    ],
+    "id": "3c4d5e6f-0060-6c3d-0e3c-606060606008",
+    "category": "Present Continuous"
+  },
+  {
+    "question": "Are you listening to music?",
+    "answers": [
+      "Yes, I am listening to music.",
+      "No, I am not listening to music."
+    ],
+    "questao": "Você está ouvindo música?",
+    "respostas": [
+      "Sim, eu estou ouvindo música.",
+      "Não, eu não estou ouvindo música."
+    ],
+    "id": "3c4d5e6f-0060-6c3d-0e3c-606060606009",
+    "category": "Present Continuous"
+  },
+  {
+    "question": "Is she driving to work?",
+    "answers": [
+      "Yes, she is driving to work.",
+      "No, she isn't driving to work."
+    ],
+    "questao": "Ela está dirigindo para o trabalho?",
+    "respostas": [
+      "Sim, ela está dirigindo para o trabalho.",
+      "Não, ela não está dirigindo para o trabalho."
+    ],
+    "id": "3c4d5e6f-0060-6c3d-0e3c-606060606010",
+    "category": "Present Continuous"
+  },
+{
+    "question": "Is this book mine?",
+    "answers": [
+      "Yes, this book is yours.",
+      "No, this book isn't yours."
+    ],
+    "questao": "Este livro é meu?",
+    "respostas": [
+      "Sim, este livro é seu.",
+      "Não, este livro não é seu."
+    ],
+    "id": "4d5e6f7g-0070-7d4e-1f4d-707070707001",
+    "category": "Verb To Be - Are and Is - Possessions"
+  },
+  {
+    "question": "Is that jacket yours?",
+    "answers": [
+      "Yes, that jacket is mine.",
+      "No, that jacket isn't mine."
+    ],
+    "questao": "Aquela jaqueta é sua?",
+    "respostas": [
+      "Sim, aquela jaqueta é minha.",
+      "Não, aquela jaqueta não é minha."
+    ],
+    "id": "4d5e6f7g-0070-7d4e-1f4d-707070707002",
+    "category": "Verb To Be - Are and Is - Possessions"
+  },
+  {
+    "question": "Is this car his?",
+    "answers": [
+      "Yes, this car is his.",
+      "No, this car isn't his."
+    ],
+    "questao": "Este carro é dele?",
+    "respostas": [
+      "Sim, este carro é dele.",
+      "Não, este carro não é dele."
+    ],
+    "id": "4d5e6f7g-0070-7d4e-1f4d-707070707003",
+    "category": "Verb To Be - Are and Is - Possessions"
+  },
+  {
+    "question": "Is that bag hers?",
+    "answers": [
+      "Yes, that bag is hers.",
+      "No, that bag isn't hers."
+    ],
+    "questao": "Aquela bolsa é dela?",
+    "respostas": [
+      "Sim, aquela bolsa é dela.",
+      "Não, aquela bolsa não é dela."
+    ],
+    "id": "4d5e6f7g-0070-7d4e-1f4d-707070707004",
+    "category": "Verb To Be - Are and Is - Possessions"
+  },
+  {
+    "question": "Is this house ours?",
+    "answers": [
+      "Yes, this house is ours.",
+      "No, this house isn't ours."
+    ],
+    "questao": "Esta casa é nossa?",
+    "respostas": [
+      "Sim, esta casa é nossa.",
+      "Não, esta casa não é nossa."
+    ],
+    "id": "4d5e6f7g-0070-7d4e-1f4d-707070707005",
+    "category": "Verb To Be - Are and Is - Possessions"
+  },
+  {
+    "question": "Is that seat yours?",
+    "answers": [
+      "Yes, that seat is ours.",
+      "No, that seat isn't ours."
+    ],
+    "questao": "Aquele assento é de vocês?",
+    "respostas": [
+      "Sim, aquele assento é nosso.",
+      "Não, aquele assento não é nosso."
+    ],
+    "id": "4d5e6f7g-0070-7d4e-1f4d-707070707006",
+    "category": "Verb To Be - Are and Is - Possessions"
+  },
+  {
+    "question": "Is this phone theirs?",
+    "answers": [
+      "Yes, this phone is theirs.",
+      "No, this phone isn't theirs."
+    ],
+    "questao": "Este telefone é deles?",
+    "respostas": [
+      "Sim, este telefone é deles.",
+      "Não, este telefone não é deles."
+    ],
+    "id": "4d5e6f7g-0070-7d4e-1f4d-707070707007",
+    "category": "Verb To Be - Are and Is - Possessions"
+  },
+  {
+    "question": "Is this bone its?",
+    "answers": [
+      "Yes, this bone is its.",
+      "No, this bone isn't its."
+    ],
+    "questao": "Este osso é dele (do cachorro)?",
+    "respostas": [
+      "Sim, este osso é dele.",
+      "Não, este osso não é dele."
+    ],
+    "id": "4d5e6f7g-0070-7d4e-1f4d-707070707008",
+    "category": "Verb To Be - Are and Is - Possessions"
+  },
+  {
+    "question": "Are these keys mine?",
+    "answers": [
+      "Yes, these keys are yours.",
+      "No, these keys aren't yours."
+    ],
+    "questao": "Estas chaves são minhas?",
+    "respostas": [
+      "Sim, estas chaves são suas.",
+      "Não, estas chaves não são suas."
+    ],
+    "id": "4d5e6f7g-0070-7d4e-1f4d-707070707009",
+    "category": "Verb To Be - Are and Is - Possessions"
+  },
+  {
+    "question": "Are those shoes yours?",
+    "answers": [
+      "Yes, those shoes are mine.",
+      "No, those shoes aren't mine."
+    ],
+    "questao": "Aqueles sapatos são seus?",
+    "respostas": [
+      "Sim, aqueles sapatos são meus.",
+      "Não, aqueles sapatos não são meus."
+    ],
+    "id": "4d5e6f7g-0070-7d4e-1f4d-707070707010",
+    "category": "Verb To Be - Are and Is - Possessions"
+  },
+  {
+    "question": "Are these glasses his?",
+    "answers": [
+      "Yes, these glasses are his.",
+      "No, these glasses aren't his."
+    ],
+    "questao": "Estes óculos são dele?",
+    "respostas": [
+      "Sim, estes óculos são dele.",
+      "Não, estes óculos não são dele."
+    ],
+    "id": "4d5e6f7g-0070-7d4e-1f4d-707070707011",
+    "category": "Verb To Be - Are and Is - Possessions"
+  },
+  {
+    "question": "Are those earrings hers?",
+    "answers": [
+      "Yes, those earrings are hers.",
+      "No, those earrings aren't hers."
+    ],
+    "questao": "Aqueles brincos são dela?",
+    "respostas": [
+      "Sim, aqueles brincos são dela.",
+      "Não, aqueles brincos não são dela."
+    ],
+    "id": "4d5e6f7g-0070-7d4e-1f4d-707070707012",
+    "category": "Verb To Be - Are and Is - Possessions"
+  },
+  {
+    "question": "Are these tickets ours?",
+    "answers": [
+      "Yes, these tickets are ours.",
+      "No, these tickets aren't ours."
+    ],
+    "questao": "Estes ingressos são nossos?",
+    "respostas": [
+      "Sim, estes ingressos são nossos.",
+      "Não, estes ingressos não são nossos."
+    ],
+    "id": "4d5e6f7g-0070-7d4e-1f4d-707070707013",
+    "category": "Verb To Be - Are and Is - Possessions"
+  },
+  {
+    "question": "Are those seats yours?",
+    "answers": [
+      "Yes, those seats are ours.",
+      "No, those seats aren't ours."
+    ],
+    "questao": "Aqueles assentos são de vocês?",
+    "respostas": [
+      "Sim, aqueles assentos são nossos.",
+      "Não, aqueles assentos não são nossos."
+    ],
+    "id": "4d5e6f7g-0070-7d4e-1f4d-707070707014",
+    "category": "Verb To Be - Are and Is - Possessions"
+  },
+  {
+    "question": "Are these documents theirs?",
+    "answers": [
+      "Yes, these documents are theirs.",
+      "No, these documents aren't theirs."
+    ],
+    "questao": "Estes documentos são deles?",
+    "respostas": [
+      "Sim, estes documentos são deles.",
+      "Não, estes documentos não são deles."
+    ],
+    "id": "4d5e6f7g-0070-7d4e-1f4d-707070707015",
+    "category": "Verb To Be - Are and Is - Possessions"
+  },
+  {
+    "question": "Is this watch mine or yours?",
+    "answers": [
+      "It is yours.",
+      "It is mine."
+    ],
+    "questao": "Este relógio é meu ou seu?",
+    "respostas": [
+      "É seu.",
+      "É meu."
+    ],
+    "id": "4d5e6f7g-0070-7d4e-1f4d-707070707016",
+    "category": "Verb To Be - Are and Is - Possessions"
+  },
+  {
+    "question": "Is that umbrella hers or his?",
+    "answers": [
+      "It is hers.",
+      "It is his."
+    ],
+    "questao": "Aquele guarda-chuva é dela ou dele?",
+    "respostas": [
+      "É dela.",
+      "É dele."
+    ],
+    "id": "4d5e6f7g-0070-7d4e-1f4d-707070707017",
+    "category": "Verb To Be - Are and Is - Possessions"
+  },
+  {
+    "question": "Are these gifts ours or theirs?",
+    "answers": [
+      "They are ours.",
+      "They are theirs."
+    ],
+    "questao": "Estes presentes são nossos ou deles?",
+    "respostas": [
+      "Eles são nossos.",
+      "Eles são deles."
+    ],
+    "id": "4d5e6f7g-0070-7d4e-1f4d-707070707018",
+    "category": "Verb To Be - Are and Is - Possessions"
+  },
+  {
+    "question": "Is this credit card mine?",
+    "answers": [
+      "Yes, this credit card is yours.",
+      "No, this credit card isn't yours."
+    ],
+    "questao": "Este cartão de crédito é meu?",
+    "respostas": [
+      "Sim, este cartão de crédito é seu.",
+      "Não, este cartão de crédito não é seu."
+    ],
+    "id": "4d5e6f7g-0070-7d4e-1f4d-707070707019",
+    "category": "Verb To Be - Are and Is - Possessions"
+  },
+  {
+    "question": "Are those bicycles theirs?",
+    "answers": [
+      "Yes, those bicycles are theirs.",
+      "No, those bicycles aren't theirs."
+    ],
+    "questao": "Aquela bicicletas são delas?",
+    "respostas": [
+      "Sim, aquelas bicicletas são delas.",
+      "Não, aquelas bicicletas não são delas."
+    ],
+    "id": "4d5e6f7g-0070-7d4e-1f4d-707070707020",
+    "category": "Verb To Be - Are and Is - Possessions"
   }
 ]
