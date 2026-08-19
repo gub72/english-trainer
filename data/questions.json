@@ -615,7 +615,7 @@
     "id": "1a2b3c4d-0040-4a1b-8c1a-404040404040",
     "category": "Verb To Be - Are and Am"
   },
-{
+  {
     "question": "Is there a car in the garage?",
     "answers": [
       "Yes, there is a car in the garage.",
@@ -755,7 +755,7 @@
     "id": "2b3c4d5e-0050-5b2c-9d2b-505050505010",
     "category": "There to be - Are there - Is there"
   },
-{
+  {
     "question": "Are you studying English now?",
     "answers": [
       "Yes, I am studying English now.",
@@ -895,7 +895,7 @@
     "id": "3c4d5e6f-0060-6c3d-0e3c-606060606010",
     "category": "Present Continuous"
   },
-{
+  {
     "question": "Is this book mine?",
     "answers": [
       "Yes, this book is yours.",
